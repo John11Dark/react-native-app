@@ -1,0 +1,60 @@
+import { Image, StyleSheet, Text, View } from "react-native";
+
+import customProps from "../../config/customProps";
+
+export default function AuthorComponent({ title, subTitle, imagePath, style }) {
+  return (
+    // Images
+
+    <View style={[styles.container, style]}>
+      <View style={styles.imageContainer}>
+        <Image source={imagePath} style={styles.image} />
+      </View>
+
+      <Text style={styles.title}>{title}</Text>
+      {subTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  image: {
+    width: "95%",
+    height: "95%",
+  },
+  imageContainer: {
+    width: 250,
+    height: 250,
+    marginBottom: 15,
+    borderRadius: 125,
+    borderColor: customProps.primaryColor,
+    borderWidth: 5,
+    padding: 10,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  container: {
+    //borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    flex: 1,
+    transform: [{ translateY: 15 }],
+  },
+
+  title: {
+    fontFamily: customProps.primaryFont,
+    fontSize: customProps.largePrimaryTextFontSize + 10,
+    color: customProps.primaryColor,
+    fontWeight: "900",
+    marginBottom: 2,
+    textTransform: "capitalize",
+  },
+  subTitle: {
+    fontFamily: customProps.primaryFont,
+    fontSize: customProps.mediumTextFontSize,
+    color: customProps.primaryColorLightGray,
+    textTransform: "capitalize",
+  },
+});
