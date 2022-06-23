@@ -1,19 +1,24 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, View, FlatList } from "react-native";
 
-import AuthorComponent from "../components/Lists/AuthorComponent";
-import Icon from "../components/Icon";
-import ItemSeparator from "../components/Lists/ItemsSeparator";
-import ListItem from "../components/Lists/ListItem";
-import Screen from "../components/Screen";
+import useAuth from "../hooks/useAuth";
 import customProps from "../config/customProps";
+import {
+  AuthorComponent,
+  Icon,
+  ItemSeparator,
+  ListItem,
+  Screen,
+} from "../components";
 
 const menuItems = [
   {
-    title: "My Account",
+    title: "My Profile",
     icon: {
       name: "account",
       backgroundColor: customProps.primaryColor,
     },
+    targetScreen: "Profile",
   },
   {
     title: "My Messages",
@@ -21,6 +26,7 @@ const menuItems = [
       name: "message",
       backgroundColor: customProps.secondaryColor,
     },
+    targetScreen: "Messages",
   },
   {
     title: "My Listing",
@@ -28,6 +34,7 @@ const menuItems = [
       name: "format-list-bulleted",
       backgroundColor: customProps.TertiaryColor,
     },
+    targetScreen: "Listings",
   },
   {
     title: "Archived",
@@ -35,13 +42,15 @@ const menuItems = [
       name: "archive",
       backgroundColor: customProps.primaryColorLightGray,
     },
+    targetScreen: "Archived",
   },
   {
-    title: "signin",
+    title: "Users",
     icon: {
-      name: "logout",
-      backgroundColor: "tomato",
+      name: "account-group",
+      backgroundColor: "#0E4C92",
     },
+    targetScreen: "Users",
   },
   {
     title: "logout",
@@ -49,19 +58,26 @@ const menuItems = [
       name: "logout",
       backgroundColor: "tomato",
     },
+    targetScreen: "logout",
   },
 ];
 
-export default function AccountScreen() {
+export default function AccountScreen({ navigation }) {
+  const { user, logout } = useAuth();
+  if (!user.role.includes("Admin")) {
+    menuItems.splice(4, 1);
+  }
   return (
     <Screen>
       <AuthorComponent
-        imagePath={require("../assets/favicon.png")}
-        title="John Muller"
-        subTitle="Admin"
+        imagePath={{ uri: user.userAvatarImageUri.images[0].url }}
+        title={user.name}
+        subTitle={user.role}
       />
+
       <View style={styles.container}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={menuItems}
           keyExtractor={(menuItem) => menuItem.title}
           renderItem={({ item }) => (
@@ -72,6 +88,11 @@ export default function AccountScreen() {
                   name={item.icon.name}
                   backgroundColor={item.icon.backgroundColor}
                 />
+              }
+              onPress={() =>
+                item.targetScreen !== "logout"
+                  ? navigation.navigate(item.targetScreen)
+                  : logout()
               }
             />
           )}
@@ -85,12 +106,12 @@ export default function AccountScreen() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginVertical: 15,
+    marginVertical: 10,
     backgroundColor: customProps.darkCardBackgroundColor,
     borderRadius: 25,
     overflow: "hidden",
     flex: 1.5,
     paddingVertical: 15,
-    transform: [{ translateY: 50 }],
+    transform: [{ translateY: 40 }],
   },
 });

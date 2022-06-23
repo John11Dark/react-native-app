@@ -1,20 +1,17 @@
-import { Image, SafeAreaView, Text, View } from "react-native";
-import { PrimaryButton, SecondaryButton } from "../components/";
+import { Image, View } from "react-native";
+import { PrimaryButton, SecondaryButton, Screen } from "../components/";
 
 import React from "react";
 import Styles from "../config/Styles/Styles";
 
 function WelcomeScreen({ navigation }) {
   return (
-    <SafeAreaView style={Styles.container}>
-      <View style={Styles.containerFlexColumn}>
-        <Text style={Styles.primaryText}>Welcome to dolphin pools app!</Text>
-        <Image
-          resizeMode="contain"
-          style={Styles.mainLogo}
-          source={require("../assets/Images/MainLogo.png")}
-        />
-      </View>
+    <Screen style={Styles.container}>
+      <Image
+        resizeMode="contain"
+        style={Styles.mainLogo}
+        source={require("../assets/Images/heroImages/WelcomeScreen.png")}
+      />
       <View style={Styles.containerFlexRow}>
         <PrimaryButton
           title="Login"
@@ -27,7 +24,7 @@ function WelcomeScreen({ navigation }) {
           handlePress={() => navigation.navigate("Register")}
         />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 export default WelcomeScreen;

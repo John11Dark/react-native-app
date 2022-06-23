@@ -7,9 +7,9 @@
     "icon": "./App/assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./App/assets/splash.png",
+      "image": "./App/assets/HeroLogoDPLtd.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000"
+      "backgroundColor": "#1E2931"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,11 +21,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./App/assets/adaptive-icon.png",
-        "backgroundColor": "#000"
+        "backgroundColor": "#1E2931"
       }
     },
     "web": {
       "favicon": "./App/assets/favicon.png"
+    },
+    "notification": {
+      "iosDisplayInForeground": true
     }
   }
 }

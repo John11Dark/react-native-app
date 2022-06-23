@@ -1,22 +1,21 @@
 import React, { useEffect } from "react";
 
 import AccountNavigator from "./AccountNavigator";
-import FeedNavigator from "./HomeNavigator";
-import ListingEditScreen from "../screens/ListingEdit";
+import FeedNavigator from "./FeedNavigator";
+import { ListingEditScreen } from "../Screens";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Routes from "./routes";
+import TabActionButton from "./TabActionButton";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //import Navigation from "../navigation/rootNavigation";
 
-//import TabActionButton from "./TabActionButton";
-
-//import pushTokenApi from "../api/expoPushToken";
-//import { useNotifications } from "../hooks";
+import pushTokenApi from "../api/expoPushToken";
+import { useNotifications } from "../hooks";
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+export default function TabNavigator() {
   const { expoPushToken, response } = useNotifications();
 
   useEffect(() => {
@@ -60,5 +59,4 @@ const TabNavigator = () => {
       />
     </Tab.Navigator>
   );
-};
-export default TabNavigator;
+}

@@ -9,9 +9,11 @@ export default function Icon({
   backgroundColor = customProps.primaryColor,
   iconColor = customProps.primaryColorLight,
   style,
+  onPress,
 }) {
   return (
     <View
+      onPress={onPress}
       style={[
         {
           backgroundColor: backgroundColor,

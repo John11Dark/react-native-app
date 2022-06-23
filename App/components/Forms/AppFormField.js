@@ -4,6 +4,7 @@ import TextInput from "../TextInput";
 import { useFormikContext } from "formik";
 
 export default function AppFormField({
+  keyboardAppearance = "dark",
   icon,
   name,
   placeholder,

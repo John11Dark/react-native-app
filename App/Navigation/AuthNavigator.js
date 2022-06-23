@@ -3,6 +3,7 @@ import {
   LoginScreen,
   RegisterScreen,
   WelcomeScreen,
+  OTBCodeScreen,
 } from "../Screens";
 
 import React from "react";
@@ -13,10 +14,11 @@ const Stack = createStackNavigator();
 
 const AuthNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Welcome" component={WelcomeScreen} />
+    <Stack.Screen name={routes.WELCOME} component={WelcomeScreen} />
     <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
     <Stack.Screen name={routes.REGISTER} component={RegisterScreen} />
     <Stack.Screen name={routes.FORGOT} component={ForgotPasswordScreen} />
+    <Stack.Screen name={routes.OTB_CODE} component={OTBCodeScreen} />
   </Stack.Navigator>
 );
 

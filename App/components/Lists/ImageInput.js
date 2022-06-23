@@ -10,9 +10,14 @@ import {
 import React, { useEffect } from "react";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import customProps from "../config/customProps";
+import customProps from "../../config/customProps";
 
-export default function ImageInput({ imageUri, onImageChange, size = 100 }) {
+export default function ImageInput({
+  imageUri,
+  onImageChange,
+  size = 150,
+  borderRadius = 25,
+}) {
   useEffect(() => {
     const requestPermission = async () => {
       const { granted } =
@@ -38,20 +43,30 @@ export default function ImageInput({ imageUri, onImageChange, size = 100 }) {
     if (!imageUri) {
       selectImage();
     } else {
-      Alert.alert("Delete", "Are you sure you want to delete this image?", [
-        { text: "Yes", onPress: () => onImageChange(null) },
-        { text: "No" },
-      ]);
+      Alert.alert(
+        "Delete Image",
+        "Are you sure you want to Delete this image?",
+        [{ text: "Yes", onPress: () => onImageChange(null) }, { text: "No" }]
+      );
     }
   };
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={[styles.container, { height: size, width: size }]}>
+      <View
+        style={[
+          styles.container,
+          { height: size, width: size, borderRadius: borderRadius },
+        ]}
+      >
         {imageUri ? (
-          <Image source={{ uri: imageUri }} style={styles.image} />
+          <Image
+            resizeMode="cover"
+            source={{ uri: imageUri }}
+            style={styles.image}
+          />
         ) : (
-          <MaterialCommunityIcons name="camera" style={styles.icon} />
+          <MaterialCommunityIcons name="camera-image" style={styles.icon} />
         )}
       </View>
     </TouchableWithoutFeedback>
@@ -69,7 +84,7 @@ const styles = StyleSheet.create({
     color: customProps.primaryColorLight,
   },
   image: {
-    height: "100%",
-    width: "100%",
+    height: "110%",
+    width: "110%",
   },
 });

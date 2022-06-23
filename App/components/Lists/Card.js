@@ -1,62 +1,65 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import Icon from "../Icon";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "react-native-expo-image-cache";
+import ListItem from "./ListItem";
 import React from "react";
 import customProps from "../../config/customProps";
 
 export default function Card({
   title,
   subTitle,
-  initialDate,
-  status,
-  imagePath,
-  removeHandlePress,
+  status = true,
   onPress,
+  innerPress,
+  authorName = "John Muller",
+  initialDate = "13/12/2022",
+  thumbnailUrl,
+  imageUrl,
 }) {
   return (
     // card Continuer
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={styles.cardContinuer}>
-        {/* image */}
-        <Image source={imagePath} style={styles.image} />
-
-        <View>
-          {/* Text */}
-          <View style={styles.textContinuer}>
-            <View style={styles.flexRow}>
-              <Text numberOfLines={1} style={styles.title}>
-                {title}
-              </Text>
-              <Text style={styles.date}>{initialDate}</Text>
-            </View>
-            <Text numberOfLines={2} style={styles.subTitle}>
-              {subTitle}
-            </Text>
-          </View>
-        </View>
-        <Icon
-          style={styles.icon}
-          backgroundColor={
-            status ? customProps.notFinished : customProps.importantIconColor
-          }
-          size={30}
-          innerSize={31}
-          name={status ? "check-circle" : "check-circle-outline"}
+      <View style={styles.cardContinuerTwo}>
+        <Image
+          preview={{ uri: thumbnailUrl }}
+          tint={"light"}
+          uri={imageUrl}
+          style={styles.image}
         />
+
+        <View style={styles.contentContainer}>
+          <Text numberOfLines={1} style={styles.title}>
+            {title}
+          </Text>
+          <Text numberOfLines={2} style={styles.subTitle}>
+            {subTitle}
+          </Text>
+          <Icon
+            onPress={innerPress}
+            style={styles.icon}
+            backgroundColor={status ? customProps.finished : "transparent"}
+            innerSize={50}
+            iconColor={
+              status
+                ? customProps.primaryColorLight
+                : customProps.importantIconColor
+            }
+            name={status ? "check-circle" : "check-circle-outline"}
+          />
+          <ListItem
+            imagePath={require("../../assets/favicon.png")}
+            title={authorName}
+            subTitle={initialDate}
+          />
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  cardContinuer: {
+  cardContinuerTwo: {
     backgroundColor: customProps.darkCardBackgroundColor,
     borderRadius: 15,
     flex: 1,
@@ -69,6 +72,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     //elevation: 10,
   },
+  authorName: {
+    color: customProps.secondaryColor,
+  },
+  bottomCard: {
+    width: "100%",
+    padding: 0,
+  },
   icon: {
     position: "absolute",
     right: 5,
@@ -77,16 +87,13 @@ const styles = StyleSheet.create({
   flexRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "Center",
-    width: "80%",
-    flex: 1,
-    backgroundColor: "red",
-  },
-  textContinuer: {
-    padding: 15,
     justifyContent: "space-around",
-    alignItems: "flex-start",
     width: "100%",
+  },
+  contentContainer: {
+    padding: 25,
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
   image: {
     width: "100%",
@@ -100,28 +107,25 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "capitalize",
     paddingVertical: 5,
-    textAlign: "left",
   },
 
   subTitle: {
     fontSize: customProps.mediumTextFontSize,
     color: customProps.primaryColorLight,
-    fontFamily: customProps.primaryFont,
+    fontFamily: customProps.font.primaryFont,
     textTransform: "capitalize",
   },
   date: {
     fontSize: customProps.dateTextFontSize,
     color: customProps.primaryColorLightGray,
-    fontFamily: customProps.primaryFont,
-    textAlign: "right",
-    marginLeft: 5,
-    position: "absolute",
-    right: 0,
+    fontFamily: customProps.font.primaryFont,
+    paddingVertical: 5,
   },
   status: {
     color: customProps.notFinished,
     fontSize: customProps.smallTextFontSize,
     textAlign: "right",
+    top: 0,
     marginLeft: 5,
   },
 });

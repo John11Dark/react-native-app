@@ -19,17 +19,16 @@ export default function AuthorComponent({ title, subTitle, imagePath, style }) {
 
 const styles = StyleSheet.create({
   image: {
-    width: "95%",
-    height: "95%",
+    width: "101%",
+    height: "101%",
   },
   imageContainer: {
     width: 250,
     height: 250,
     marginBottom: 15,
     borderRadius: 125,
-    borderColor: customProps.primaryColor,
-    borderWidth: 5,
-    padding: 10,
+    borderColor: customProps.secondaryColor,
+    borderWidth: 2,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -40,14 +39,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     flex: 1,
-    transform: [{ translateY: 15 }],
+    transform: [{ translateY: 20 }],
+    marginVertical: 20,
   },
 
   title: {
-    fontFamily: customProps.primaryFont,
-    fontSize: customProps.largePrimaryTextFontSize + 10,
-    color: customProps.primaryColor,
-    fontWeight: "900",
+    fontFamily: customProps.font.fontFamily,
+    fontSize: 35,
+    color: customProps.secondaryColor,
+    fontWeight: "600",
     marginBottom: 2,
     textTransform: "capitalize",
   },

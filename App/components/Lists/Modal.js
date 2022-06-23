@@ -7,7 +7,9 @@ import {
 } from "react-native";
 
 import React from "react";
-import defaultStyles from "../../config/styles";
+import customProps from "../../config/customProps";
+
+//import defaultStyles from "../../config/styles";
 
 const AppModal = ({
   data,
@@ -39,9 +41,10 @@ const AppModal = ({
 
 const styles = StyleSheet.create({
   closeText: {
-    ...defaultStyles.text,
+    fontSize: 25,
+    fontWeight: "bold",
     textAlign: "center",
-    color: defaultStyles.colors.danger,
+    color: customProps.importantIconColor,
     marginVertical: 6,
   },
   list: {

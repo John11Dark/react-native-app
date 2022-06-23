@@ -1,9 +1,10 @@
-import ErrorMessage from "./ErrorMessage";
-import ImageInputList from "../Lists/ImageInputList";
 import React from "react";
 import { useFormikContext } from "formik";
 
-export default function FormImagePicker({ name }) {
+import ErrorMessage from "./ErrorMessage";
+import ImageInputList from "../Lists/ImageInputList";
+
+const FormImagePicker = ({ name }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
   const uris = values[name];
 
@@ -25,4 +26,6 @@ export default function FormImagePicker({ name }) {
       <ErrorMessage error={errors[name]} visible={touched[name]} />
     </>
   );
-}
+};
+
+export default FormImagePicker;

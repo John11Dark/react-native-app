@@ -5,7 +5,7 @@ export default {
   primaryColor: "#50BED2",
   primaryColorDark: "#1E2931",
   primaryColorLight: "#EDEEE4",
-  primaryColorLightGray: "#E5E5E5",
+  primaryColorLightGray: "#b6abab",
   lineColor: "#EDEEE4",
 
   primaryColorDarkOpacity: "#1e29319a",
@@ -15,6 +15,7 @@ export default {
   lightCardBackgroundColor: "#F3F3F3",
   importantIconColor: "tomato",
   notFinished: "red",
+  barBackgroundColor: "#0A1A26",
 
   // items scaling
   primaryIconScaleSize: 50,
@@ -38,7 +39,7 @@ export default {
       },
       android: {
         fontSize: 23,
-        fontFamily: "Roboto",
+        fontFamily: "monospace",
       },
     }),
   },
@@ -60,5 +61,12 @@ export default {
     padding: 5,
     margin: 10,
     marginLeft: 15,
+  },
+  labelStyle: {
+    textAlign: "left",
+    fontSize: 22,
+    color: "#EDEEE4",
+    width: "100%",
+    padding: 10,
   },
 };

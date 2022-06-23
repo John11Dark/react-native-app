@@ -1,10 +1,11 @@
+import AppModal from "../Lists/Modal";
+import Icon from "../Icon";
+import ItemSeparator from "../Lists/ItemsSeparator";
+import PickerItem from "../Forms/PickerItem";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
-import ItemsSeparator from "./ItemsSeparator";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Modal from "./Modal";
-import PickerItem from "./PickerItem";
 import customProps from "../../config/customProps";
 
 export default function AppPicker({
@@ -45,16 +46,17 @@ export default function AppPicker({
             <Text style={styles.placeholder}>{placeholder}</Text>
           )}
 
-          <MaterialCommunityIcons
+          <Icon
             name="chevron-down"
-            style={[styles.icon, styles.rightIcon]}
+            backgroundColor="transparent"
+            iconColor={customProps.secondaryColor}
           />
         </View>
       </TouchableWithoutFeedback>
-      <Modal
+      <AppModal
         data={data}
         isVisible={visible}
-        ItemSeparatorComponent={ItemsSeparator}
+        ItemSeparatorComponent={ItemSeparator}
         keyExtractor={(item) => item.value.toString()}
         numOfColumns={numOfColumns}
         onClose={handleModalClose}
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginRight: 0,
+    fontSize: 20,
   },
   placeholder: {
     ...customProps.font,
@@ -88,6 +91,8 @@ const styles = StyleSheet.create({
   },
   text: {
     ...customProps.font,
+    color: customProps.primaryColorLightGray,
+    fontSize: 22.5,
     flex: 1,
     paddingVertical: 10,
   },

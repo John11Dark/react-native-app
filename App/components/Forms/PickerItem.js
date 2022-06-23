@@ -1,10 +1,8 @@
-import { TouchableOpacity, View } from "react-native";
+import React from "react";
+
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 
 import Icon from "../Icon";
-import React from "react";
-import { StyleSheet } from "react-native";
-import Text from "./Text";
-
 const PickerItem = ({ item, onPress }) => {
   return (
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
