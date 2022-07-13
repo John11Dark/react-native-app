@@ -1,11 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import customProps from "../../config/customProps";
+import { customProps } from "../../config/";
 
-export default function PrimaryButton({ title, handlePress, iconName }) {
+export default function PrimaryButton({
+  title,
+  handlePress,
+  iconName,
+  width,
+  height,
+  visible = true,
+}) {
   return (
-    <TouchableOpacity style={styles.primaryButton} onPress={handlePress}>
+    <TouchableOpacity
+      style={[styles.primaryButton, { display: visible ? "flex" : "none" }]}
+      onPress={handlePress}
+    >
       <Text style={styles.text}>
         {title}{" "}
         <MaterialCommunityIcons
@@ -20,8 +30,8 @@ export default function PrimaryButton({ title, handlePress, iconName }) {
 
 const styles = StyleSheet.create({
   text: {
+    ...customProps.font,
     fontSize: 25,
-    fontFamily: customProps.primaryFont,
     color: customProps.primaryColorLight,
     fontWeight: "bold",
   },

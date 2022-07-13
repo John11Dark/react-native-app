@@ -22,7 +22,7 @@ export default function SecondaryButton({ title, handlePress, iconName }) {
 const styles = StyleSheet.create({
   text: {
     fontSize: customProps.primaryTextFontSize,
-    fontFamily: customProps.primaryFont,
+    ...customProps.font,
     color: customProps.secondaryColor,
     fontWeight: "bold",
     textAlign: "center",

@@ -2,7 +2,7 @@ import { Image, View } from "react-native";
 import { PrimaryButton, SecondaryButton, Screen } from "../components/";
 
 import React from "react";
-import Styles from "../config/Styles/Styles";
+import { Styles } from "../config";
 
 function WelcomeScreen({ navigation }) {
   return (

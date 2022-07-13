@@ -1,10 +1,12 @@
-import client from "./client"
+import client from "./client";
 
-const getMessages = () => client.get("/messages")
+const getMessages = () => client.get("/messages");
 
-const sendMessage = (messageInfo) => client.post("/messages", messageInfo)
+const sendMessage = (messageInfo) => client.post("/messages", messageInfo);
 
+const deleteMessage = (messageId) => client.delete("/messages", messageId);
 export default {
-    getMessages,
-    sendMessage,
-}
+  getMessages,
+  sendMessage,
+  deleteMessage,
+};

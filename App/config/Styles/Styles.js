@@ -1,7 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import customProps from "../customProps";
 
 const Styles = StyleSheet.create({
+  colors: customProps,
   container: {
     flex: 1,
     backgroundColor: customProps.primaryColorDark,
@@ -20,7 +21,6 @@ const Styles = StyleSheet.create({
   },
   containerFlexRow: {
     width: "65%",
-    height: "22%",
     transform: [{ translateY: -50 }],
     alignItems: "center",
     justifyContent: "space-between",
@@ -56,11 +56,62 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     width: "95%",
   },
+  OTBInputContinuer: {
+    padding: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "100%",
+    maxWidth: 550,
+    marginVertical: 20,
+  },
+  OTBTextInputContinuer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignSelf: "center",
+    width: "100%",
+    alignItems: "center",
+  },
+  textInputOTB: {
+    backgroundColor: customProps.darkCardBackgroundColor,
+    color: customProps.primaryColorLight,
+    borderColor: customProps.secondaryColor,
+    fontSize: 25,
+    width: 55,
+    height: 55,
+    marginVertical: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    textAlign: "center",
+    padding: Platform.OS === "android" ? 5 : 10,
+    fontWeight: "500",
+  },
+  countryCodeInput: {
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "#1E2931",
+    borderColor: "#EDEEE4",
+    borderRadius: 5,
+    borderWidth: 1.5,
+    marginVertical: 6,
+    overflow: "hidden",
+    flexDirection: "row",
+  },
+  countryCode: {
+    color: customProps.secondaryColor,
+    width: "100%",
+    paddingHorizontal: 10,
+    ...customProps.font,
+    fontSize: 19,
+  },
   linkText: {
     color: customProps.primaryColor,
-    fontWeight: "600",
     textTransform: "capitalize",
-    fontSize: 20,
+    ...customProps.font,
+    fontWeight: "700",
+    fontSize: 22,
+    marginBottom: 3,
   },
   linkTextPrimary: {
     margin: 30,
@@ -68,11 +119,11 @@ const Styles = StyleSheet.create({
   },
   primaryTextHeroSection: {
     color: customProps.primaryColorLight,
-    fontWeight: "bold",
-    fontSize: 50,
+    fontWeight: "800",
+    ...customProps.font,
+    fontSize: 52.5,
     marginLeft: 25,
     transform: [{ translateY: -20 }],
-    fontFamily: customProps.font.fontFamily,
   },
   containerFlexColumn: {
     transform: [{ translateY: 150 }],
@@ -90,14 +141,14 @@ const Styles = StyleSheet.create({
   },
   ErrorMessage: {
     color: customProps.importantIconColor,
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     fontSize: 25,
     padding: 5,
     marginBottom: 5,
     alignSelf: "flex-start",
   },
   primaryText: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     color: customProps.primaryColor,
     fontWeight: "bold",
     fontSize: 40,
@@ -105,27 +156,29 @@ const Styles = StyleSheet.create({
     textAlign: "center",
   },
   secondaryTextHeroSection: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     color: customProps.primaryColorLight,
     fontWeight: "bold",
     fontSize: 35,
     padding: 10,
+    textAlign: "center",
+    marginVertical: 20,
   },
 
   secondaryText: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     color: customProps.primaryColorLight,
     fontSize: 20,
     textTransform: "capitalize",
   },
   secondaryTextGray: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     color: customProps.primaryColorLightGray,
     fontSize: 20,
     lineHeight: 28,
     padding: 10,
     paddingTop: 0,
-    fontWeight: "400",
+    fontWeight: "500",
   },
   containerFlexRowLinks: {
     flexDirection: "row",
@@ -143,14 +196,14 @@ const Styles = StyleSheet.create({
   },
 
   innerText: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     fontSize: customProps.innerTextFontSize,
   },
   innerPrimaryText: {
     color: customProps.primaryColor,
   },
   innerSecondaryText: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
 
     color: customProps.secondaryColor,
   },
@@ -168,7 +221,57 @@ const Styles = StyleSheet.create({
     padding: 5,
     margin: 15,
   },
+  formField: {
+    alignItems: "center",
+    backgroundColor: "#1E2931",
+    borderColor: "#EDEEE4",
+    borderRadius: 5,
+    borderWidth: 1.5,
+    marginVertical: 6,
+    overflow: "hidden",
+    padding: 10,
+  },
+  ImageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    borderRadius: 15,
+    padding: 5,
+    margin: 10,
+    marginLeft: 15,
+  },
+  labelStyle: {
+    textAlign: "left",
+    fontSize: 22,
+    color: "#EDEEE4",
+    width: "100%",
+    padding: 10,
+  },
   primaryButton: {},
+  heroImageError: {
+    width: "100%",
+    height: 300,
+    alignSelf: "center",
+  },
+  errorText: {
+    margin: 10,
+    textAlign: "center",
+    ...customProps.font,
+    fontSize: 22,
+    color: customProps.primaryColorLight,
+    textTransform: "capitalize",
+  },
+  errorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    padding: 10,
+    width: "95%",
+    zIndex: 2,
+    borderRadius: 10,
+    backgroundColor: customProps.darkOpacity,
+  },
 });
 
 export default Styles;

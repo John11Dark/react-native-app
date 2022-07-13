@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import customProps from "../config/customProps";
+import { customProps, Styles } from "../config";
 
 const AppTextInput = ({
   style,
@@ -15,8 +15,8 @@ const AppTextInput = ({
   ...otherProps
 }) => {
   return (
-    <View>
-      {title && <Text style={customProps.labelStyle}>{title}</Text>}
+    <View style={style}>
+      {title && <Text style={Styles.labelStyle}>{title}</Text>}
       <View style={[styles.container, { width }]}>
         {icon && (
           <MaterialCommunityIcons
@@ -30,6 +30,7 @@ const AppTextInput = ({
           placeholder={placeholder}
           placeholderTextColor={customProps.primaryColorLightGray}
           style={[styles.text, style]}
+          returnKeyType={"done"}
           value={value}
           {...otherProps}
         />
@@ -40,7 +41,7 @@ const AppTextInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    ...customProps.formField,
+    ...Styles.formField,
     flexDirection: "row",
     paddingHorizontal: 10,
   },
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...customProps.font,
-    fontSize: 22.5,
+    color: Styles.colors.primaryColorLight,
     flex: 1,
     paddingVertical: 6,
     width: "100%",

@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
-import customProps from "../../config/customProps";
+import { customProps } from "../../config";
 
 export default function AuthorComponent({ title, subTitle, imagePath, style }) {
   return (
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     fontSize: 35,
     color: customProps.secondaryColor,
     fontWeight: "600",
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   subTitle: {
-    fontFamily: customProps.primaryFont,
+    ...customProps.font,
     fontSize: customProps.mediumTextFontSize,
     color: customProps.primaryColorLightGray,
     textTransform: "capitalize",

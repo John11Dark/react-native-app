@@ -9,6 +9,7 @@ export default function AppFormField({
   name,
   placeholder,
   width,
+  style,
   ...otherProps
 }) {
   const { errors, setFieldTouched, setFieldValue, touched, values } =
@@ -23,6 +24,7 @@ export default function AppFormField({
         placeholder={placeholder}
         value={values[name]}
         width={width}
+        style={style}
         {...otherProps}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />

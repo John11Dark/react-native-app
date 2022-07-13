@@ -1,72 +1,107 @@
-import { Platform } from "react-native-web";
+import { Platform } from "react-native";
+// Colors
 
-export default {
-  // Colors
-  primaryColor: "#50BED2",
-  primaryColorDark: "#1E2931",
-  primaryColorLight: "#EDEEE4",
-  primaryColorLightGray: "#b6abab",
-  lineColor: "#EDEEE4",
+const darkOrLight = (theme) => {
+  if (theme === true) {
+    return {
+      primaryColor: "#50BED2",
+      primaryColorDark: "#1E2931",
+      primaryColorLight: "#EDEEE4",
+      primaryColorLightGray: "#b6abab",
+      primaryColorDarkGray: "#678186",
+      primaryColorDarkOpacity: "#1e29319a",
+      barBackgroundColorOpacity: "#071622d3",
+      lightOpacity: "#03000ab6",
+      darkOpacity: "#2d404de5",
+      secondaryColor: "#E6B11E",
+      TertiaryColor: "#00b5a9",
+      lineColor: "#EDEEE4",
+      darkCardBackgroundColor: "#10191E",
+      lightCardBackgroundColor: "#F3F3F3",
+      importantIconColor: "tomato",
+      greenColor: "#B5C273",
+      notFinished: "tomato",
+      barBackgroundColor: "#0A1A26",
 
-  primaryColorDarkOpacity: "#1e29319a",
-  secondaryColor: "#E6B11E",
-  TertiaryColor: "#00b5a9",
-  darkCardBackgroundColor: "#10191E",
-  lightCardBackgroundColor: "#F3F3F3",
-  importantIconColor: "tomato",
-  notFinished: "red",
-  barBackgroundColor: "#0A1A26",
+      // items scaling
+      primaryIconScaleSize: 50,
+      secondaryIconScaleSize: 35,
 
-  // items scaling
-  primaryIconScaleSize: 50,
-  secondaryIconScaleSize: 35,
+      // Fonts
+      largePrimaryTextFontSize: Platform.OS === "android" ? 23 : 25.5,
+      primaryTextFontSize: Platform.OS === "android" ? 19.5 : 22.5,
+      mediumTextFontSize: Platform.OS === "android" ? 18 : 20,
+      smallTextFontSize: Platform.OS === "android" ? 14 : 16,
+      innerTextFontSize: Platform.OS === "android" ? 18 : 20,
+      dateTextFontSize: Platform.OS === "android" ? 13 : 15,
 
-  // Fonts
-  largePrimaryTextFontSize: 25.5,
-  primaryTextFontSize: 22.5,
-  mediumTextFontSize: 20,
-  smallTextFontSize: 16,
-  innerTextFontSize: 20,
-  dateTextFontSize: 15,
-
-  font: {
-    color: "#EDEEE4",
-    ...Platform.select({
-      ios: {
-        // Font Sizes
-        fontSize: 25,
-        fontFamily: "Avenir",
+      font: {
+        ...Platform.select({
+          ios: {
+            // Font Sizes
+            fontSize: 25,
+            fontFamily: "Avenir",
+            fontWeight: "500",
+          },
+          android: {
+            fontSize: 18,
+            fontFamily: "Roboto",
+            fontWeight: "500",
+          },
+        }),
       },
-      android: {
-        fontSize: 23,
-        fontFamily: "monospace",
+    };
+  } else {
+    return {
+      primaryColor: "#50BED2",
+      primaryColorDark: "#1E2931",
+      primaryColorLight: "#EDEEE4",
+      primaryColorLightGray: "#b6abab",
+      primaryColorDarkGray: "#678186",
+      primaryColorDarkOpacity: "#1e29319a",
+      barBackgroundColorOpacity: "#071622d3",
+      lightOpacity: "#03000ab6",
+      darkOpacity: "#2d404de5",
+      secondaryColor: "#E6B11E",
+      TertiaryColor: "#00b5a9",
+      lineColor: "#EDEEE4",
+      darkCardBackgroundColor: "#10191E",
+      lightCardBackgroundColor: "#F3F3F3",
+      importantIconColor: "tomato",
+      greenColor: "#B5C273",
+      notFinished: "tomato",
+      barBackgroundColor: "#0A1A26",
+
+      // items scaling
+      primaryIconScaleSize: 50,
+      secondaryIconScaleSize: 35,
+
+      // Fonts
+      largePrimaryTextFontSize: Platform.OS === "android" ? 23 : 25.5,
+      primaryTextFontSize: Platform.OS === "android" ? 19.5 : 22.5,
+      mediumTextFontSize: Platform.OS === "android" ? 18 : 20,
+      smallTextFontSize: Platform.OS === "android" ? 14 : 16,
+      innerTextFontSize: Platform.OS === "android" ? 18 : 20,
+      dateTextFontSize: Platform.OS === "android" ? 13 : 15,
+
+      font: {
+        ...Platform.select({
+          ios: {
+            // Font Sizes
+            fontSize: 22,
+            fontFamily: "Avenir",
+            fontWeight: "500",
+          },
+          android: {
+            fontSize: 18,
+            fontFamily: "Roboto",
+          },
+        }),
       },
-    }),
-  },
-  formField: {
-    alignItems: "center",
-    backgroundColor: "#1E2931",
-    borderColor: "#EDEEE4",
-    borderRadius: 5,
-    borderWidth: 1.5,
-    marginVertical: 6,
-    overflow: "hidden",
-    padding: 10,
-  },
-  ImageContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    borderRadius: 15,
-    padding: 5,
-    margin: 10,
-    marginLeft: 15,
-  },
-  labelStyle: {
-    textAlign: "left",
-    fontSize: 22,
-    color: "#EDEEE4",
-    width: "100%",
-    padding: 10,
-  },
+    };
+  }
 };
+
+const customProps = darkOrLight(true);
+
+export default customProps;

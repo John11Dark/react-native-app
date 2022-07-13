@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import customProps from "../config/customProps";
 
 export default function Icon({
@@ -10,9 +10,11 @@ export default function Icon({
   iconColor = customProps.primaryColorLight,
   style,
   onPress,
+  disabled = false,
 }) {
   return (
-    <View
+    <TouchableOpacity
+      disabled={disabled}
       onPress={onPress}
       style={[
         {
@@ -27,6 +29,6 @@ export default function Icon({
       ]}
     >
       <MaterialCommunityIcons name={name} color={iconColor} size={innerSize} />
-    </View>
+    </TouchableOpacity>
   );
 }

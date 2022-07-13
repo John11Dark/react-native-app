@@ -1,10 +1,10 @@
-import ErrorMessage from "./ErrorMessage";
-import Picker from "./AppPicker";
 import React from "react";
 import { Text } from "react-native";
-import customProps from "../../config/customProps";
 import { useFormikContext } from "formik";
 
+import ErrorMessage from "./ErrorMessage";
+import Picker from "./AppPicker";
+import { Styles } from "../../config/";
 export default function AppFormPicker({
   data,
   icon,
@@ -20,7 +20,7 @@ export default function AppFormPicker({
 
   return (
     <>
-      {title && <Text style={customProps.labelStyle}>{title}</Text>}
+      {title && <Text style={Styles.labelStyle}>{title}</Text>}
       <Picker
         data={data}
         icon={icon}

@@ -1,13 +1,10 @@
-import AppModal from "../Lists/Modal";
-import Icon from "../Icon";
-import ItemSeparator from "../Lists/ItemsSeparator";
-import PickerItem from "../Forms/PickerItem";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import customProps from "../../config/customProps";
 
+import { Styles } from "../../config/";
+import AppModal from "../Lists/Modal";
+import PickerItem from "../Forms/PickerItem";
 export default function AppPicker({
   data,
   icon,
@@ -18,6 +15,7 @@ export default function AppPicker({
   PickerItemComponent = PickerItem,
   selectedItem,
   width = "100%",
+  style,
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -26,17 +24,19 @@ export default function AppPicker({
   };
 
   const handleSelect = (item) => {
+    // if (item.name) {
+    //   alert("you must type the name in the box below!");
+    // }
     onItemSelect(item);
     handleModalClose();
   };
-
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setVisible(true)}>
-        <View style={[styles.container, { width }]}>
+        <View style={[styles.container, { width: width, ...style }]}>
           {icon && (
             <MaterialCommunityIcons
-              name={icon}
+              name={data[0].icon}
               style={[styles.icon, iconStyle]}
             />
           )}
@@ -45,18 +45,19 @@ export default function AppPicker({
           ) : (
             <Text style={styles.placeholder}>{placeholder}</Text>
           )}
-
-          <Icon
-            name="chevron-down"
-            backgroundColor="transparent"
-            iconColor={customProps.secondaryColor}
-          />
+          <View>
+            <MaterialCommunityIcons
+              name="chevron-down"
+              color={Styles.colors.secondaryColor}
+              size={35}
+              style={iconStyle}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
       <AppModal
         data={data}
         isVisible={visible}
-        ItemSeparatorComponent={ItemSeparator}
         keyExtractor={(item) => item.value.toString()}
         numOfColumns={numOfColumns}
         onClose={handleModalClose}
@@ -70,28 +71,28 @@ export default function AppPicker({
 
 const styles = StyleSheet.create({
   container: {
-    ...customProps.formField,
+    ...Styles.formField,
     flexDirection: "row",
     paddingHorizontal: 10,
   },
   icon: {
     fontSize: 20,
     marginRight: 10,
-    color: customProps.primaryColorLightGray,
+    color: Styles.colors.primaryColorLightGray,
   },
   rightIcon: {
     marginRight: 0,
     fontSize: 20,
   },
   placeholder: {
-    ...customProps.font,
+    ...Styles.colors.font,
     flex: 1,
     paddingVertical: 10,
-    color: customProps.primaryColorLight,
+    color: Styles.colors.primaryColorLight,
   },
   text: {
-    ...customProps.font,
-    color: customProps.primaryColorLightGray,
+    ...Styles.colors.font,
+    color: Styles.colors.primaryColorLight,
     fontSize: 22.5,
     flex: 1,
     paddingVertical: 10,

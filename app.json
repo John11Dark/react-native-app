@@ -4,7 +4,7 @@
     "slug": "DolphinPoolsLtd",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./App/assets/icon.png",
+    "icon": "./App/assets/mainIcon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./App/assets/HeroLogoDPLtd.png",
@@ -14,21 +14,24 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./App/assets/adaptive-icon.png",
+        "foregroundImage": "./App/assets/mainIcon.png",
         "backgroundColor": "#1E2931"
       }
     },
     "web": {
-      "favicon": "./App/assets/favicon.png"
+      "favicon": "./App/assets/mainIcon.png"
     },
     "notification": {
       "iosDisplayInForeground": true
-    }
+    },
+    "description": ""
   }
 }

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
 
 import useAuth from "../hooks/useAuth";
 import customProps from "../config/customProps";
+import routes from "../Navigation/routes";
 import {
   AuthorComponent,
   Icon,
@@ -10,15 +11,16 @@ import {
   ListItem,
   Screen,
 } from "../components";
+import { useIsFocused } from "@react-navigation/native";
 
-const menuItems = [
+let menuItems = [
   {
     title: "My Profile",
     icon: {
       name: "account",
       backgroundColor: customProps.primaryColor,
     },
-    targetScreen: "Profile",
+    targetScreen: routes.PROFILE,
   },
   {
     title: "My Messages",
@@ -26,7 +28,7 @@ const menuItems = [
       name: "message",
       backgroundColor: customProps.secondaryColor,
     },
-    targetScreen: "Messages",
+    targetScreen: routes.MESSAGES,
   },
   {
     title: "My Listing",
@@ -34,7 +36,8 @@ const menuItems = [
       name: "format-list-bulleted",
       backgroundColor: customProps.TertiaryColor,
     },
-    targetScreen: "Listings",
+    targetScreen: routes.USER_LISTINGS,
+    data: { userListings: true },
   },
   {
     title: "Archived",
@@ -42,7 +45,16 @@ const menuItems = [
       name: "archive",
       backgroundColor: customProps.primaryColorLightGray,
     },
-    targetScreen: "Archived",
+    targetScreen: routes.ARCHIVED,
+    data: { userArchivedListings: false },
+  },
+  {
+    title: "Recycle Bin",
+    icon: {
+      name: "delete-restore",
+      backgroundColor: "#B5C273",
+    },
+    targetScreen: routes.RECYCLE,
   },
   {
     title: "Users",
@@ -50,7 +62,7 @@ const menuItems = [
       name: "account-group",
       backgroundColor: "#0E4C92",
     },
-    targetScreen: "Users",
+    targetScreen: routes.USERS,
   },
   {
     title: "logout",
@@ -62,15 +74,18 @@ const menuItems = [
   },
 ];
 
-export default function AccountScreen({ navigation }) {
+export default function AccountScreen({ navigation, route }) {
   const { user, logout } = useAuth();
-  if (!user.role.includes("Admin")) {
-    menuItems.splice(4, 1);
-  }
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (!user.role.includes("Admin")) {
+      menuItems = menuItems.filter((item) => item.title !== "Users");
+    }
+  }, [isFocused]);
   return (
     <Screen>
       <AuthorComponent
-        imagePath={{ uri: user.userAvatarImageUri.images[0].url }}
+        imagePath={{ uri: user.images[0].url }}
         title={user.name}
         subTitle={user.role}
       />
@@ -85,13 +100,14 @@ export default function AccountScreen({ navigation }) {
               title={item.title}
               IconComponent={
                 <Icon
+                  disabled={true}
                   name={item.icon.name}
                   backgroundColor={item.icon.backgroundColor}
                 />
               }
               onPress={() =>
                 item.targetScreen !== "logout"
-                  ? navigation.navigate(item.targetScreen)
+                  ? navigation.navigate(item.targetScreen, item.data)
                   : logout()
               }
             />

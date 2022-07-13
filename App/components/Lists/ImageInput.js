@@ -1,5 +1,4 @@
-import * as ImagePicker from "expo-image-picker";
-
+import React, { useEffect } from "react";
 import {
   Alert,
   Image,
@@ -7,16 +6,18 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
-
+import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import customProps from "../../config/customProps";
+
+import { Styles } from "../../config";
 
 export default function ImageInput({
   imageUri,
   onImageChange,
   size = 150,
   borderRadius = 25,
+  maxLength,
+  uriLength,
 }) {
   useEffect(() => {
     const requestPermission = async () => {
@@ -33,20 +34,36 @@ export default function ImageInput({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
       });
-      if (!result.cancelled) onImageChange(result.uri);
+      if (!result.cancelled) {
+        onImageChange(result.uri);
+      }
     } catch (error) {
       console.error({ ImageError: error });
     }
   };
 
   const handlePress = () => {
+    if (uriLength >= maxLength)
+      return Alert.alert(
+        "Image input",
+        "You have reached the maximum images (3)"
+      );
     if (!imageUri) {
       selectImage();
     } else {
       Alert.alert(
         "Delete Image",
         "Are you sure you want to Delete this image?",
-        [{ text: "Yes", onPress: () => onImageChange(null) }, { text: "No" }]
+        [
+          {
+            text: "Yes",
+            style: "destructive",
+            onPress: () => {
+              onImageChange(null);
+            },
+          },
+          { text: "Cancel", style: "cancel" },
+        ]
       );
     }
   };
@@ -75,13 +92,13 @@ export default function ImageInput({
 
 const styles = StyleSheet.create({
   container: {
-    ...customProps.ImageContainer,
+    ...Styles.ImageContainer,
     borderRadius: 15,
-    backgroundColor: customProps.darkCardBackgroundColor,
+    backgroundColor: Styles.colors.darkCardBackgroundColor,
   },
   icon: {
     fontSize: 40,
-    color: customProps.primaryColorLight,
+    color: Styles.colors.primaryColorLight,
   },
   image: {
     height: "110%",

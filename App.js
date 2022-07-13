@@ -14,7 +14,9 @@ import { LogBox } from "react-native";
 
 LogBox.ignoreLogs([
   "ViewPropTypes will be removed",
+  "ViewPropTypes will be removed from React Native",
   "expo-app-loading is deprecated in favor of expo-splash-screen",
+  "EventEmitter.removeListener",
 ]);
 
 export default App = () => {
@@ -33,7 +35,6 @@ export default App = () => {
   }, [user]);
 
   if (!isReady) return <AppLoading />;
-
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <StatusBar style={"auto"} />

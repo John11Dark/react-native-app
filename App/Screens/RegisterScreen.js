@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+} from "react-native";
 import * as Yup from "yup";
 
 import {
@@ -11,20 +18,23 @@ import {
   Screen,
   FormSingleImageInput,
 } from "../components";
-import customStyles from "../config/Styles/Styles";
+import { Styles } from "../config";
 import authApi from "../api/auth";
-import { useApi, useAuth } from "../hooks";
+import { useApi, useAuth, useNotifications } from "../hooks";
 
 const validationSchema = Yup.object().shape({
-  images: Yup.array().required().min(1).max(1),
-  name: Yup.string().required().min(2).label("Full Name"),
-  userName: Yup.string().required().min(3).label("User Name"),
-  phoneNumber: Yup.number().required().min(8).max(11).label("phone number"),
+  image: Yup.array().required().min(1),
+  name: Yup.string().required().min(4).label("Full Name"),
+  username: Yup.string().required().min(5).label("Username"),
+  phoneNumber: Yup.number().required().min(8).label("Phone number"),
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(12).label("Password"),
 });
 
 const RegisterScreen = ({ navigation }) => {
+  const { scheduleLocalNotification, schedulePushNotification } =
+    useNotifications();
+
   const registerApi = useApi(authApi.register);
   const [error, setError] = useState(null);
   const auth = useAuth();
@@ -37,99 +47,114 @@ const RegisterScreen = ({ navigation }) => {
     }
 
     setError(null);
+    const { data: AuthToken } = await authApi.login(
+      (email = response.data.email),
+      (password = response.data.password)
+    );
     resetForm();
-    auth.login(response.data);
+    auth.login(AuthToken);
+    scheduleLocalNotification(
+      "Register",
+      `Congratulations! 🎊 ${userInfo.name} now you are Registered.`
+    );
   };
 
   return (
     <>
       <ActivityIndicator visible={registerApi.loading} />
       <Screen>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Image
-            resizeMode="contain"
-            style={[customStyles.heroImage]}
-            source={require("../assets/Images/heroImages/RegisterHeroImage.png")}
-          />
+        <KeyboardAvoidingView keyboardVerticalOffset={25} behavior={"padding"}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Image
+              resizeMode="contain"
+              style={[Styles.heroImage]}
+              source={require("../assets/Images/heroImages/RegisterHeroImage.png")}
+            />
 
-          <Text style={customStyles.primaryTextHeroSection}>Register</Text>
-          <View style={customStyles.inputContinuer}>
-            <AppForm
-              initialValues={{
-                email: "",
-                password: "",
-                userName: "",
-                name: "",
-                phoneNumber: "",
-                images: [],
-              }}
-              onSubmit={handleRegistration}
-              //validationSchema={validationSchema}
-            >
-              <FormSingleImageInput name="images" />
-              <ErrorMessage error={error} visible={error} />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="account"
-                name="name"
-                placeholder="Full Name"
-                textContentType="name"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="at"
-                name="userName"
-                textContentType="username"
-                placeholder="User Name"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="cellphone"
-                keyboardType="numeric"
-                textContentType="telephoneNumber"
-                name="phoneNumber"
-                placeholder="Mobile"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="email"
-                keyboardType="email-address"
-                textContentType="emailAddress"
-                name="email"
-                placeholder="Email"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="lock-open-variant"
-                name="password"
-                textContentType="password"
-                placeholder="Password"
-              />
-
-              <SubmitButton title={"Submit"} iconName={"send-circle"} />
-            </AppForm>
-          </View>
-
-          <View style={customStyles.containerFlexRowLinks}>
-            <Text style={customStyles.secondaryText}>
-              Already have an account?{" "}
-            </Text>
-            <TouchableOpacity>
-              <Text
-                style={customStyles.linkText}
-                onPress={() => navigation.navigate("Login")}
+            <Text style={Styles.primaryTextHeroSection}>Register</Text>
+            <View style={Styles.inputContinuer}>
+              <AppForm
+                initialValues={{
+                  email: "",
+                  password: "",
+                  username: "",
+                  name: "",
+                  phoneNumber: "",
+                  image: [],
+                }}
+                onSubmit={handleRegistration}
+                validationSchema={validationSchema}
               >
-                {" "}
-                Login
+                <FormSingleImageInput name="image" />
+                <ErrorMessage error={error} visible={error} />
+                <AppFormField
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  icon="account"
+                  name="name"
+                  placeholder="Full Name"
+                  textContentType="name"
+                  maxLength={20}
+                />
+                <AppFormField
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  icon="at"
+                  name="username"
+                  textContentType="username"
+                  placeholder="User Name"
+                  maxLength={20}
+                />
+                <AppFormField
+                  autoCapitalize="none"
+                  icon="cellphone"
+                  autoCorrect={false}
+                  keyboardType="numeric"
+                  textContentType="telephoneNumber"
+                  name="phoneNumber"
+                  placeholder="Mobile"
+                  returnKeyLabel="done"
+                  maxLength={8}
+                />
+                <AppFormField
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  icon="email"
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
+                  name="email"
+                  placeholder="Email"
+                />
+                <AppFormField
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  icon="lock-open-variant"
+                  name="password"
+                  textContentType="password"
+                  placeholder="Password"
+                  maxLength={25}
+                />
+
+                <SubmitButton title={"Submit"} iconName={"send-circle"} />
+              </AppForm>
+            </View>
+
+            <View style={Styles.containerFlexRowLinks}>
+              <Text style={Styles.secondaryText}>
+                Already have an account?{" "}
               </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+              <TouchableOpacity>
+                <Text
+                  style={Styles.linkText}
+                  onPress={() => navigation.navigate("Login")}
+                >
+                  {" "}
+                  Login
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Screen>
     </>
   );

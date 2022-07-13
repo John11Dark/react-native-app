@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
-import { ListingEditScreen } from "../Screens";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  ListingEditScreen,
+  NotificationScreen,
+  UsersScreen,
+  SearchScreen,
+} from "../Screens";
 import Routes from "./routes";
 import TabActionButton from "./TabActionButton";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-//import Navigation from "../navigation/rootNavigation";
-
+import Navigation from "../Navigation/rootNavigation";
 import pushTokenApi from "../api/expoPushToken";
 import { useNotifications } from "../hooks";
 
@@ -23,7 +26,9 @@ export default function TabNavigator() {
   }, [expoPushToken]);
 
   useEffect(() => {
-    if (response) Navigation.navigate("Account");
+    if (response) {
+      Navigation.navigate(response.notification.request.content.data.navigate);
+    }
   }, [response]);
 
   return (
@@ -38,6 +43,19 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons
+              name="layers-search"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="ListingEdit"
         component={ListingEditScreen}
         options={({ navigation }) => ({
@@ -47,6 +65,15 @@ export default function TabNavigator() {
             />
           ),
         })}
+      />
+      <Tab.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons name="bell" size={size} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Account"

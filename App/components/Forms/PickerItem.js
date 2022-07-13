@@ -1,21 +1,31 @@
 import React from "react";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 
-import Icon from "../Icon";
-const PickerItem = ({ item, onPress }) => {
+import { customProps } from "../../config";
+
+const PickerItem = ({ item, onPress, style }) => {
   return (
-    <TouchableOpacity style={styles.wrapper} onPress={onPress}>
-      <View style={styles.container}>
-        <Icon
+    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+      <View
+        style={{
+          backgroundColor: item.backgroundColor,
+          width: 75,
+          height: 75,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 37.5,
+        }}
+      >
+        <MaterialCommunityIcons
           name={item.icon}
-          backgroundColor={item.backgroundColor}
-          size={80}
+          size={60}
+          color={customProps.primaryColorLight}
         />
-        <Text style={styles.text} numberOfLines={1}>
-          {item.label}
-        </Text>
       </View>
+      <Text style={styles.text} numberOfLines={2}>
+        {item.label}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -25,14 +35,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: "6%",
     paddingVertical: "6%",
     alignItems: "center",
+    width: "33%",
   },
   text: {
-    marginTop: 6,
+    marginTop: 8,
     textAlign: "center",
     flexWrap: "nowrap",
-  },
-  wrapper: {
-    width: "33%",
+    color: customProps.primaryColorLight,
+    ...customProps.font,
+    fontSize: 15,
+    textTransform: "capitalize",
   },
 });
 

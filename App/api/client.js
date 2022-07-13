@@ -1,8 +1,7 @@
 import cache from "../utils/cache";
 import { create } from "apisauce";
-import settings from "../config/settings";
 import storage from "../auth/storage";
-
+import { envKeys, settings } from "../config";
 export const baseURL = settings.apiUrl;
 
 const client = create({ baseURL });
@@ -10,7 +9,7 @@ const client = create({ baseURL });
 client.addAsyncRequestTransform(async (request) => {
   const token = await storage.getToken();
   if (!token) return;
-  request.headers["x-auth-token"] = token;
+  request.headers[envKeys.headersKey] = token;
 });
 
 const getMethod = client.get;

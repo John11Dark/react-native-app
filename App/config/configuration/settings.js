@@ -8,7 +8,7 @@ const settings = {
     apiUrl: "http://192.168.1.181:9000/api",
   },
   prod: {
-    apiUrl: "http://192.168.1.181:9000/api",
+    apiUrl: "https://dolphinpoolsltdbackend.herokuapp.com/api",
   },
 };
 

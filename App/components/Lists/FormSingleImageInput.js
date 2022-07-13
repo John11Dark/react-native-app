@@ -11,12 +11,14 @@ import React, { useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ErrorMessage from "../Forms/ErrorMessage";
-import customProps from "../../config/customProps";
+import { customProps, Styles } from "../../config";
 
 export default function FormSingleImageInput({
   size = 250,
   borderRadius = 125,
   name,
+  style,
+  editable = true,
 }) {
   const { errors, touched, values, setFieldValue } = useFormikContext();
   let uri = values[name];
@@ -45,13 +47,18 @@ export default function FormSingleImageInput({
   };
 
   const handlePress = () => {
+    if (!editable) return;
     if (!uri[0]) {
       selectImage();
     } else {
       Alert.alert(
         "Change Image",
         "Are you sure you want to change this image?",
-        [{ text: "Yes", onPress: () => selectImage() }, { text: "No" }]
+
+        [
+          { text: "Yes", style: "destructive", onPress: () => selectImage() },
+          { text: "No", style: "cancel" },
+        ]
       );
     }
   };
@@ -63,12 +70,15 @@ export default function FormSingleImageInput({
           style={[
             styles.container,
             { height: size, width: size, borderRadius: borderRadius },
+            style,
           ]}
         >
           {uri[0] ? (
             <Image
               resizeMode="cover"
-              source={{ uri: uri[0] }}
+              source={{
+                uri: uri[0],
+              }}
               style={styles.image}
             />
           ) : (
@@ -83,7 +93,7 @@ export default function FormSingleImageInput({
 
 const styles = StyleSheet.create({
   container: {
-    ...customProps.ImageContainer,
+    ...Styles.ImageContainer,
     borderRadius: 15,
     backgroundColor: customProps.darkCardBackgroundColor,
   },

@@ -6,7 +6,7 @@ import React, { useState } from "react";
 // application libraries
 import { useApi, useAuth } from "../hooks";
 import authApi from "../api/auth";
-import customStyles from "../config/Styles/Styles";
+import { Styles } from "../config";
 import {
   AppForm,
   AppFormField,
@@ -46,17 +46,17 @@ export default function LoginScreen({ navigation }) {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Image
             resizeMode="contain"
-            style={[customStyles.heroImageVertical]}
+            style={[Styles.heroImageVertical]}
             source={require("../assets/Images/heroImages/authScreen.png")}
           />
-          <Text style={customStyles.primaryTextHeroSection}>Login</Text>
+          <Text style={Styles.primaryTextHeroSection}>Login</Text>
 
           <AppForm
             initialValues={{ email: "", password: "" }}
             onSubmit={handleLogin}
             validationSchema={validationSchema}
           >
-            <View style={customStyles.inputContinuer}>
+            <View style={Styles.inputContinuer}>
               <ErrorMessage error={loginError} visible={loginError} />
               <AppFormField
                 autoCapitalize="none"
@@ -81,7 +81,7 @@ export default function LoginScreen({ navigation }) {
             <View>
               <TouchableOpacity>
                 <Text
-                  style={[customStyles.linkText, customStyles.linkTextPrimary]}
+                  style={[Styles.linkText, Styles.linkTextPrimary]}
                   onPress={() => navigation.navigate("ForgotPassword")}
                 >
                   forgot password?
@@ -90,11 +90,11 @@ export default function LoginScreen({ navigation }) {
               <SubmitButton title={"Login"} iconName={"login-variant"} />
             </View>
           </AppForm>
-          <View style={customStyles.containerFlexRowLinks}>
-            <Text style={customStyles.secondaryText}>new user? </Text>
+          <View style={Styles.containerFlexRowLinks}>
+            <Text style={Styles.secondaryText}>new user? </Text>
             <TouchableOpacity>
               <Text
-                style={customStyles.linkText}
+                style={Styles.linkText}
                 onPress={() => navigation.navigate("Register")}
               >
                 {" "}

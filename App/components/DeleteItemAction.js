@@ -1,15 +1,16 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import Icon from "./Icon";
-import customProps from "../config/customProps";
+import { customProps } from "../config/";
 
 export default function DeleteItemAction({ onPress }) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
-        <Icon
+        <MaterialCommunityIcons
           name={"trash-can"}
-          backgroundColor={customProps.importantIconColor}
+          color={customProps.primaryColorLight}
+          size={35}
         />
       </View>
     </TouchableWithoutFeedback>
@@ -21,5 +22,7 @@ const styles = StyleSheet.create({
     backgroundColor: customProps.importantIconColor,
     alignItems: "center",
     justifyContent: "center",
+    width: 50,
+    height: "100%",
   },
 });

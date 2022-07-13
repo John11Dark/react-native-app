@@ -1,28 +1,30 @@
 import React, { useEffect } from "react";
-
-import { useApi } from "../hooks";
+import { useIsFocused } from "@react-navigation/native";
+import { useApi, useAuth } from "../hooks";
 import listingsApi from "../api/listings";
 import Listings from "../components/Lists/Listings";
 import Routes from "../Navigation/routes";
 export default function FeedScreen({ route }) {
   const allListings = useApi(listingsApi.getListings);
   const userListings = useApi(listingsApi.getUserListings);
-
+  const { user } = useAuth();
+  const isFocused = useIsFocused();
   useEffect(() => {
     if (route.params?.userListings) {
-      userListings.request();
+      userListings.request(user.userId);
     } else {
       allListings.request();
     }
-  }, [route.params?.userListings]);
-
+  }, [route.params?.userListings, isFocused]);
   return route.params?.userListings ? (
     <Listings
       data={userListings.data}
       error={userListings.error}
       itemNavigationRoute={Routes.USER_LISTING_DETAILS}
       loading={userListings.loading}
-      onRefresh={userListings.request}
+      onRefresh={() => {
+        userListings.request(user.userId);
+      }}
     />
   ) : (
     <Listings

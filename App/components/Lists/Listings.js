@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { ActivityIndicator, Card, DataLoadingError, Screen } from "../";
@@ -12,6 +12,7 @@ const Listings = ({
   loading,
   onRefresh,
   itemNavigationRoute = Routes.LISTING_DETAILS,
+  handleState,
 }) => {
   const navigation = useNavigation();
 
@@ -26,14 +27,21 @@ const Listings = ({
         />
         <FlatList
           data={data}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Card
               imageUrl={item.images[0].url}
-              onPress={() => navigation.navigate(itemNavigationRoute, item)}
               thumbnailUrl={item.images[0].thumbnail}
+              onPress={() => navigation.navigate(itemNavigationRoute, item)}
               title={item.title}
-              subTitle={item.price}
+              subTitle={item.description}
+              user={item.user}
+              status={item.status ? item.status : item.isInArchive}
+              archive={item.isInArchive}
+              restore={item.isInRecycleBin}
+              initialDate={item.initialDate}
+              listId={item.id}
+              handleState={handleState}
             />
           )}
           showsHorizontalScrollIndicator={false}
@@ -48,7 +56,6 @@ const Listings = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
     backgroundColor: customProps.primaryColorDark,
   },
 });

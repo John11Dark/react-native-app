@@ -11,7 +11,7 @@ const UploadIndicator = ({ progress = 0, visible, onFinish }) => (
     <View style={styles.container}>
       {progress < 1 ? (
         <Progress.Bar
-          color={customProps.primaryColor}
+          color={customProps.secondaryColor}
           progress={progress}
           width={200}
         />
@@ -19,8 +19,9 @@ const UploadIndicator = ({ progress = 0, visible, onFinish }) => (
         <LottieView
           autoPlay
           loop={false}
+          speed={0.8}
           onAnimationFinish={onFinish}
-          source={require("../assets/animations/done1.json")}
+          source={require("../assets/animations/uploaded.json")}
           style={styles.animation}
         />
       )}
@@ -33,9 +34,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: customProps.primaryColorDark,
   },
   animation: {
-    width: 150,
+    width: 300,
   },
 });
 

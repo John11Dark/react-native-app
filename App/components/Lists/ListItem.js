@@ -1,38 +1,64 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import Swipable from "react-native-gesture-handler/Swipeable";
 
 import customProps from "../../config/customProps";
-
 export default function ListItem({
   title,
   subTitle,
   imagePath,
   IconComponent,
-  styleParameter,
+  style = {},
   onPress,
+  textWidth = "100%",
+  renderRightActions,
+  disabled = false,
+  users = false,
+  description,
 }) {
-  return (
+  return !users ? (
     // Images
+    <Swipable renderRightActions={renderRightActions}>
+      <TouchableOpacity
+        disabled={disabled}
+        underlayColor={customProps.primaryColorDarkOpacity}
+        onPress={onPress}
+      >
+        <View style={[styles.container, style.container]}>
+          {IconComponent}
+          {imagePath && (
+            <Image
+              source={{ uri: imagePath }}
+              style={[
+                styles.image,
+                { width: 90, height: 90, borderRadius: 45 },
+              ]}
+            />
+          )}
+          {/* Text */}
+          <View style={[styles.textContainer, { width: textWidth }]}>
+            <Text style={[styles.title, style]}>{title}</Text>
+            {subTitle && (
+              <Text style={[styles.subTitle, style]}>{subTitle}</Text>
+            )}
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Swipable>
+  ) : (
     <TouchableOpacity
       underlayColor={customProps.primaryColorDarkOpacity}
       onPress={onPress}
     >
-      <View style={[styles.container, styleParameter]}>
-        {IconComponent}
-        {imagePath && <Image source={imagePath} style={styles.image} />}
+      <View style={[styles.container, style.container]}>
+        <Image
+          source={{ uri: imagePath }}
+          style={[styles.image, { width: 60, height: 60, borderRadius: 30 }]}
+        />
 
         {/* Text */}
-        <View style={styles.textContainer}>
-          <Text style={[styles.title, styleParameter]}>{title}</Text>
-          {subTitle && (
-            <Text style={[styles.subTitle, styleParameter]}>{subTitle}</Text>
-          )}
+        <View style={[styles.textContainer, { width: textWidth }]}>
+          <Text style={[styles.title]}>{title}</Text>
+          <Text style={[styles.description]}>{description}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -40,8 +66,8 @@ export default function ListItem({
 }
 const styles = StyleSheet.create({
   image: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     margin: 10,
     borderRadius: 35,
     justifyContent: "center",
@@ -56,28 +82,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "row",
-    width: "100%",
     alignSelf: "center",
+    width: "100%",
   },
 
   textContainer: {
-    marginLeft: 25,
-    alignItems: "flex-start",
-    width: "100%",
+    marginLeft: 15,
   },
 
   title: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     fontSize: customProps.largePrimaryTextFontSize,
     color: customProps.primaryColorLight,
     fontWeight: "500",
     marginBottom: 2,
     textTransform: "capitalize",
+    flexWrap: "nowrap",
   },
   subTitle: {
-    fontFamily: customProps.font.fontFamily,
+    ...customProps.font,
     fontSize: customProps.mediumTextFontSize,
-    color: customProps.primaryColorLightGray,
+    color: customProps.primaryColorDarkGray,
     textTransform: "capitalize",
+  },
+  description: {
+    ...customProps.font,
+    fontSize: 17,
+    color: customProps.primaryColorDarkGray,
   },
 });
