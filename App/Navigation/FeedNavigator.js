@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import Routes from "./routes";
-import { FeedScreen, ListingDetails } from "../Screens";
+import { FeedScreen, ListingDetails, ViewImage } from "../Screens";
 import { customProps } from "../config";
 import { Icon, File } from "../components";
 import { View } from "react-native";
@@ -12,6 +12,7 @@ export default function FeedNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} mode="modal">
       <Stack.Screen name={Routes.LISTINGS} component={FeedScreen} />
+      <Stack.Screen name={Routes.VIEW_IMAGE} component={ViewImage} />
       <Stack.Screen
         name={Routes.LISTING_DETAILS}
         component={ListingDetails}
@@ -41,17 +42,9 @@ export default function FeedNavigator() {
             </View>
           ),
           headerShown: true,
-          title: route.params.title,
-          headerTitleStyle: {
-            ...customProps.font,
-            fontWeight: "800",
-            paddingBottom: 10,
-            maxWidth: 230,
-            textAlign: "center",
-          },
-          headerStyle: {
-            height: 110,
-          },
+          headerTransparent: true,
+          headerTitle: false,
+          headerBackTitleVisible: false,
         })}
       />
     </Stack.Navigator>

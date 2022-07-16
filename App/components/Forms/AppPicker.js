@@ -5,6 +5,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Styles } from "../../config/";
 import AppModal from "../Lists/Modal";
 import PickerItem from "../Forms/PickerItem";
+import Icon from "../Icon";
+
 export default function AppPicker({
   data,
   icon,
@@ -16,6 +18,7 @@ export default function AppPicker({
   selectedItem,
   width = "100%",
   style,
+  disabled = false,
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -32,7 +35,10 @@ export default function AppPicker({
   };
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => setVisible(true)}>
+      <TouchableWithoutFeedback
+        disabled={disabled}
+        onPress={() => setVisible(true)}
+      >
         <View style={[styles.container, { width: width, ...style }]}>
           {icon && (
             <MaterialCommunityIcons
@@ -61,9 +67,26 @@ export default function AppPicker({
         keyExtractor={(item) => item.value.toString()}
         numOfColumns={numOfColumns}
         onClose={handleModalClose}
-        renderItem={({ item }) => (
-          <PickerItemComponent item={item} onPress={() => handleSelect(item)} />
-        )}
+        renderItem={({ item }) =>
+          PickerItemComponent === PickerItem ? (
+            <PickerItemComponent
+              item={item}
+              onPress={() => handleSelect(item)}
+            />
+          ) : (
+            <PickerItemComponent
+              title={item.label}
+              subTitle={`Price €${item.price}`}
+              onPress={() => handleSelect(item)}
+              style={{
+                container: { width: "95%", alignSelf: "center", margin: 2 },
+              }}
+              IconComponent={
+                <Icon name={"package-variant"} innerSize={40} size={60} />
+              }
+            />
+          )
+        }
       />
     </>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { View } from "react-native";
 import {
   AccountScreen,
   MessagesScreen,
@@ -12,6 +12,8 @@ import {
   RecycleBinScreen,
 } from "../Screens";
 import Routes from "./routes";
+import { Icon } from "../components";
+import { customProps } from "../config";
 
 const Stack = createStackNavigator();
 
@@ -42,7 +44,34 @@ export default function AccountNavigator() {
         name={Routes.USER_LISTING_DETAILS}
         component={ListingDetails}
         options={({ route }) => ({
-          title: route.params.title,
+          headerRight: () => (
+            <View
+              style={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Icon
+                onPress={() => File.print(route.params)}
+                iconColor={customProps.primaryColor}
+                backgroundColor="transparent"
+                name="printer"
+                innerSize={35}
+              />
+              <Icon
+                onPress={() => File.Share(route.params)}
+                iconColor={customProps.secondaryColor}
+                backgroundColor="transparent"
+                name="share"
+                innerSize={40}
+              />
+            </View>
+          ),
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: false,
+          headerBackTitleVisible: false,
         })}
       />
       <Stack.Screen
@@ -60,7 +89,34 @@ export default function AccountNavigator() {
         name={Routes.ARCHIVED_LISTING_DETAILS}
         component={ListingDetails}
         options={({ route }) => ({
-          title: route.params.title,
+          headerRight: () => (
+            <View
+              style={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Icon
+                onPress={() => File.print(route.params)}
+                iconColor={customProps.primaryColor}
+                backgroundColor="transparent"
+                name="printer"
+                innerSize={35}
+              />
+              <Icon
+                onPress={() => File.Share(route.params)}
+                iconColor={customProps.secondaryColor}
+                backgroundColor="transparent"
+                name="share"
+                innerSize={40}
+              />
+            </View>
+          ),
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: false,
+          headerBackTitleVisible: false,
         })}
       />
       <Stack.Screen
@@ -79,7 +135,34 @@ export default function AccountNavigator() {
         name={Routes.RECYCLE_BIN_LISTING_DETAILS}
         component={ListingDetails}
         options={({ route }) => ({
-          title: route.params.title,
+          headerRight: () => (
+            <View
+              style={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Icon
+                onPress={() => File.print(route.params)}
+                iconColor={customProps.primaryColor}
+                backgroundColor="transparent"
+                name="printer"
+                innerSize={35}
+              />
+              <Icon
+                onPress={() => File.Share(route.params)}
+                iconColor={customProps.secondaryColor}
+                backgroundColor="transparent"
+                name="share"
+                innerSize={40}
+              />
+            </View>
+          ),
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: false,
+          headerBackTitleVisible: false,
         })}
       />
     </Stack.Navigator>

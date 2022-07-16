@@ -15,7 +15,6 @@ const Listings = ({
   handleState,
 }) => {
   const navigation = useNavigation();
-
   return (
     <>
       <ActivityIndicator visible={loading} />

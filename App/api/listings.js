@@ -6,7 +6,6 @@ const endpoint = "/listings";
 
 // functions
 const addListing = (listing, onUploadProgress) => {
-  console.log(listing.questionTypePicker);
   const user = {
     name: listing.user.name,
     id: listing.user.userId,
@@ -21,7 +20,10 @@ const addListing = (listing, onUploadProgress) => {
   data.append("clientLastName", listing.clientLastName);
   data.append("description", listing.description);
   data.append("initialDate", listing.initialDate);
-  data.append("status", listing.status);
+  data.append("indoor", listing.indoor);
+  data.append("mosaicOrTile", listing.mosaicOrTile);
+  data.append("poolSteps", listing.poolSteps);
+  data.append("poolLeaking", listing.poolLeaking);
   // options
   data.append("numberOfWallInlets", listing.numberOfWallInlets);
   data.append("numberOfSkimmers", listing.numberOfSkimmers);
@@ -31,9 +33,12 @@ const addListing = (listing, onUploadProgress) => {
   data.append("counterCurrent", listing.counterCurrent);
   data.append("vacuumPoints", listing.vacuumPoints);
   // pickers
-  data.append("questionTypePicker_ID", 2);
-  data.append("poolType_ID", 1);
-  data.append("poolLocation_ID", 1);
+  data.append("projectType_ID", listing.projectType);
+  data.append("poolType_ID", listing.poolType);
+  data.append("poolLocation_ID", listing.poolLocation);
+  data.append("indoor", listing.indoor);
+  data.append("poolLeaking", listing.poolLeaking);
+  data.append("poolSteps", listing.poolSteps);
   // pool parameters
   data.append("poolLength", listing.poolLength);
   data.append("poolWidth", listing.poolWidth);
@@ -48,7 +53,6 @@ const addListing = (listing, onUploadProgress) => {
   data.append("balanceTankPipe", listing.balanceTankPipe);
   data.append("poolVolume", listing.poolVolume);
   data.append("clientAddressStreetOne", listing.clientAddressStreetOne);
-  data.append("clientAddressStreetTwo", listing.clientAddressStreetTwo);
   data.append("clientAddressLocality", listing.clientAddressLocality);
   data.append("location", JSON.stringify(listing.location));
   data.append("user", JSON.stringify(user));
@@ -60,6 +64,8 @@ const addListing = (listing, onUploadProgress) => {
       uri: image,
     })
   );
+  if (listing.clientAddressStreetTwo)
+    data.append("clientAddressStreetTwo", listing.clientAddressStreetTwo);
   console.log(data);
   return client.post(endpoint, data, {
     onUploadProgress: ({ loaded, total }) => onUploadProgress(loaded / total),

@@ -2,8 +2,8 @@ import { printAsync, printToFileAsync } from "expo-print";
 import { shareAsync } from "expo-sharing";
 
 const generatePdf = (data) => {
-  const html = 
-  `<!DOCTYPE html>
+  let counter = 0;
+  const html = `<!DOCTYPE html>
   <html lang="en" dir="ltr">
     <head>
       <meta charset="UTF-8" />
@@ -22,7 +22,7 @@ const generatePdf = (data) => {
           --primaryColor: #50bed2;
           --primaryColorDark: #1e2931;
           --primaryColorLight: #edeee4;
-          --primaryColorLightGray: #b6abab;
+          --primaryColorLightGray: #fff;
           --primaryColorDarkGray: #7c8688;
           --primaryColorDarkOpacity: #29319a;
           --secondaryColor: #e6b11e;
@@ -47,7 +47,7 @@ const generatePdf = (data) => {
         body {
           font-family: "Quicksand", sans-serif;
           font-size: 1rem;
-          background-color: var(--primaryColorLight);
+          background-color: #fff;
           width: 100vw, 100%;
           display: grid;
           line-height: 2;
@@ -128,7 +128,17 @@ const generatePdf = (data) => {
           color: var(--primaryColorDarkGray);
         }
   
+        .leftColumn {
+          grid-column: 1;
+          grid-row: 2;
+        }
+  
+        .rightColumn {
+          grid-column: 2;
+          grid-row: 2;
+        }
         .contentContainer {
+
           align-self: center;
           justify-content: center;
           height: 100%;
@@ -140,13 +150,16 @@ const generatePdf = (data) => {
   
         .box {
           display: grid;
-          align-content: space-around;
           align-items: center;
           gap: 1rem 0;
           width: 520px;
           margin-block: 1em;
           padding: 1rem;
           grid-column: 1;
+        }
+        .ClientDetails{
+          alignContent: 'flex-start',
+          alignItems: 'flex-start',
         }
         .poolRequiredOptions {
           grid-row: 2;
@@ -228,6 +241,50 @@ const generatePdf = (data) => {
         tr:nth-child(odd) {
           background-color: #cac6b5d0;
         }
+
+        .imagesContainer {
+          width: "90%";
+          height: 300px;
+          transform: translate(0%, 50%);
+          display: flex;
+          gap: 0.5rem;
+          align-items: center;
+          justify-content: center;
+          alignContent: center
+        }
+  
+        .image {
+          background-color: #00b5a9;
+          width: 32.5%;
+          height: 90%;
+          border-radius: 1rem;
+        }
+  
+        .extraRemarks {
+          height: 200px;
+          transform: translate(0%, 100%);
+          display: grid;
+          align-items: center;
+        }
+  
+        .label {
+          font-size: 1.5rem;
+        }
+  
+        #extraRemarksBox {
+          padding: 1rem;
+          background-color: #fcf6ef;
+          font-size: 1rem;
+          margin-top: 5rem;
+          width: 70%;
+          color: #10191e;
+          font-weight: 600;
+          font-family: "Quicksand", sans-serif;
+          text-align: left;
+          border: 1px solid #cac6b5d0;
+          border-radius: 0.5rem;
+        }
+
       </style>
       <title>${data.title}</title>
     </head>
@@ -332,6 +389,7 @@ const generatePdf = (data) => {
           <p class="date">${data.initialDate}</p>
         </section>
   
+        <section class="leftColumn">
         <!-- Client details -->
         <section class="box ClientDetails">
           <div class="boxTitle">
@@ -340,7 +398,9 @@ const generatePdf = (data) => {
           </div>
           <div class="details">
             <h2 class="filedLabel">Full Name</h2>
-            <h3 class="filedValue">${data.clientFirstName}</h3>
+            <h3 class="filedValue">${data.clientFirstName} ${
+    data.clientLastName
+  }</h3>
           </div>
   
           <div class="details">
@@ -358,12 +418,20 @@ const generatePdf = (data) => {
           </div>
           <div class="details">
             <h2 class="filedLabel">Address Street One</h2>
-            <h3 class="filedValue">${data.clientAddressStreetOne? data.clientAddressStreetOne : "not set"}</h3>
+            <h3 class="filedValue">${
+              data.clientAddressStreetOne
+                ? data.clientAddressStreetOne
+                : "not set"
+            }</h3>
           </div>
   
           <div class="details">
             <h2 class="filedLabel">Address Street Two</h2>
-            <h3 class="filedValue">${data.clientAddressStreetTwo? data.clientAddressStreetTwo : "not set" }</h3>
+            <h3 class="filedValue">${
+              data.clientAddressStreetTwo
+                ? data.clientAddressStreetTwo
+                : "not set"
+            }</h3>
           </div>
         </section>
   
@@ -390,36 +458,52 @@ const generatePdf = (data) => {
   
           <div class="details">
             <h2 class="filedLabel">Depth End:</h2>
-            <h3 class="filedValue Number">${data.poolDepthEnd? data.poolDepthEnd : "0"}</h3>
+            <h3 class="filedValue Number">${
+              data.poolDepthEnd ? data.poolDepthEnd : "0"
+            }</h3>
           </div>
   
           <div class="details">
             <h2 class="filedLabel">Perimeter:</h2>
-            <h3 class="filedValue Number">${data.poolPerimeter ? data.poolPerimeter : "0"}</h3>
+            <h3 class="filedValue Number">${
+              data.poolPerimeter ? data.poolPerimeter : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Coping Perimeter:</h2>
-            <h3 class="filedValue Number">${data.copingPerimeter}</h3>
+            <h3 class="filedValue Number">${
+              data.copingPerimeter ? data.copingPerimeter : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Balance Tank Length:</h2>
-            <h3 class="filedValue Number">${data.balanceTankLength}</h3>
+            <h3 class="filedValue Number">${
+              data.balanceTankLength ? data.balanceTankLength : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Balance Tank Width</h2>
-            <h3 class="filedValue Number">${data.balanceTankWidth}</h3>
+            <h3 class="filedValue Number">${
+              data.balanceTankWidth ? data.balanceTankWidth : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Balance Tank Depth</h2>
-            <h3 class="filedValue Number">${data.balanceTankDepth}</h3>
+            <h3 class="filedValue Number">${
+              data.balanceTankDepth ? data.balanceTankDepth : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Balance Tank Pipe</h2>
-            <h3 class="filedValue Number">${data.balanceTankPipe}</h3>
+            <h3 class="filedValue Number">${
+              data.balanceTankPipe ? data.balanceTankPipe : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Volume</h2>
-            <h3 class="filedValue Number">${data.poolVolume}</h3>
+            <h3 class="filedValue Number">${
+              data.poolVolume ? data.poolVolume : "0"
+            }</h3>
           </div>
         </section>
   
@@ -431,76 +515,114 @@ const generatePdf = (data) => {
           </div>
           <div class="details">
             <h2 class="filedLabel">Number Of Wall Inlets</h2>
-            <h3 class="filedValue Number">${data.numberOfWallInlets?data.numberOfWallInlets  : "0"}</h3>
+            <h3 class="filedValue Number">${
+              data.numberOfWallInlets ? data.numberOfWallInlets : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Number Of Sumps</h2>
-            <h3 class="filedValue Number">${data.numberOfSumps? data.numberOfSumps : "0"}</h3>
+            <h3 class="filedValue Number">${
+              data.numberOfSumps ? data.numberOfSumps : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Number Of Skimmers</h2>
-            <h3 class="filedValue Number">${data.numberOfSkimmers? data.numberOfSkimmers : "0"}</h3>
+            <h3 class="filedValue Number">${
+              data.numberOfSkimmers ? data.numberOfSkimmers : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Number Of Lights</h2>
-            <h3 class="filedValue Number">${data.numberOfLights? data.numberOfLights : "0"}</h3>
+            <h3 class="filedValue Number">${
+              data.numberOfLights ? data.numberOfLights : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Spa Jets</h2>
-            <h3 class="filedValue Number">${data.spaJets? data.spaJets : 0}</h3>
+            <h3 class="filedValue Number">${
+              data.spaJets ? data.spaJets : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Counter Current</h2>
-            <h3 class="filedValue Number">${data.counterCurrent? data.counterCurrent : 0}</h3>
+            <h3 class="filedValue Number">${
+              data.counterCurrent ? data.counterCurrent : "0"
+            }</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Vacuum Points</h2>
-            <h3 class="filedValue Number">${data.vacuumPoints? data.vacuumPoints : 0}</h3>
+            <h3 class="filedValue Number">${
+              data.vacuumPoints ? data.vacuumPoints : "0"
+            }</h3>
           </div>
         </section>
+        </section>
   
+        <section class="rightColumn">
         <!-- Pool Options required -->
         <section class="box poolRequiredOptions">
           <div class="detailsBox">
             <h2 class="filedLabel">Project Type:</h2>
-            <h3 class="filedValueBox">${data.projectType}</h3>
+            <h3 class="filedValueBox">${data.projectType.label}</h3>
           </div>
   
           <div class="detailsBox">
             <h2 class="filedLabelBox">Pool type</h2>
-            <h3 class="filedValueBox">${data.poolType}</h3>
+            <h3 class="filedValueBox">${data.poolType.label}</h3>
           </div>
   
           <div class="detailsBox">
             <h2 class="filedLabelBox">Pool Location</h2>
-            <h3 class="filedValueBox">${data.poolLocation} <br> ${data.poolAreaLocation}</h3>
+            <h3 class="filedValueBox">${data.poolLocation.label} <br> ${
+    data.indoor ? "indoor" : "outdoor"
+  }</h3>
           </div>
   
           <div class="detailsBox">
             <h2 class="filedLabelBox">Pool Steps</h2>
             <h3 class="filedValueBox">
-              ${data.poolSteps? "Yes": "No"} 
+              ${data.poolSteps ? "Yes" : "No"} 
             </h3>
           </div>
   
           <div class="detailsBox">
             <h2 class="filedLabelBox">Mosaic or Tile</h2>
-            <h3 class="filedValueBox">${data.mosaicOrTileBorder? "Yes": "No"}</h3>
+            <h3 class="filedValueBox">${
+              data.mosaicOrTileBorder ? "Mosaic" : "Tile"
+            }</h3>
           </div>
           <div class="detailsBox">
             <h2 class="filedLabelBox">Pool Leaking</h2>
-            <h3 class="filedValueBox">${data.poolLeaking === true ? "Yes": "No"}</h3>
+            <h3 class="filedValueBox">${data.poolLeaking ? "Yes" : "No"}</h3>
           </div>
           <div class="detailsBox PriceBox">
             <h2 class="filedLabelBox">Total Price</h2>
             <h3 class="filedValueBox">${data.finalPrice} excl. vat</h3>
           </div>
+
+      <section class="extraRemarks">
+        <label for="extraRemarksBox" class="filedLabelBox label">
+          Extra remarks
+        </label>
+        <textarea name="extraRemarks" id="extraRemarksBox" cols="30" rows="10">${
+          data.description ? data.description : "Type Something here"
+        }
+        </textarea>
+      </section>
         </section>
       </main>
     </body>
   </html>
   `;
-
+  // ${
+  //   data.images
+  //     ? `<section class="imagesContainer">
+  //     ${data.images.map((image) => {
+  //       return "hi";
+  //     })}
+  //       </section>`
+  //     : ""
+  // }
 
   return html;
 };

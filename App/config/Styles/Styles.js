@@ -241,8 +241,9 @@ const Styles = StyleSheet.create({
     marginLeft: 15,
   },
   labelStyle: {
+    ...customProps.font,
     textAlign: "left",
-    fontSize: 22,
+    fontSize: 25,
     color: "#EDEEE4",
     width: "100%",
     padding: 10,

@@ -14,3 +14,4 @@ export { default as UsersScreen } from "./UsersScreen";
 export { default as NotificationScreen } from "./NotificationScreen";
 export { default as SearchScreen } from "./SearchScreen";
 export { default as RecycleBinScreen } from "./RecycleBinScreen";
+export { default as ViewImage } from "./ViewImage";

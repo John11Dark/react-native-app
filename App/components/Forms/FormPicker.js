@@ -14,6 +14,7 @@ export default function AppFormPicker({
   PickerItemComponent,
   width,
   title,
+  disabled,
   ...otherProps
 }) {
   const { errors, setFieldValue, touched, values } = useFormikContext();
@@ -30,6 +31,7 @@ export default function AppFormPicker({
         PickerItemComponent={PickerItemComponent}
         selectedItem={values[name]}
         width={width}
+        disabled={disabled}
         {...otherProps}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />

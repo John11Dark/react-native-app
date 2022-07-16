@@ -7,10 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AppPicker from "../Forms/AppPicker";
-
-const PickerItem = ({ item, onPress }) => {
+import ListItem from "../Lists/ListItem";
+const PickerItem = ({ item, onPress, disabled }) => {
   return (
-    <TouchableOpacity style={[styles.item]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.item]}
+      disabled={disabled}
+      onPress={onPress}
+    >
       <Text style={styles.textItem} numberOfLines={1}>
         {item.label}
       </Text>
@@ -19,7 +23,13 @@ const PickerItem = ({ item, onPress }) => {
 };
 
 import { Styles } from "../../config";
-const ItemsListPicker = ({ onItemRemove, onItemAdd, Items, data }) => {
+const ItemsListPicker = ({
+  onItemRemove,
+  onItemAdd,
+  Items,
+  data,
+  disabled = false,
+}) => {
   const scrollViewRef = useRef(null);
 
   return (
@@ -39,6 +49,7 @@ const ItemsListPicker = ({ onItemRemove, onItemAdd, Items, data }) => {
                 onPress={() => onItemRemove(item)}
                 key={item}
                 item={item}
+                disabled={disabled}
               />
             </View>
           ))}
@@ -46,8 +57,10 @@ const ItemsListPicker = ({ onItemRemove, onItemAdd, Items, data }) => {
             style={styles.customPickerItem}
             width="100%"
             data={data}
+            PickerItemComponent={ListItem}
             onItemSelect={(item) => onItemAdd(item)}
             iconStyle={{ marginRight: 10, top: -5 }}
+            disabled={disabled}
           />
         </ScrollView>
       </View>
@@ -62,6 +75,7 @@ const styles = StyleSheet.create({
   container: {
     ...Styles.formField,
     width: "100%",
+    height: 90,
     overflow: "hidden",
   },
 

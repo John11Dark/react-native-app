@@ -1,5 +1,5 @@
 // Third parties libraries
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+//import DateTimePicker from "@react-native-community/datetimepicker";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Yup from "yup";
@@ -27,22 +27,40 @@ import {
   Icon,
   ItemsListPicker,
   ErrorMessage,
+  CheckBox,
 } from "../components/";
 
-import { settings, Styles } from "../config";
+import { envKeys, Styles } from "../config";
 import listingsApi from "../api/listings";
 import { useAuth, useLocation } from "../hooks";
 import addOnsData from "../assets/Data/items";
 // Variables
+
 const validationSchema = Yup.object().shape({
   description: Yup.string().label("Description"),
   title: Yup.string().required().min(15).label("Title"),
   images: Yup.array()
     .min(1, "Please select at least on image")
     .max(3, "The maximum is three images"),
+  clientPhoneNumber: Yup.number()
+    .required()
+    .min(8)
+    .label("client phone number"),
+  clientFirstName: Yup.string().required().label("client first name"),
+  clientLastName: Yup.string().required().label("client last name"),
+  clientAddressStreetOne: Yup.string().required().label("Street One"),
+  clientAddressLocality: Yup.string().required().label("Locality"),
+  email: Yup.string().required().email().min(10).label("Email"),
+  initialDate: Yup.date().required().label("Created date"),
+  projectType: Yup.object().required().label("Project type"),
+  poolType: Yup.object().required().label("pool Type"),
+  poolLocation: Yup.object().required().label("pool Location"),
+  poolLeaking: Yup.boolean().required().label("Pool Leaking"),
+  indoor: Yup.boolean().required().label("Pool Location"),
+  poolSteps: Yup.boolean().required().label("Pool Steps"),
 });
 
-const questionTypePicker = [
+const projectTypePicker = [
   {
     label: "New Pool",
     value: 1,
@@ -194,19 +212,33 @@ export default function ListingEditScreen() {
     poolVolume: poolVolume,
   };
   /// picker states
-  const [questionTypeSelection, setQuestionTypeSelection] = useState(
-    questionTypePicker[0]
-  );
+  const [projectType, setProjectType] = useState(projectTypePicker[0]);
   const [poolType, setPoolType] = useState(poolTypePicker[0]);
   const [poolLocation, setPoolLocation] = useState(PoolLocationPicker[0]);
   const [ItemsAddOnsListValue, setItemsAddOnsListValue] = useState(addOnsData);
   const [ItemsAddOnsSelectedValue, setItemsAddOnsSelectedValue] = useState([]);
-  const [error, serError] = useState("null");
+  const [error, setError] = useState(null);
+  const mapRef = useRef(null);
+  const [poolSteps, setPoolSteps] = useState(false);
+  const [poolTile, setPoolTile] = useState(true);
+  const [indoor, setIndoor] = useState(false);
+  const [poolLeaking, setPoolLeaking] = useState(false);
 
   const setTitle = "first location";
 
   // Functions
-
+  const setPoolStepsValue = (value) => {
+    setPoolSteps(value);
+  };
+  const setPoolTileValue = (value) => {
+    setPoolTile(value);
+  };
+  const setPoolIndoorValue = (value) => {
+    setIndoor(value);
+  };
+  const setPoolLeakingValue = (value) => {
+    setPoolLeaking(value);
+  };
   // Calculate Pool Volume Function
   const parseInput = (number) => {
     number = parseFloat(number);
@@ -264,7 +296,12 @@ export default function ListingEditScreen() {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync();
 
-      setPin({ latitude, longitude });
+      setPin({ latitude, longitude, latitudeDelta: 0.3, longitudeDelta: 0.3 });
+      const camera = await mapRef.current?.getCamera();
+      if (camera) {
+        camera.center = pin;
+        mapRef.current.animateCamera(camera, { duration: 1000 });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -301,9 +338,38 @@ export default function ListingEditScreen() {
       ItemsAddOnsListValue.filter((category) => category.value !== item.value)
     );
   };
-
+  const resetValues = () => {
+    setPoolBalanceTankLength("");
+    setPoolCopingPerimeter("");
+    setPoolPerimeter("");
+    setPoolLength("");
+    setPoolWidth("");
+    setPoolDepthStart("");
+    setPoolDepthEnd("");
+    setBalanceTankWidth("");
+    setBalanceTankDepth("");
+    setBalanceTankPipe("");
+    setPoolVolume("");
+  };
   // submit function
   const handleSubmit = async (values, { resetForm }) => {
+    for (const [key, value] of Object.entries(poolValues)) {
+      if (value.length == 0) {
+        setError(`${key} is required`);
+        return Alert.alert(
+          "required",
+          "Please make sure that all fields are filled"
+        );
+      }
+    }
+    // if (Object(ItemsAddOnsSelectedValue).length === 0) {
+    //   return Alert.alert("Recommended", "you can select extra options", [{
+    //     text : "yes",
+    //     onPress : () =>{
+
+    //     }
+    //   }]);
+    // }
     setProgress(0);
     setUploadVisible(true);
     const data = {
@@ -320,14 +386,14 @@ export default function ListingEditScreen() {
 
     if (!response.ok) {
       setUploadVisible(false);
-      console.log(response);
-      serError(response.originalError);
+      setError(response.data.error);
       return alert(
         `Could not save ${values.title}.\nPlease try again an check that you have inserted all values correctly`
       );
     }
-
-    //resetForm();
+    setError(null);
+    resetForm();
+    resetValues();
   };
   // use Effects
 
@@ -376,32 +442,36 @@ export default function ListingEditScreen() {
           {/* Input form */}
           <AppForm
             initialValues={{
-              email: "john@mail.com",
+              email: "",
               countryCode: "+356",
-              clientPhoneNumber: "79230096",
-              title: "This is the second pool",
-              clientFirstName: "John",
-              clientLastName: "Muller",
-              clientAddressStreetOne: "Triq, 68",
-              clientAddressStreetTwo: "Had-Dingle Street",
-              clientAddressLocality: "ir-Rabat",
-              description: "some text",
+              clientPhoneNumber: "",
+              title: "",
+              clientFirstName: "",
+              clientLastName: "",
+              clientAddressStreetOne: "",
+              clientAddressStreetTwo: "",
+              clientAddressLocality: "",
+              description: "",
+              indoor: false,
+              mosaicOrTile: true,
+              poolSteps: false,
+              poolLeaking: false,
               initialDate: currentDate,
               status: false,
               images: [],
               // option pickers
-              questionTypePicker: null,
-              poolType: null,
-              poolLocation: null,
+              projectType: projectType,
+              poolType: poolType,
+              poolLocation: poolLocation,
               optionalPackages: [],
               // number of options
-              numberOfWallInlets: "1",
-              numberOfSkimmers: "1",
-              numberOfSumps: "1",
-              numberOfLights: "1",
-              spaJets: "1",
-              counterCurrent: "1",
-              vacuumPoints: "1",
+              numberOfWallInlets: "",
+              numberOfSkimmers: "",
+              numberOfSumps: "",
+              numberOfLights: "",
+              spaJets: "",
+              counterCurrent: "",
+              vacuumPoints: "",
             }}
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
@@ -456,7 +526,7 @@ export default function ListingEditScreen() {
                 name="clientPhoneNumber"
                 keyboardType="numeric"
                 textContentType="telephoneNumber"
-                placeholder="35679230096"
+                placeholder="79230096"
                 title="Phone Number"
               />
               <AppFormField
@@ -483,7 +553,7 @@ export default function ListingEditScreen() {
                 icon="map"
                 name="clientAddressStreetTwo"
                 textContentType="streetAddressLine2"
-                placeholder="Street address Line 2"
+                placeholder="optional"
                 title="Street address Line 2"
               />
               <AppFormField
@@ -496,14 +566,14 @@ export default function ListingEditScreen() {
                 title="Locality"
               />
               <FormPicker
-                data={questionTypePicker}
-                selectedItem={questionTypeSelection}
-                onItemSelect={(item) => setQuestionTypeSelection(item)}
+                data={projectTypePicker}
+                selectedItem={projectType}
+                onItemSelect={(item) => setProjectType(item)}
                 numOfColumns={3}
                 icon="progress-question"
-                placeholder="type q question"
-                title="Type a question"
-                name="questionTypePicker"
+                placeholder="Project Type"
+                title="Project type"
+                name="projectType"
               />
               <FormPicker
                 selectedItem={poolType}
@@ -526,6 +596,39 @@ export default function ListingEditScreen() {
                 name="poolLocation"
               />
 
+              <CheckBox
+                name="indoor"
+                placeholder="indoor"
+                choiceOne="Yes"
+                choiceTwo="No"
+                onPress={setPoolIndoorValue}
+                selected={indoor}
+              />
+              <CheckBox
+                name="mosaicOrTile"
+                placeholder="Mosaic or Tile"
+                choiceOne="Mosaic"
+                choiceTwo="Tile"
+                onPress={setPoolTileValue}
+                selected={poolTile}
+              />
+              <CheckBox
+                name="poolSteps"
+                placeholder="Pool Steps"
+                choiceOne="Yes"
+                choiceTwo="No"
+                onPress={setPoolStepsValue}
+                selected={poolSteps}
+              />
+              <CheckBox
+                name="poolLeaking"
+                placeholder="Pool Leaking"
+                choiceOne="Yes"
+                choiceTwo="No"
+                onPress={setPoolLeakingValue}
+                selected={poolLeaking}
+              />
+
               {/* pool calculation input  */}
               <AppFormField
                 autoCapitalize="none"
@@ -535,6 +638,7 @@ export default function ListingEditScreen() {
                 onChangeText={(lengthValue) => setPoolLength(lengthValue)}
                 placeholder="ex: 23"
                 title="pool Length"
+                value={poolLength}
               />
               <AppFormField
                 autoCapitalize="none"
@@ -544,6 +648,7 @@ export default function ListingEditScreen() {
                 onChangeText={(widthValue) => setPoolWidth(widthValue)}
                 placeholder="ex: 23"
                 title="Pool Width"
+                value={poolWidth}
               />
               <AppFormField
                 autoCapitalize="none"
@@ -553,6 +658,7 @@ export default function ListingEditScreen() {
                 onChangeText={(DepthStartValue) =>
                   setPoolDepthStart(DepthStartValue)
                 }
+                value={poolDepthStart}
                 placeholder="ex: 23"
                 title="Pool Depth Start"
               />
@@ -562,6 +668,7 @@ export default function ListingEditScreen() {
                 keyboardType="decimal-pad"
                 icon="move-resize-variant"
                 onChangeText={(depthEndValue) => setPoolDepthEnd(depthEndValue)}
+                value={poolDepthEnd}
                 placeholder="ex: 23"
                 title="Pool Depth End"
               />
@@ -573,6 +680,7 @@ export default function ListingEditScreen() {
                 onChangeText={(poolPerimeterValue) =>
                   setPoolPerimeter(poolPerimeterValue)
                 }
+                value={poolPerimeter}
                 placeholder="ex: 23"
                 title="Pool Perimeter"
               />
@@ -586,6 +694,7 @@ export default function ListingEditScreen() {
                 onChangeText={(poolCopingPerimeterValue) =>
                   setPoolCopingPerimeter(poolCopingPerimeterValue)
                 }
+                value={poolCopingPerimeter}
               />
               <AppFormField
                 autoCapitalize="none"
@@ -596,6 +705,7 @@ export default function ListingEditScreen() {
                 onChangeText={(poolBalanceTank) =>
                   setPoolBalanceTankLength(poolBalanceTank)
                 }
+                value={poolBalanceTankLength}
               />
               <AppFormField
                 autoCapitalize="none"
@@ -605,6 +715,7 @@ export default function ListingEditScreen() {
                 onChangeText={(balanceTankWidthValue) =>
                   setBalanceTankWidth(balanceTankWidthValue)
                 }
+                value={balanceTankWidth}
                 title="Balance Tank Width"
               />
               <AppFormField
@@ -615,6 +726,7 @@ export default function ListingEditScreen() {
                 onChangeText={(BalanceTankDepthValue) =>
                   setBalanceTankDepth(BalanceTankDepthValue)
                 }
+                value={balanceTankDepth}
                 title="Balance Tank Depth"
               />
               <AppFormField
@@ -625,6 +737,7 @@ export default function ListingEditScreen() {
                 onChangeText={(BalanceTankPipeValue) =>
                   setBalanceTankPipe(BalanceTankPipeValue)
                 }
+                value={balanceTankPipe}
                 title="Balance Tank Pipe"
               />
               <AppFormField
@@ -746,7 +859,7 @@ export default function ListingEditScreen() {
                   });
                 }}
                 query={{
-                  key: settings.googleApiKey,
+                  key: envKeys.googleApiKey,
                   language: "en",
                   components: "country:mt",
                   radius: "30000",
@@ -786,11 +899,12 @@ export default function ListingEditScreen() {
             />
 
             <MapView
+              ref={mapRef}
               initialRegion={{
                 latitude: 35.878173828125,
                 longitude: 14.396160663677879,
-                latitudeDelta: 0.3111922,
-                longitudeDelta: 0.45111421,
+                latitudeDelta: 0.4,
+                longitudeDelta: 0.4,
               }}
               style={styles.map}
             >
@@ -836,6 +950,11 @@ const styles = StyleSheet.create({
     zIndex: 2,
     padding: 0,
     justifyContent: "center",
+    shadowColor: "red",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 4,
   },
   mapViewBox: {
     alignItems: "center",

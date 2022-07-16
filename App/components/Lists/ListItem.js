@@ -36,9 +36,9 @@ export default function ListItem({
           )}
           {/* Text */}
           <View style={[styles.textContainer, { width: textWidth }]}>
-            <Text style={[styles.title, style]}>{title}</Text>
+            <Text style={[styles.title, style.text]}>{title}</Text>
             {subTitle && (
-              <Text style={[styles.subTitle, style]}>{subTitle}</Text>
+              <Text style={[styles.subTitle, style.text]}>{subTitle}</Text>
             )}
           </View>
         </View>

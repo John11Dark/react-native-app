@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Platform,
   StyleSheet,
@@ -50,6 +50,9 @@ export default function Card({
       ]
     );
   };
+  useEffect(() => {
+    setProjectStatus(status);
+  }, [status]);
   return (
     // card Continuer
     <TouchableWithoutFeedback onPress={onPress}>

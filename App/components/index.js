@@ -36,4 +36,5 @@ export { default as EditFiled } from "./Forms/EditFiled";
 export { default as SearchBar } from "./Lists/SearchBar";
 export { default as EditModal } from "./Forms/EditModal";
 export { default as OverlayUploadIndicator } from "./OverlayUploadIndicator";
+export { default as CheckBox } from "./Forms/CheckBox";
 export { default as File } from "./Forms/Print";
