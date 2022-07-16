@@ -33,7 +33,7 @@ const addListing = (listing, onUploadProgress) => {
   data.append("counterCurrent", listing.counterCurrent);
   data.append("vacuumPoints", listing.vacuumPoints);
   // pickers
-  data.append("projectType_ID", listing.projectType);
+  data.append("projectType", listing.projectType);
   data.append("poolType_ID", listing.poolType);
   data.append("poolLocation_ID", listing.poolLocation);
   data.append("indoor", listing.indoor);
@@ -66,7 +66,7 @@ const addListing = (listing, onUploadProgress) => {
   );
   if (listing.clientAddressStreetTwo)
     data.append("clientAddressStreetTwo", listing.clientAddressStreetTwo);
-  console.log(data);
+  console.log(listing);
   return client.post(endpoint, data, {
     onUploadProgress: ({ loaded, total }) => onUploadProgress(loaded / total),
   });

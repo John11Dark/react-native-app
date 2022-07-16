@@ -22,9 +22,10 @@ import {
   EditModal,
   UploadIndicator,
 } from "../components";
-import { customProps } from "../config";
+import { customProps, settings } from "../config";
 
 export default function UsersScreen() {
+  const assetsUrl = settings.assetsUrl;
   // hooks and states
   const navigation = useNavigation();
   const usersApi = useApi(userApi.getAll);
@@ -99,7 +100,6 @@ export default function UsersScreen() {
       setUploadVisible(false);
       setDataUploaded(false);
     }
-    console.log(values);
   }
 
   //_* Set data modal visible
@@ -148,6 +148,8 @@ export default function UsersScreen() {
     setUsers(usersApi.data);
   }, [isFocused, users]);
 
+  console.log(`${assetsUrl}maleAvatar_full.jpg`);
+  console.log(usersApi.data[0]);
   return (
     <Screen>
       <View style={{ zIndex: 5 }}>
@@ -197,7 +199,7 @@ export default function UsersScreen() {
                 imagePath={
                   item.images[0].url
                     ? item.images[0].url
-                    : "http://192.168.1.181:9000/assets/maleAvatar_full.jpg"
+                    : `${assetsUrl}maleAvatar_full.jpg`
                 }
               />
             </>

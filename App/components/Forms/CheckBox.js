@@ -12,16 +12,15 @@ const CheckBox = ({
   choiceOne,
   choiceTwo,
   selected = true,
-  enabled = true,
+  disabled = false,
 }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
-  if (!enabled) selected = values[name];
   return (
     <View style={styles.continuer}>
       <Text style={styles.title}>{placeholder}</Text>
       <View style={styles.buttonsContinuer}>
         <TouchableOpacity
-          disabled={enabled}
+          disabled={disabled}
           style={[
             styles.button,
             {
@@ -38,7 +37,7 @@ const CheckBox = ({
           <Text style={styles.text}>{choiceOne}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          disabled={enabled}
+          disabled={disabled}
           style={[
             styles.button,
             {

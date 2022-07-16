@@ -568,12 +568,12 @@ const generatePdf = (data) => {
   
           <div class="detailsBox">
             <h2 class="filedLabelBox">Pool type</h2>
-            <h3 class="filedValueBox">${data.poolType.label}</h3>
+            <h3 class="filedValueBox">${data.poolType_ID.label}</h3>
           </div>
   
           <div class="detailsBox">
             <h2 class="filedLabelBox">Pool Location</h2>
-            <h3 class="filedValueBox">${data.poolLocation.label} <br> ${
+            <h3 class="filedValueBox">${data.poolLocation_ID.label} <br> ${
     data.indoor ? "indoor" : "outdoor"
   }</h3>
           </div>

@@ -1,6 +1,5 @@
 {
   "liveServer.settings.port": 5501,
-  "cSpell.enableFiletypes": [
-    "html"
-  ]
+  "cSpell.enableFiletypes": ["html"],
+  "cSpell.words": ["Gozo"]
 }

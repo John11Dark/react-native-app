@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 
 // custom Libraries
-import customProps from "../../config/customProps";
+import { customProps, settings } from "../../config";
 import Screen from "../Screen";
 import EditFiled from "./EditFiled";
 import AppForm from "./AppForm";
@@ -29,6 +29,8 @@ export default function EditModal({
   reset,
   newAccount,
 }) {
+  const assetsUrl = settings.assetsUrl;
+
   // user input validation Schema
   const validationSchema = Yup.object().shape({
     name: Yup.string().required().min(4).max(20).label("Full Name"),
@@ -49,7 +51,7 @@ export default function EditModal({
       username: "",
       phoneNumber: "",
       password: "0123456789_MT",
-      image: ["http://192.168.1.181:9000/assets/maleAvatar_full.jpg"],
+      image: [`${assetsUrl}maleAvatar_full.jpg`],
       requestTypeApi: "post",
     };
     if (data) {
@@ -58,7 +60,9 @@ export default function EditModal({
       newData.username = data.username;
       newData.phoneNumber = data.phoneNumber;
       newData.id = data.id;
-      newData.image[0] = data.images[0].url;
+      newData.image[0] = data.images[0].url
+        ? data.images[0].url
+        : `${assetsUrl}maleAvatar_full.jpg`;
       newData.password = "";
       newData.requestTypeApi = "patch";
     }
