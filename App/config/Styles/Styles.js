@@ -145,6 +145,8 @@ const Styles = StyleSheet.create({
     fontSize: 25,
     padding: 5,
     marginBottom: 5,
+    textAlign: "center",
+    width: "100%",
     alignSelf: "flex-start",
   },
   primaryText: {

@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { customProps, Styles } from "../config";
+import Icon from "./Icon";
 
 const AppTextInput = ({
   style,
@@ -12,6 +13,8 @@ const AppTextInput = ({
   value,
   width = "100%",
   title,
+  secondIcon,
+  onSecondIconPress,
   ...otherProps
 }) => {
   return (
@@ -19,9 +22,12 @@ const AppTextInput = ({
       {title && <Text style={Styles.labelStyle}>{title}</Text>}
       <View style={[styles.container, { width }]}>
         {icon && (
-          <MaterialCommunityIcons
+          <Icon
             name={icon}
+            backgroundColor="transparent"
+            iconColor={customProps.primaryColorLightGray}
             style={[styles.icon, iconStyle]}
+            disabled={true}
           />
         )}
         <TextInput
@@ -34,6 +40,14 @@ const AppTextInput = ({
           value={value}
           {...otherProps}
         />
+        {secondIcon && (
+          <Icon
+            name={secondIcon}
+            iconColor={customProps.secondaryColor}
+            onPress={onSecondIconPress}
+            backgroundColor="transparent"
+          />
+        )}
       </View>
     </View>
   );
@@ -46,7 +60,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   icon: {
-    color: customProps.primaryColorLightGray,
     fontSize: 20,
     marginRight: 10,
   },

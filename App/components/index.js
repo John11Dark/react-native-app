@@ -37,4 +37,7 @@ export { default as SearchBar } from "./Lists/SearchBar";
 export { default as EditModal } from "./Forms/EditModal";
 export { default as OverlayUploadIndicator } from "./OverlayUploadIndicator";
 export { default as CheckBox } from "./Forms/CheckBox";
+export { default as DateTimePicker } from "./Forms/DateTimePicker";
+export { default as Map } from "./Map";
+export { default as Wrapper } from "./Forms/Wrapper";
 export { default as File } from "./Forms/Print";

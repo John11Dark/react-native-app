@@ -7,6 +7,7 @@ const routes = Object.freeze({
   LISTINGS: "Feed",
   LISTING_DETAILS: "ListingDetails",
   LISTING_EDIT: "ListingEdit",
+  LISTING_EDIT_OPTIONS: "Options",
   LOGIN: "Login",
   MESSAGES: "Messages",
   OTB_CODE: "OTBCode",

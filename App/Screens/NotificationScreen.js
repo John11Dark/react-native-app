@@ -23,39 +23,12 @@ const NotificationScreen = () => {
   }, []);
   return (
     <Screen>
-      {data ? (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          style={styles.list}
-          data={data}
-          keyExtractor={(user) => user.id.toString()}
-          renderItem={({ item }) => (
-            <ListItem
-              title={item.name === user.name ? "You" : item.name}
-              subTitle={item.role}
-              styleParameter={styles.listItem}
-              onPress={() => navigation.navigate(Routes.PROFILE, item)}
-              imagePath={
-                item.images[0].url
-                  ? item.images[0].url
-                  : "https://omnatigray.org/wp-content/uploads/2021/02/profile-placeholder.png?gid=2"
-              }
-            />
-          )}
-          ItemSeparatorComponent={ItemSeparator}
-          refreshing={loading}
-          onRefresh={() => request()}
-        />
-      ) : !error ? (
-        <Image source={require("../assets/Images/heroImages/authScreen.png")} />
-      ) : (
-        <DataLoadingError
-          imageViable
-          visible
-          text="Couldn't get users from server"
-          onPress={() => request()}
-        />
-      )}
+      <DataLoadingError
+        imageViable
+        visible={error}
+        text="could not load notifications from the server"
+        onPress={() => request()}
+      />
     </Screen>
   );
 };

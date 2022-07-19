@@ -7,6 +7,7 @@ import ErrorMessage from "./ErrorMessage";
 
 const CheckBox = ({
   name,
+  width = 120,
   placeholder,
   onPress,
   choiceOne,
@@ -27,6 +28,7 @@ const CheckBox = ({
               backgroundColor: selected
                 ? customProps.secondaryColor
                 : "transparent",
+              width,
             },
           ]}
           onPress={(value = true) => {
@@ -44,6 +46,7 @@ const CheckBox = ({
               backgroundColor: !selected
                 ? customProps.secondaryColor
                 : "transparent",
+              width,
             },
           ]}
           onPress={(value = false) => {

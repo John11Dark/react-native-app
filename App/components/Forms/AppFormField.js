@@ -10,6 +10,7 @@ export default function AppFormField({
   placeholder,
   width,
   style,
+  getValue,
   ...otherProps
 }) {
   const { errors, setFieldTouched, setFieldValue, touched, values } =
@@ -19,7 +20,10 @@ export default function AppFormField({
     <>
       <TextInput
         onBlur={() => setFieldTouched(name)}
-        onChangeText={(text) => setFieldValue(name, text)}
+        onChangeText={(text) => {
+          setFieldValue(name, text);
+          if (getValue) getValue(text);
+        }}
         icon={icon}
         placeholder={placeholder}
         value={values[name]}

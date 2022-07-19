@@ -648,13 +648,25 @@ export default function ListingDetails({ route }) {
                 poolLocation: values.poolLocation,
                 optionalPackages: [],
                 // number of options
-                numberOfWallInlets: values.numberOfWallInlets.toString(),
-                numberOfSkimmers: values.numberOfSkimmers.toString(),
-                numberOfSumps: values.numberOfSumps.toString(),
-                numberOfLights: values.numberOfLights.toString(),
-                spaJets: values.spaJets.toString(),
-                counterCurrent: values.counterCurrent.toString(),
-                vacuumPoints: values.vacuumPoints.toString(),
+                numberOfWallInlets: values.numberOfWallInlets
+                  ? values.numberOfWallInlets.toString()
+                  : "0",
+                numberOfSkimmers: values.numberOfSkimmers
+                  ? values.numberOfSkimmers.toString()
+                  : "0",
+                numberOfSumps: values.numberOfSumps
+                  ? values.numberOfSumps.toString()
+                  : "0",
+                numberOfLights: values.numberOfLights
+                  ? values.numberOfLights.toString()
+                  : "0",
+                spaJets: values.spaJets ? values.spaJets.toString() : "0",
+                counterCurrent: values.counterCurrent
+                  ? values.counterCurrent.toString()
+                  : "0",
+                vacuumPoints: values.vacuumPoints
+                  ? values.vacuumPoints.toString()
+                  : "0",
               }}
               //onSubmit={handleSubmit}
               //validationSchema={validationSchema}
@@ -783,7 +795,7 @@ export default function ListingDetails({ route }) {
                 choiceTwo="No"
                 onPress={setPoolIndoorValue}
                 selected={indoor}
-                enabled={!edit}
+                disabled={edit}
               />
               <CheckBox
                 name="mosaicOrTile"
@@ -792,7 +804,7 @@ export default function ListingDetails({ route }) {
                 choiceTwo="Tile"
                 onPress={setPoolTileValue}
                 selected={poolTile}
-                enabled={!edit}
+                disabled={edit}
               />
               <CheckBox
                 name="poolSteps"
@@ -801,7 +813,7 @@ export default function ListingDetails({ route }) {
                 choiceTwo="No"
                 onPress={setPoolStepsValue}
                 selected={poolSteps}
-                enabled={!edit}
+                disabled={edit}
               />
               <CheckBox
                 name="poolLeaking"
@@ -810,7 +822,7 @@ export default function ListingDetails({ route }) {
                 choiceTwo="No"
                 onPress={setPoolLeakingValue}
                 selected={poolLeaking}
-                enabled={!edit}
+                disabled={edit}
               />
 
               {/* pool calculation input  */}

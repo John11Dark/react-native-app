@@ -5,9 +5,17 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import { useFormikContext } from "formik";
+
+//
 import AppPicker from "../Forms/AppPicker";
 import ListItem from "../Lists/ListItem";
+import ErrorMessage from "../Forms/ErrorMessage";
+import { Styles } from "../../config";
+import addOnsData from "../../assets/Data/items";
+
 const PickerItem = ({ item, onPress, disabled }) => {
   return (
     <TouchableOpacity
@@ -22,16 +30,45 @@ const PickerItem = ({ item, onPress, disabled }) => {
   );
 };
 
-import { Styles } from "../../config";
-const ItemsListPicker = ({
-  onItemRemove,
-  onItemAdd,
-  Items,
-  data,
-  disabled = false,
-}) => {
-  const scrollViewRef = useRef(null);
+function onItemAddOnsRemove(
+  item,
+  list,
+  setList,
+  originalList,
+  setOriginalList
+) {
+  Alert.alert(`${item.label}`, "are you sure you want to Remove this Item?", [
+    {
+      text: "Yes",
+      onPress: () => {
+        setList(list.filter((category) => category.value !== item.value)),
+          setOriginalList([...originalList, item]);
+        setOriginalList(
+          originalList.sort(
+            (elementA, elementB) => elementA.value - elementB.value
+          )
+        );
+      },
+      style: "destructive",
+    },
+    { text: "Add", style: "cancel" },
+  ]);
+}
 
+function onItemAddOnsAdded(item, list, setList, originalList, setOriginalList) {
+  setList([...list, item]);
+  setOriginalList(
+    originalList.filter((category) => category.value !== item.value)
+  );
+}
+export default function ItemsListPicker({
+  data = addOnsData,
+  disabled = false,
+  name,
+}) {
+  const scrollViewRef = useRef(null);
+  const { errors, setFieldValue, touched, values } = useFormikContext();
+  const items = values[name];
   return (
     <View style={styles.containerParent}>
       <Text style={Styles.labelStyle}>Options</Text>
@@ -43,10 +80,15 @@ const ItemsListPicker = ({
           showsHorizontalScrollIndicator={false}
           style={styles.containerScroll}
         >
-          {Items.map((item, index) => (
+          {items.map((item, index) => (
             <View key={`${index}_${item}`}>
               <PickerItem
-                onPress={() => onItemRemove(item)}
+                onPress={() => {
+                  setFieldValue(
+                    name,
+                    items.filter((category) => category.value != item.value)
+                  );
+                }}
                 key={item}
                 item={item}
                 disabled={disabled}
@@ -58,15 +100,18 @@ const ItemsListPicker = ({
             width="100%"
             data={data}
             PickerItemComponent={ListItem}
-            onItemSelect={(item) => onItemAdd(item)}
+            onItemSelect={(item) => {
+              setFieldValue(name, [...items, item]);
+            }}
             iconStyle={{ marginRight: 10, top: -5 }}
             disabled={disabled}
           />
         </ScrollView>
+        <ErrorMessage visible={touched[name]} error={errors[name]} />
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   containerParent: {
@@ -114,5 +159,3 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
-
-export default ItemsListPicker;

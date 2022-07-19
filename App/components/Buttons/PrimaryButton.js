@@ -7,13 +7,16 @@ export default function PrimaryButton({
   title,
   handlePress,
   iconName,
-  width,
+  width = "90%",
   height,
   visible = true,
 }) {
   return (
     <TouchableOpacity
-      style={[styles.primaryButton, { display: visible ? "flex" : "none" }]}
+      style={[
+        styles.primaryButton,
+        { display: visible ? "flex" : "none", width },
+      ]}
       onPress={handlePress}
     >
       <Text style={styles.text}>

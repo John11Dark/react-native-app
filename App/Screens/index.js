@@ -8,6 +8,7 @@ export { default as AccountScreen } from "./AccountScreen";
 export { default as ForgotPasswordScreen } from "./ForgotPasswordScreen";
 export { default as ListingDetails } from "./ListingDetailsScreen";
 export { default as ListingEditScreen } from "./ListingsEditScreen";
+export { default as ListingEditScreenOptions } from "./ListingEditScreenOptions";
 export { default as OTBCodeScreen } from "./OTBCodeScreen";
 export { default as ArchivedScreen } from "./ArchivedScreen";
 export { default as UsersScreen } from "./UsersScreen";

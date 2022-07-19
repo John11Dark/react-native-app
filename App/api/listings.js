@@ -6,13 +6,8 @@ const endpoint = "/listings";
 
 // functions
 const addListing = (listing, onUploadProgress) => {
-  const user = {
-    name: listing.user.name,
-    id: listing.user.userId,
-    image: listing.user.images[0].url,
-  };
   const data = new FormData();
-  data.append("title", listing.title);
+  data.append("site", listing.site);
   data.append("email", listing.email);
   data.append("countryCode", listing.countryCode);
   data.append("clientPhoneNumber", listing.clientPhoneNumber);
@@ -55,7 +50,6 @@ const addListing = (listing, onUploadProgress) => {
   data.append("clientAddressStreetOne", listing.clientAddressStreetOne);
   data.append("clientAddressLocality", listing.clientAddressLocality);
   data.append("location", JSON.stringify(listing.location));
-  data.append("user", JSON.stringify(user));
 
   listing.images.forEach((image, index) =>
     data.append("images", {

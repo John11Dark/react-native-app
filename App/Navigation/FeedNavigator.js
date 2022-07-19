@@ -1,11 +1,11 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { View } from "react-native";
 
 import Routes from "./routes";
 import { FeedScreen, ListingDetails, ViewImage } from "../Screens";
 import { customProps } from "../config";
 import { Icon, File } from "../components";
-import { View } from "react-native";
 const Stack = createStackNavigator();
 
 export default function FeedNavigator() {

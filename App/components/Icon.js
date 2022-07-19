@@ -11,11 +11,13 @@ export default function Icon({
   style,
   onPress,
   disabled = false,
+  onBlur,
 }) {
   return (
     <TouchableOpacity
       disabled={disabled}
       onPress={onPress}
+      onBlur={onBlur}
       style={[
         {
           backgroundColor: backgroundColor,

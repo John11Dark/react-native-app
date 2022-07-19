@@ -1,1022 +1,468 @@
 // Third parties libraries
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Alert,
-} from "react-native";
-//import DateTimePicker from "@react-native-community/datetimepicker";
-import MapView, { Callout, Marker } from "react-native-maps";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import * as Yup from "yup";
-import * as Location from "expo-location";
+import { useNavigation } from "@react-navigation/native";
 
 // Project components  and configurations
 import {
   AppForm,
   AppFormField,
   FormPicker,
-  FormImagePicker,
-  Screen,
   SubmitButton,
-  UploadIndicator,
-  Icon,
-  ItemsListPicker,
   ErrorMessage,
   CheckBox,
+  Map,
+  Wrapper,
+  DateTimePicker,
 } from "../components/";
-
-import { envKeys, Styles } from "../config";
-import listingsApi from "../api/listings";
-import { useAuth, useLocation } from "../hooks";
-import addOnsData from "../assets/Data/items";
-// Variables
-
-const validationSchema = Yup.object().shape({
-  description: Yup.string().label("Description"),
-  title: Yup.string().required().min(15).label("Title"),
-  images: Yup.array()
-    .min(1, "Please select at least on image")
-    .max(3, "The maximum is three images"),
-  clientPhoneNumber: Yup.number()
-    .required()
-    .min(8)
-    .label("client phone number"),
-  clientFirstName: Yup.string().required().label("client first name"),
-  clientLastName: Yup.string().required().label("client last name"),
-  clientAddressStreetOne: Yup.string().required().label("Street One"),
-  clientAddressLocality: Yup.string().required().label("Locality"),
-  email: Yup.string().required().email().min(10).label("Email"),
-  initialDate: Yup.date().required().label("Created date"),
-  projectType: Yup.object().required().label("Project type"),
-  poolType: Yup.object().required().label("pool Type"),
-  poolLocation: Yup.object().required().label("pool Location"),
-  poolLeaking: Yup.boolean().required().label("Pool Leaking"),
-  indoor: Yup.boolean().required().label("Pool Location"),
-  poolSteps: Yup.boolean().required().label("Pool Steps"),
-});
-
-const projectTypePicker = [
-  {
-    label: "New Pool",
-    value: 1,
-    icon: "pool",
-    backgroundColor: "#BEB3AD",
-  },
-  { label: "Domestic", value: 2, icon: "home", backgroundColor: "#3f5a6f" },
-  { label: "Spa", value: 3, icon: "spa", backgroundColor: "#55bbda" },
-  {
-    label: "Commercial",
-    value: 4,
-    icon: "currency-eur",
-    backgroundColor: "#ea552b",
-  },
-  {
-    label: "Commercial",
-    value: 5,
-    icon: "update",
-    backgroundColor: "#B5C273",
-  },
-  {
-    label: "Other",
-    name: "Other",
-    value: 4,
-    icon: "progress-question",
-    backgroundColor: "#613224",
-  },
-];
-
-const poolTypePicker = [
-  {
-    label: "Skimmer",
-    value: 1,
-    icon: "align-vertical-bottom",
-    backgroundColor: "#55bbda",
-  },
-  {
-    label: "OverFlow",
-    value: 2,
-    icon: "overscan",
-    backgroundColor: "#ea552b",
-  },
-  {
-    label: "Well",
-    value: 3,
-    icon: "update",
-    backgroundColor: "#B5C273",
-  },
-  {
-    label: "Balance Tank",
-    value: 4,
-    icon: "scale-balance",
-    backgroundColor: "#BEB3AD",
-  },
-  {
-    label: "Other",
-    name: "Other",
-    value: 4,
-    icon: "progress-question",
-    backgroundColor: "#613224",
-  },
-];
-
-const PoolLocationPicker = [
-  {
-    label: "in-Ground",
-    value: 1,
-    icon: "floor-plan",
-    backgroundColor: "#55bbda",
-  },
-  {
-    label: "RoofTop",
-    value: 2,
-    icon: "home-roof",
-    backgroundColor: "#ea552b",
-  },
-  {
-    label: "AboveGround",
-    value: 3,
-    icon: "grass",
-    backgroundColor: "#B5C273",
-  },
-  {
-    label: "Other",
-    name: "Other",
-    value: 4,
-    icon: "progress-question",
-    backgroundColor: "#613224",
-  },
-];
-// get the current date
-let today = new Date();
-let currentDate = `${today.getFullYear()}/${
-  today.getMonth() +
-  1 /*get month works with zero index thats why i added one on month */
-}/${today.getDate()}`;
-let currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+import { Styles } from "../config";
+import { useAuth } from "../hooks";
+import listingData from "./listingData";
+import Functions from "./Functions/Functions";
 
 export default function ListingEditScreen() {
-  // Hooks and  states
-
-  // App States
-  const [progress, setProgress] = useState();
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [animationFinish, setAnimationFinish] = useState(false);
-  const [dataUploaded, setDataUploaded] = useState(false);
-  const { user } = useAuth();
-
-  // location state
-  const [location] = useLocation();
-  const [pin, setPin] = useState({
-    latitude: 35.89099722016769,
-    longitude: 14.461754106055244,
+  const validationSchema = Yup.object().shape({
+    site: Yup.string().required().min(15).label("Title"),
+    clientPhoneNumber: Yup.number()
+      .required()
+      .min(8)
+      .label("client phone number"),
+    clientFirstName: Yup.string().required().label("client first name"),
+    clientLastName: Yup.string().required().label("client last name"),
+    clientAddressStreetOne: Yup.string().required().label("Street One"),
+    clientAddressLocality: Yup.string().required().label("Locality"),
+    email: Yup.string().required().email().min(10).label("Email"),
+    initialDate: Yup.date().required().label("initial date"),
+    tileType: Yup.object().required().label("Tile type"),
+    projectType: Yup.object().required().label("Project Type"),
+    poolLocation: Yup.object().required().label("Pool Location"),
+    poolLength: Yup.number().required().label("Pool Length"),
+    poolWidth: Yup.number().required().label("Pool Width"),
+    poolDepthEnd: Yup.number().required().label("Pool Depth End"),
+    poolDepthStart: Yup.number().required().label("Pool Depth Start"),
+    poolVolume: Yup.number().required().label("Pool Volume"),
+    balanceTankLength: Yup.lazy(() => {
+      if (!poolType) {
+        return Yup.number().required().label("Balance Tank Length");
+      }
+      return Yup.number().notRequired().label("Balance Tank Length");
+    }),
+    balanceTankWidth: Yup.lazy(() => {
+      if (!poolType) {
+        return Yup.number().required().label("Balance Tank Width");
+      }
+      return Yup.number().notRequired().label("Balance Tank Width");
+    }),
+    balanceTankDepth: Yup.lazy(() => {
+      if (!poolType) {
+        return Yup.number().required().label("Balance Tank Depth");
+      }
+      return Yup.number().notRequired().label("Balance Tank Depth");
+    }),
+    balanceTankVolume: Yup.lazy(() => {
+      if (!poolType) {
+        return Yup.number().required().label("Balance Tank Volume");
+      }
+      return Yup.number().notRequired().label("Balance Tank Volume");
+    }),
   });
+  // Variables
+  const { projectTypeOptions, poolLocationOptions, tileOptions } = listingData;
+  const { calculatePoolVolume } = Functions;
+  // Hooks
+  const [location, setLocation] = useState(null);
+  const { user } = useAuth();
+  const navigation = useNavigation();
+  // States
 
-  /// options
-  const [numberOfWallInlets, setNumberOfWallInlets] = useState("");
-  const [numberOfSumps, setNumberOfSumps] = useState("");
-  const [numberOfSkimmers, setNumberOfSkimmers] = useState("");
-  const [numberOfLights, setNumberOfLights] = useState("");
-  const [spaJets, setSpaJets] = useState("");
-  const [counterCurrent, setCounterCurrent] = useState("");
-  const [vacuumPoints, setVacuumPoints] = useState("");
+  ///*--> Application states
+  const [error, setError] = useState(null);
 
-  // pool values state
-  const [poolBalanceTankLength, setPoolBalanceTankLength] = useState("");
-  const [poolCopingPerimeter, setPoolCopingPerimeter] = useState("");
+  ///*--> Picker states
+  const [projectType, setProjectType] = useState(projectTypeOptions[0]);
+  const [poolLocation, setPoolLocation] = useState(poolLocationOptions[0]);
+  const [poolTile, setPoolTile] = useState(tileOptions[0]);
+
+  ///*--> Pool required options states
+  const [poolType, setPoolType] = useState(true);
+  const [poolSteps, setPoolSteps] = useState(false);
+  const [quotationType, setQuotationType] = useState(true);
+  const [indoor, setIndoor] = useState(false);
+  const [poolLeaking, setPoolLeaking] = useState(false);
+  const [isNewPool, setIsNewPool] = useState(true);
+
+  ///*--> Pool Parameters
   const [poolPerimeter, setPoolPerimeter] = useState("");
+  const [poolCopingPerimeter, setPoolCopingPerimeter] = useState("");
+
+  ///*--> Pool parameters states
   const [poolLength, setPoolLength] = useState("");
   const [poolWidth, setPoolWidth] = useState("");
   const [poolDepthStart, setPoolDepthStart] = useState("");
   const [poolDepthEnd, setPoolDepthEnd] = useState("");
+  const [poolVolume, setPoolVolume] = useState(0);
+
+  ///*--> balance tank parameters states
+  const [poolBalanceTankLength, setPoolBalanceTankLength] = useState("");
   const [balanceTankWidth, setBalanceTankWidth] = useState("");
   const [balanceTankDepth, setBalanceTankDepth] = useState("");
-  const [balanceTankPipe, setBalanceTankPipe] = useState("");
-  const [poolVolume, setPoolVolume] = useState(0);
-  const poolValues = {
-    poolLength: poolLength,
-    poolWidth: poolWidth,
-    poolDepthEnd: poolDepthEnd,
-    poolDepthStart: poolDepthStart,
-    poolPerimeter: poolPerimeter,
-    copingPerimeter: poolCopingPerimeter,
-    balanceLength: poolBalanceTankLength,
-    poolVolume: poolVolume,
-    balanceTankWidth: balanceTankWidth,
-    balanceTankDepth: balanceTankDepth,
-    balanceTankPipe: balanceTankPipe,
-    poolVolume: poolVolume,
-  };
-  /// picker states
-  const [projectType, setProjectType] = useState(projectTypePicker[0]);
-  const [poolType, setPoolType] = useState(poolTypePicker[0]);
-  const [poolLocation, setPoolLocation] = useState(PoolLocationPicker[0]);
-  const [ItemsAddOnsListValue, setItemsAddOnsListValue] = useState(addOnsData);
-  const [ItemsAddOnsSelectedValue, setItemsAddOnsSelectedValue] = useState([]);
-  const [error, setError] = useState(null);
-  const mapRef = useRef(null);
-  const [poolSteps, setPoolSteps] = useState(false);
-  const [poolTile, setPoolTile] = useState(true);
-  const [indoor, setIndoor] = useState(false);
-  const [poolLeaking, setPoolLeaking] = useState(false);
+  const [balanceTankVolume, setBalanceTankVolume] = useState(0);
 
-  const setTitle = "first location";
-
-  // Functions
-  const setPoolStepsValue = (value) => {
-    setPoolSteps(value);
-  };
-  const setPoolTileValue = (value) => {
-    setPoolTile(value);
-  };
-  const setPoolIndoorValue = (value) => {
-    setIndoor(value);
-  };
-  const setPoolLeakingValue = (value) => {
-    setPoolLeaking(value);
-  };
-  // Calculate Pool Volume Function
-  const parseInput = (number) => {
-    number = parseFloat(number);
-    if (isNaN(number)) number = 0;
-    return number;
-  };
-  const calculatePoolVolume = (
-    width = 0,
-    Length = 0,
-    DepthStart = 0,
-    balanceTank,
-    PoolType = 1
-  ) => {
-    Length = parseInput(DepthStart);
-    width = parseInput(DepthStart);
-    DepthStart = parseInput(DepthStart);
-
-    let Volume = Length * width * DepthStart;
-    if (poolType === 2 || poolType === "OVERFLOW") {
-      balanceTank = parseInput(balanceTank);
-      if (!balanceTank === 0) {
-        balanceTank = Volume * 0.2;
-      }
-      Volume = Volume + balanceTank;
-    } else if (poolType === 3 || poolType === "SKIMMER.Other") {
-      Walls = (Length + width) * 2 * 1.3 * 1.1;
-      Floor = Length * width;
-      totalSize = Walls + Floor;
-      priceOF = 25.8;
-      totalPrice = totalSize * priceOF;
-      extraPrice = 350.0;
-      finalPrice = totalPrice + extraPrice;
-    } else if (poolType === 4 || poolType === "OVERFLOW.Other") {
-      Walls = (Length + width) * 2 * 1.3 * 1.1;
-      Floor = Length * width;
-      totalSize = Walls + Floor;
-      priceOF = 25.8;
-      totalPrice = totalSize * priceOF;
-      extraPrice = 350.0;
-      extraSize = 2;
-      pipeSize = width + Length + extraSize;
-      pipePrice = 40;
-      finalPrice = pipeSize + pipePrice + totalPrice + extraPrice;
-    }
-    return Volume;
-  };
-
-  // set location function
-  const setLocation = async () => {
-    try {
-      const { granted } = await Location.requestForegroundPermissionsAsync();
-      if (!granted) return;
-
-      const {
-        coords: { latitude, longitude },
-      } = await Location.getCurrentPositionAsync();
-
-      setPin({ latitude, longitude, latitudeDelta: 0.3, longitudeDelta: 0.3 });
-      const camera = await mapRef.current?.getCamera();
-      if (camera) {
-        camera.center = pin;
-        mapRef.current.animateCamera(camera, { duration: 1000 });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // options list functions
-
-  const onItemAddOnsRemove = (item) => {
-    Alert.alert("Remove Item", "Are you sure you want to Remove this Item?", [
-      {
-        text: "Yes",
-        onPress: () => {
-          setItemsAddOnsSelectedValue(
-            ItemsAddOnsSelectedValue.filter(
-              (category) => category.value !== item.value
-            )
-          ),
-            setItemsAddOnsListValue([...ItemsAddOnsListValue, item]);
-          setItemsAddOnsListValue(
-            ItemsAddOnsListValue.sort(
-              (elementA, elementB) => elementA.value - elementB.value
-            )
-          );
-        },
-        style: "destructive",
-      },
-      { text: "No", style: "cancel" },
-    ]);
-  };
-
-  const onItemAddOnsAdded = (item) => {
-    setItemsAddOnsSelectedValue([...ItemsAddOnsSelectedValue, item]);
-    setItemsAddOnsListValue(
-      ItemsAddOnsListValue.filter((category) => category.value !== item.value)
-    );
-  };
-  const resetValues = () => {
-    setPoolBalanceTankLength("");
-    setPoolCopingPerimeter("");
-    setPoolPerimeter("");
-    setPoolLength("");
-    setPoolWidth("");
-    setPoolDepthStart("");
-    setPoolDepthEnd("");
-    setBalanceTankWidth("");
-    setBalanceTankDepth("");
-    setBalanceTankPipe("");
-    setPoolVolume("");
-  };
   // submit function
-  const handleSubmit = async (values, { resetForm }) => {
-    for (const [key, value] of Object.entries(poolValues)) {
-      if (value.length == 0) {
-        setError(`${key} is required`);
-        return Alert.alert(
-          "required",
-          "Please make sure that all fields are filled"
-        );
-      }
-    }
-    // if (Object(ItemsAddOnsSelectedValue).length === 0) {
-    //   return Alert.alert("Recommended", "you can select extra options", [{
-    //     text : "yes",
-    //     onPress : () =>{
 
-    //     }
-    //   }]);
-    // }
-    setProgress(0);
-    setUploadVisible(true);
-    const data = {
-      ...values,
-      location,
-      ...poolValues,
-      poolVolume: poolVolume,
-      user: user,
-    };
-    const response = await listingsApi.addListing(data, (value) =>
-      setProgress(value)
-    );
-    setDataUploaded(true);
-
-    if (!response.ok) {
-      setUploadVisible(false);
-      setError(response.data.error);
-      return alert(
-        `Could not save ${values.title}.\nPlease try again an check that you have inserted all values correctly`
-      );
-    }
+  const handleSubmit = (values) => {
+    values.poolVolume = poolVolume.toString();
+    values.balanceTankVolume = balanceTankVolume.toString();
+    values.location = location;
     setError(null);
-    resetForm();
-    resetValues();
+    navigation.navigate("Options", values);
   };
-  // use Effects
 
-  // Submit Effect
-  useEffect(() => {
-    if (dataUploaded && animationFinish) {
-      setAnimationFinish(false);
-      setDataUploaded(false);
-      setUploadVisible(false);
-    }
-  }, [dataUploaded, animationFinish]);
-
-  // Location Effect
-  useEffect(() => {
-    if (location) {
-      setPin(location);
-    }
-  }, [location]);
   useEffect(() => {
     setPoolVolume(calculatePoolVolume(poolLength, poolWidth, poolDepthStart));
-  }, [
-    poolWidth,
-    poolDepthStart,
-    poolLength,
-    poolDepthEnd,
-    poolPerimeter,
-    poolCopingPerimeter,
-    poolBalanceTankLength,
-    balanceTankWidth,
-    balanceTankDepth,
-    balanceTankPipe,
-  ]);
+  }, [poolWidth, poolLength, poolDepthStart, poolDepthEnd]);
 
+  useEffect(() => {
+    setBalanceTankVolume(
+      calculatePoolVolume(poolLength, poolWidth, poolDepthStart)
+    );
+  }, [poolBalanceTankLength, balanceTankWidth, balanceTankDepth]);
   return (
-    <Screen style={styles.marginBottom}>
-      <KeyboardAvoidingView keyboardVerticalOffset={50} behavior={"padding"}>
-        <ScrollView>
-          {/* upload animation */}
-          <UploadIndicator
-            progress={progress}
-            visible={uploadVisible}
-            onFinish={() => {
-              setAnimationFinish(true);
-            }}
+    <Wrapper>
+      <AppForm
+        initialValues={{
+          site: "",
+          clientFirstName: "",
+          clientLastName: "",
+          clientAddressStreetOne: "",
+          clientAddressStreetTwo: "",
+          clientAddressLocality: "",
+          clientPhoneNumber: "",
+          countryCode: "+356",
+          email: "",
+          initialDate: new Date().toDateString(),
+          // pickers
+          projectType: projectType,
+          poolLocation: poolLocation,
+          tileType: poolTile,
+          // required options
+          poolType: true,
+          poolSteps: false,
+          quotationType: false,
+          indoor: false,
+          poolLeaking: false,
+          isNewPool: true,
+          poolLength: "",
+          poolWidth: "",
+          poolDepthEnd: "",
+          poolDepthStart: "",
+          balanceTankLength: "",
+          balanceTankWidth: "",
+          balanceTankDepth: "",
+          poolVolume: poolVolume.toString(),
+          balanceTankVolume: balanceTankVolume.toString(),
+          status: false,
+          user: {
+            name: user.name,
+            id: user.userId,
+            role: user.role,
+            image: user.images[0].url,
+          },
+        }}
+        onSubmit={handleSubmit}
+        //validationSchema={validationSchema}
+      >
+        <Text style={Styles.secondaryTextHeroSection}>Quotation 📜 </Text>
+
+        <View style={Styles.inputContinuer}>
+          {/*
+           *--> Project details
+           */}
+
+          <AppFormField
+            name="site"
+            title={"Site"}
+            placeholder="Site"
+            icon={"format-title"}
+            autoCapitalize="words"
+            autoCorrect={false}
           />
-          {/* Input form */}
-          <AppForm
-            initialValues={{
-              email: "",
-              countryCode: "+356",
-              clientPhoneNumber: "",
-              title: "",
-              clientFirstName: "",
-              clientLastName: "",
-              clientAddressStreetOne: "",
-              clientAddressStreetTwo: "",
-              clientAddressLocality: "",
-              description: "",
-              indoor: false,
-              mosaicOrTile: true,
-              poolSteps: false,
-              poolLeaking: false,
-              initialDate: currentDate,
-              status: false,
-              images: [],
-              // option pickers
-              projectType: projectType,
-              poolType: poolType,
-              poolLocation: poolLocation,
-              optionalPackages: [],
-              // number of options
-              numberOfWallInlets: "",
-              numberOfSkimmers: "",
-              numberOfSumps: "",
-              numberOfLights: "",
-              spaJets: "",
-              counterCurrent: "",
-              vacuumPoints: "",
-            }}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}
-          >
-            <FormImagePicker maxLength={3} name="images" />
-            <Text style={Styles.secondaryTextHeroSection}>Quotation 📜 </Text>
 
-            <View style={Styles.inputContinuer}>
-              <AppFormField
-                autoCapitalize="words"
-                autoCorrect={false}
-                name="title"
-                placeholder="Title"
-                width={"100%"}
-                title={"Title"}
-                icon={"format-title"}
-              />
-              <AppFormField
-                autoCapitalize="words"
-                autoCorrect={false}
-                name="clientFirstName"
-                placeholder="First Name"
-                width={"100%"}
-                title={"First Name"}
-                textContentType="name"
-                icon={"account-box"}
-              />
-              <AppFormField
-                autoCapitalize="words"
-                autoCorrect={false}
-                name="clientLastName"
-                placeholder="Last Name"
-                width={"100%"}
-                textContentType="name"
-                title={"Last Name"}
-                icon={"account-box"}
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="email"
-                keyboardType="email-address"
-                name="email"
-                textContentType="emailAddress"
-                placeholder="Email"
-                title="Email Address"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="cellphone"
-                name="clientPhoneNumber"
-                keyboardType="numeric"
-                textContentType="telephoneNumber"
-                placeholder="79230096"
-                title="Phone Number"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="calendar"
-                name="initialDate"
-                keyboardType="numeric"
-                placeholder={currentDate}
-                title="Initial Date"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="map"
-                name="clientAddressStreetOne"
-                textContentType="streetAddressLine1"
-                placeholder="Street Address"
-                title="Street Address "
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="map"
-                name="clientAddressStreetTwo"
-                textContentType="streetAddressLine2"
-                placeholder="optional"
-                title="Street address Line 2"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                icon="map"
-                name="clientAddressLocality"
-                textContentType="addressCity"
-                placeholder="Locality"
-                title="Locality"
-              />
-              <FormPicker
-                data={projectTypePicker}
-                selectedItem={projectType}
-                onItemSelect={(item) => setProjectType(item)}
-                numOfColumns={3}
-                icon="progress-question"
-                placeholder="Project Type"
-                title="Project type"
-                name="projectType"
-              />
-              <FormPicker
-                selectedItem={poolType}
-                onItemSelect={(item) => setPoolType(item)}
-                data={poolTypePicker}
-                numOfColumns={3}
-                icon="progress-question"
-                placeholder="Pool Type"
-                title="Pool Type"
-                name="poolType"
-              />
-              <FormPicker
-                selectedItem={poolLocation}
-                onItemSelect={(item) => setPoolLocation(item)}
-                data={PoolLocationPicker}
-                numOfColumns={3}
-                icon="crosshairs-question"
-                placeholder="Pool Location"
-                title="Pool Location"
-                name="poolLocation"
-              />
+          <AppFormField
+            name="clientFirstName"
+            placeholder="First Name"
+            title={"First Name"}
+            icon={"account-box"}
+            autoCapitalize="words"
+            textContentType="name"
+            autoCorrect={false}
+          />
 
-              <CheckBox
-                name="indoor"
-                placeholder="indoor"
-                choiceOne="Yes"
-                choiceTwo="No"
-                onPress={setPoolIndoorValue}
-                selected={indoor}
-              />
-              <CheckBox
-                name="mosaicOrTile"
-                placeholder="Mosaic or Tile"
-                choiceOne="Mosaic"
-                choiceTwo="Tile"
-                onPress={setPoolTileValue}
-                selected={poolTile}
-              />
-              <CheckBox
-                name="poolSteps"
-                placeholder="Pool Steps"
-                choiceOne="Yes"
-                choiceTwo="No"
-                onPress={setPoolStepsValue}
-                selected={poolSteps}
-              />
+          <AppFormField
+            name="clientLastName"
+            placeholder="Last Name"
+            title={"Last Name"}
+            icon={"account-box"}
+            autoCapitalize="words"
+            autoCorrect={false}
+            textContentType="name"
+          />
+
+          <AppFormField
+            name="email"
+            title="Email Address"
+            placeholder="Email"
+            icon="email"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            textContentType="emailAddress"
+          />
+
+          <AppFormField
+            name="clientPhoneNumber"
+            icon="cellphone"
+            title="Phone Number"
+            placeholder="79230096"
+            keyboardType="numeric"
+            textContentType="telephoneNumber"
+            autoCapitalize="none"
+            maxLength={8}
+            autoCorrect={false}
+          />
+
+          <AppFormField
+            name="clientAddressStreetOne"
+            icon="map"
+            placeholder="Street Address"
+            title="Street Address "
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="streetAddressLine1"
+          />
+
+          <AppFormField
+            name="clientAddressStreetTwo"
+            icon="map"
+            title="Street address Line 2"
+            placeholder="optional"
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="streetAddressLine2"
+          />
+
+          <AppFormField
+            name="clientAddressLocality"
+            placeholder="Locality"
+            title="Locality"
+            icon="map"
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="addressCity"
+          />
+
+          <DateTimePicker name="initialDate" />
+
+          {/*
+           *--> pool required options
+           */}
+
+          <CheckBox
+            name="isNewPool"
+            placeholder="New Pool"
+            choiceOne="Yes"
+            choiceTwo="No"
+            //choiceOne="New"
+            //choiceTwo="Refurbishment"
+            onPress={(value) => setIsNewPool(value)}
+            selected={isNewPool}
+          />
+
+          <CheckBox
+            name="quotationType"
+            placeholder="Quotation Type"
+            choiceOne="Domestic"
+            choiceTwo="Commercial"
+            width={160}
+            onPress={(value) => setQuotationType(value)}
+            selected={quotationType}
+          />
+
+          <FormPicker
+            name="projectType"
+            icon="progress-question"
+            placeholder="Project Type"
+            title="Project type"
+            data={projectTypeOptions}
+            selectedItem={projectType}
+            onItemSelect={(item) => setProjectType(item)}
+            numOfColumns={3}
+          />
+
+          <FormPicker
+            name="poolLocation"
+            icon="progress-question"
+            placeholder="Pool Location"
+            title="Pool Location"
+            selectedItem={poolLocation}
+            onItemSelect={(item) => setPoolLocation(item)}
+            numOfColumns={3}
+            data={poolLocationOptions}
+          />
+
+          <FormPicker
+            name="tileType"
+            icon="progress-question"
+            placeholder="Tile Type"
+            title="Tile Type"
+            selectedItem={poolTile}
+            onItemSelect={(item) => setPoolTile(item)}
+            numOfColumns={3}
+            data={tileOptions}
+          />
+
+          <CheckBox
+            name="indoor"
+            placeholder="indoor"
+            choiceOne="Yes"
+            choiceTwo="No"
+            onPress={(value) => setIndoor(value)}
+            selected={indoor}
+            disabled={false}
+          />
+
+          <CheckBox
+            name="poolSteps"
+            placeholder="Pool Steps"
+            choiceOne="Yes"
+            choiceTwo="No"
+            onPress={(value) => setPoolSteps(value)}
+            selected={poolSteps}
+          />
+
+          <CheckBox
+            name="poolType"
+            placeholder="Pool Type"
+            choiceOne="Skimmer"
+            choiceTwo="OverFlow"
+            width={160}
+            onPress={(value) => setPoolType(value)}
+            selected={poolType}
+          />
+
+          {/*
+           *-->  Pool parameters
+           */}
+
+          <AppFormField
+            name="poolLength"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            getValue={(value) => setPoolLength(value)}
+            placeholder="ex: 23"
+            title="pool Length"
+          />
+
+          <AppFormField
+            name="poolWidth"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="ex: 23"
+            title="Pool Width"
+            getValue={(value) => setPoolWidth(value)}
+          />
+
+          <AppFormField
+            name="poolDepthStart"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            getValue={(value) => setPoolDepthStart(value)}
+            placeholder="ex: 23"
+            title="Pool Depth Start"
+          />
+
+          <AppFormField
+            name="poolDepthEnd"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            getValue={(value) => setPoolDepthEnd(value)}
+            placeholder="ex: 23"
+            title="Pool Depth End"
+          />
+
+          <AppFormField
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            value={poolVolume.toString()}
+            title="Pool Volume"
+          />
+          {/*
+            *--> Balance Tank Parameters
+            if poolType === "Overflow"?    
+          */}
+          {!poolType && (
+            <View style={{ width: "100%" }}>
               <CheckBox
                 name="poolLeaking"
                 placeholder="Pool Leaking"
                 choiceOne="Yes"
                 choiceTwo="No"
-                onPress={setPoolLeakingValue}
+                onPress={setPoolLeaking}
                 selected={poolLeaking}
               />
-
-              {/* pool calculation input  */}
               <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                onChangeText={(lengthValue) => setPoolLength(lengthValue)}
-                placeholder="ex: 23"
-                title="pool Length"
-                value={poolLength}
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                onChangeText={(widthValue) => setPoolWidth(widthValue)}
-                placeholder="ex: 23"
-                title="Pool Width"
-                value={poolWidth}
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                onChangeText={(DepthStartValue) =>
-                  setPoolDepthStart(DepthStartValue)
-                }
-                value={poolDepthStart}
-                placeholder="ex: 23"
-                title="Pool Depth Start"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                onChangeText={(depthEndValue) => setPoolDepthEnd(depthEndValue)}
-                value={poolDepthEnd}
-                placeholder="ex: 23"
-                title="Pool Depth End"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                onChangeText={(poolPerimeterValue) =>
-                  setPoolPerimeter(poolPerimeterValue)
-                }
-                value={poolPerimeter}
-                placeholder="ex: 23"
-                title="Pool Perimeter"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                title="Coping Perimeter"
-                onChangeText={(poolCopingPerimeterValue) =>
-                  setPoolCopingPerimeter(poolCopingPerimeterValue)
-                }
-                value={poolCopingPerimeter}
-              />
-              <AppFormField
+                name="balanceTankLength"
                 autoCapitalize="none"
                 keyboardType="decimal-pad"
                 icon="move-resize-variant"
                 placeholder="ex: 23"
                 title="Balance Tank Length"
-                onChangeText={(poolBalanceTank) =>
-                  setPoolBalanceTankLength(poolBalanceTank)
-                }
-                value={poolBalanceTankLength}
+                getValue={(value) => setPoolBalanceTankLength(value)}
               />
               <AppFormField
+                name="balanceTankWidth"
                 autoCapitalize="none"
                 keyboardType="decimal-pad"
                 icon="move-resize-variant"
                 placeholder="ex: 23"
-                onChangeText={(balanceTankWidthValue) =>
-                  setBalanceTankWidth(balanceTankWidthValue)
-                }
-                value={balanceTankWidth}
                 title="Balance Tank Width"
+                getValue={(value) => setBalanceTankWidth(value)}
               />
               <AppFormField
+                name="balanceTankDepth"
                 autoCapitalize="none"
                 keyboardType="decimal-pad"
                 icon="move-resize-variant"
                 placeholder="ex: 23"
-                onChangeText={(BalanceTankDepthValue) =>
-                  setBalanceTankDepth(BalanceTankDepthValue)
-                }
-                value={balanceTankDepth}
                 title="Balance Tank Depth"
+                getValue={(value) => setBalanceTankDepth(value)}
               />
               <AppFormField
+                name="balanceTankVolume"
                 autoCapitalize="none"
                 keyboardType="decimal-pad"
                 icon="move-resize-variant"
-                placeholder="ex: 23"
-                onChangeText={(BalanceTankPipeValue) =>
-                  setBalanceTankPipe(BalanceTankPipeValue)
-                }
-                value={balanceTankPipe}
-                title="Balance Tank Pipe"
+                defaultValue={balanceTankVolume.toString()}
+                title="Balance Tank Volume"
+                getValue={(value) => setBalanceTankVolume(value)}
               />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="numberOfWallInlets"
-                title="No. of Wall inlets"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="numberOfSumps"
-                title="No. of Sumps"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="numberOfSkimmers"
-                title="No. of skimmers"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="numberOfLights"
-                title="No. of Lights"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="spaJets"
-                title="No. of Spa Jets"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="counterCurrent"
-                title="Counter Current"
-              />
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                name="vacuumPoints"
-                title="Vacuum points"
-              />
-
-              <AppFormField
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                onChangeText={(volumeValue) => {
-                  setPoolVolume(volumeValue);
-                }}
-                defaultValue={poolVolume.toString()}
-                title="Pool Volume"
-              />
-
-              <AppFormField
-                autoCapitalize="sentences"
-                autoCorrect
-                name="description"
-                placeholder="Type a description or extra remarks"
-                title="Description"
-                numberOfLines={5}
-                multiline
-              />
-
-              <ItemsListPicker
-                name="optionalPackages"
-                data={ItemsAddOnsListValue}
-                onItemRemove={onItemAddOnsRemove}
-                onItemAdd={onItemAddOnsAdded}
-                Items={ItemsAddOnsSelectedValue}
-              />
-              <ErrorMessage visible={error} error={error} />
-              <SubmitButton title={"POST"} iconName={"post"} />
             </View>
-          </AppForm>
-          {/* Map view */}
-          <View style={styles.mapViewBox}>
-            <ScrollView
-              horizontal
-              style={{
-                flex: 0,
-                position: "absolute",
-                top: 20,
-                width: "95%",
-                zIndex: 1,
-                backgroundColor: Styles.colors.darkCardBackgroundColor,
-                borderRadius: 10,
-              }}
-            >
-              <GooglePlacesAutocomplete
-                placeholder="search"
-                GooglePlacesSearchQuery={{
-                  rankby: "distance",
-                }}
-                fetchDetails={true}
-                onPress={(data, details = null) => {
-                  console.log("first");
-                  setPin({
-                    latitude: details.geometry.location.lat,
-                    longitude: details.geometry.location.lng,
-                    latitudeDelta: 0.5,
-                    longitudeDelta: 0.5,
-                  });
-                }}
-                query={{
-                  key: envKeys.googleApiKey,
-                  language: "en",
-                  components: "country:mt",
-                  radius: "30000",
-                  location: pin,
-                }}
-                bounce={300}
-                maxLength={3}
-                styles={{
-                  container: {
-                    width: "100%",
-                    borderRadius: 10,
-                    height: 50,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    alignContent: "center",
-                  },
-                  textInput: {
-                    backgroundColor: Styles.colors.darkCardBackgroundColor,
-                    color: Styles.colors.primaryColorLight,
-                    ...Styles.colors.font,
-                    width: "100%",
-                    height: "100%",
-                    minWidth: 365,
-                    fontSize: 18,
-                  },
-                }}
-              />
-            </ScrollView>
-
-            <Icon
-              name="map-marker-alert"
-              backgroundColor={Styles.colors.secondaryColor}
-              style={styles.mapMarker}
-              innerSize={30}
-              size={40}
-              onPress={setLocation}
-            />
-
-            <MapView
-              ref={mapRef}
-              initialRegion={{
-                latitude: 35.878173828125,
-                longitude: 14.396160663677879,
-                latitudeDelta: 0.4,
-                longitudeDelta: 0.4,
-              }}
-              style={styles.map}
-            >
-              {true && (
-                <Marker
-                  coordinate={pin}
-                  pinColor={Styles.colors.secondaryColor}
-                  draggable={true}
-                  onDragEnd={(event) => {
-                    setPin({
-                      latitude: event.nativeEvent.coordinate.latitude,
-                      longitude: event.nativeEvent.coordinate.longitude,
-                    });
-                  }}
-                >
-                  <Callout>
-                    <Text>{setTitle}</Text>
-                  </Callout>
-                </Marker>
-              )}
-            </MapView>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </Screen>
+          )}
+          <ErrorMessage visible={error} error={error} />
+        </View>
+        <SubmitButton title={"Next"} iconName={"page-next"} width={250} />
+      </AppForm>
+      <Map location={(pin) => setLocation(pin)} />
+    </Wrapper>
   );
 }
-
-const styles = StyleSheet.create({
-  mapMarker: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    zIndex: 5,
-  },
-  mapsSearchBar: {
-    position: "absolute",
-    top: 10,
-    alignSelf: "center",
-    width: "90%",
-    height: 50,
-    borderRadius: 15,
-    zIndex: 2,
-    padding: 0,
-    justifyContent: "center",
-    shadowColor: "red",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  mapViewBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
-    width: "90%",
-    height: 350,
-    borderRadius: 20,
-    overflow: "hidden",
-    margin: 10,
-    marginBottom: 30,
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-  },
-  primaryContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  marginBottom: {
-    paddingBottom: 50,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1",
-    padding: 8,
-  },
-  primaryText: {
-    textAlign: "center",
-    fontSize: 50,
-    fontWeight: "900",
-    padding: 5,
-    color: Styles.colors.secondaryColor,
-  },
-  DateContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderColor: Styles.colors.primaryColorLight,
-    borderWidth: 1.5,
-    padding: 5,
-    borderRadius: 5,
-    width: "100%",
-  },
-  dateText: {
-    fontSize: Styles.colors.innerTextFontSize,
-    color: Styles.colors.primaryColorLightGray,
-    textAlign: "left",
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  flexRow: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-});

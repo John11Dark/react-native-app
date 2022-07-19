@@ -4,12 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
-import {
-  ListingEditScreen,
-  NotificationScreen,
-  UsersScreen,
-  SearchScreen,
-} from "../Screens";
+import EditScreenNavigator from "./EditScreenNavigator";
+import { NotificationScreen, SearchScreen } from "../Screens";
+
 import Routes from "./routes";
 import TabActionButton from "./TabActionButton";
 import Navigation from "../Navigation/rootNavigation";
@@ -57,12 +54,15 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="ListingEdit"
-        component={ListingEditScreen}
+        component={EditScreenNavigator}
         options={({ navigation }) => ({
           tabBarButton: () => (
             <TabActionButton
               onPress={() => navigation.navigate(Routes.LISTING_EDIT)}
             />
+          ),
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons name="account" size={size} color={color} />
           ),
         })}
       />
