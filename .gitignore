@@ -1,11 +1,11 @@
 node_modules/
 .expo/
-.expo-shared
-.vscode
+.expo-shared/
+.vscode/
 dist/
 web-build/
-App/config/configuration
-App/Bin
+App/config/configuration/
+App/Bin/
 npm-debug.*
 *.jks
 *.p8
