@@ -4,7 +4,7 @@ import {
   Modal,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 
@@ -37,9 +37,9 @@ export default function AppModal({
   return (
     <Modal visible={isVisible} animationType="slide">
       <Screen>
-        <TouchableWithoutFeedback onPress={onClose}>
+        <TouchableOpacity onPress={onClose}>
           <Text style={styles.closeText}>Close</Text>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
         <FlatList
           style={styles.list}
           data={data}

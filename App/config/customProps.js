@@ -4,6 +4,7 @@ import { Platform } from "react-native";
 const darkOrLight = (theme) => {
   if (theme === true) {
     return {
+      theme: "dark",
       primaryColor: "#50BED2",
       primaryColorDark: "#1E2931",
       primaryColorLight: "#EDEEE4",
@@ -53,6 +54,7 @@ const darkOrLight = (theme) => {
     };
   } else {
     return {
+      theme: dark,
       primaryColor: "#50BED2",
       primaryColorDark: "#1E2931",
       primaryColorLight: "#EDEEE4",

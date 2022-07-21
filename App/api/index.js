@@ -3,3 +3,4 @@ export { default as listingsApi } from "./listings";
 export { default as commentsApi } from "./comments";
 export { default as userApi } from "./user";
 export { default as authApi } from "./auth";
+export { default as imagesApi } from "./images";

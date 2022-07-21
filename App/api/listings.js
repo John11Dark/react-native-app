@@ -6,20 +6,60 @@ const endpoint = "/listings";
 
 // functions
 const addListing = (listing, onUploadProgress) => {
+  //console.log("List", listing);
   const data = new FormData();
+
+  // ? * --> all Address data
+  const address = {
+    streetLineOne: listing.streetLineOne,
+    streetLineTwo: listing.streetLineTwo,
+    locality: listing.locality.label,
+    location: listing.location,
+  };
+
+  data.append("user", JSON.stringify(listing.user));
   data.append("site", listing.site);
-  data.append("email", listing.email);
-  data.append("countryCode", listing.countryCode);
-  data.append("clientPhoneNumber", listing.clientPhoneNumber);
   data.append("clientFirstName", listing.clientFirstName);
   data.append("clientLastName", listing.clientLastName);
-  data.append("description", listing.description);
+  data.append("countryCode", listing.countryCode);
+  data.append("clientPhoneNumber", listing.clientPhoneNumber);
+  data.append("email", listing.email);
   data.append("initialDate", listing.initialDate);
+  data.append("address", JSON.stringify(address));
+  data.append("status", listing.status);
+
+  // ? * --> Check boxes
+  data.append("newPool", listing.newPool);
+  data.append("quotationType", listing.quotationType);
   data.append("indoor", listing.indoor);
-  data.append("mosaicOrTile", listing.mosaicOrTile);
   data.append("poolSteps", listing.poolSteps);
+  data.append("poolType", listing.poolType);
+
+  // ? *-> Pickers
+  data.append("projectType_Id", listing.projectType.value);
+  data.append("poolLocation_Id", listing.poolLocation.value);
+  data.append("tileType_Id", listing.tileType.value);
+
+  // ? * --> coping permeates
+  data.append("poolPerimeter", listing.poolPerimeter);
+  data.append("copingPerimeter", listing.copingPerimeter);
+
+  // ? *--> pool parameters
+  data.append("poolLength", listing.poolLength);
+  data.append("poolWidth", listing.poolWidth);
+  data.append("poolDepthEnd", listing.poolDepthEnd);
+  data.append("poolDepthStart", listing.poolDepthStart);
+  data.append("poolVolume", listing.poolVolume);
+
+  // !  *--> balance tank Parameters only if overflow pool if it is not set it will be undefined
+
   data.append("poolLeaking", listing.poolLeaking);
-  // options
+  data.append("balanceLength", listing.balanceLength);
+  data.append("balanceTankWidth", listing.balanceTankWidth);
+  data.append("balanceTankDepth", listing.balanceTankDepth);
+  data.append("balanceTankVolume", listing.balanceTankVolume);
+
+  // ! *--> options if it is not set it will be undefined
   data.append("numberOfWallInlets", listing.numberOfWallInlets);
   data.append("numberOfSkimmers", listing.numberOfSkimmers);
   data.append("numberOfSumps", listing.numberOfSumps);
@@ -27,29 +67,9 @@ const addListing = (listing, onUploadProgress) => {
   data.append("spaJets", listing.spaJets);
   data.append("counterCurrent", listing.counterCurrent);
   data.append("vacuumPoints", listing.vacuumPoints);
-  // pickers
-  data.append("projectType", listing.projectType);
-  data.append("poolType_ID", listing.poolType);
-  data.append("poolLocation_ID", listing.poolLocation);
-  data.append("indoor", listing.indoor);
-  data.append("poolLeaking", listing.poolLeaking);
-  data.append("poolSteps", listing.poolSteps);
-  // pool parameters
-  data.append("poolLength", listing.poolLength);
-  data.append("poolWidth", listing.poolWidth);
-  data.append("poolDepthEnd", listing.poolDepthEnd);
-  data.append("poolDepthStart", listing.poolDepthStart);
-  data.append("poolPerimeter", listing.poolPerimeter);
-  data.append("copingPerimeter", listing.copingPerimeter);
-  data.append("balanceLength", listing.balanceLength);
-  data.append("poolVolume", listing.poolVolume);
-  data.append("balanceTankWidth", listing.balanceTankWidth);
-  data.append("balanceTankDepth", listing.balanceTankDepth);
-  data.append("balanceTankPipe", listing.balanceTankPipe);
-  data.append("poolVolume", listing.poolVolume);
-  data.append("clientAddressStreetOne", listing.clientAddressStreetOne);
-  data.append("clientAddressLocality", listing.clientAddressLocality);
-  data.append("location", JSON.stringify(listing.location));
+  data.append("description", listing.description);
+
+  data.append("options", JSON.stringify(listing.options));
 
   listing.images.forEach((image, index) =>
     data.append("images", {
@@ -58,9 +78,7 @@ const addListing = (listing, onUploadProgress) => {
       uri: image,
     })
   );
-  if (listing.clientAddressStreetTwo)
-    data.append("clientAddressStreetTwo", listing.clientAddressStreetTwo);
-  console.log(listing);
+
   return client.post(endpoint, data, {
     onUploadProgress: ({ loaded, total }) => onUploadProgress(loaded / total),
   });

@@ -1,5 +1,6 @@
 import * as Yup from "yup";
-import { Styles } from "../config";
+import { Styles } from "../../../config";
+import localites from "../../../assets/Data/localites";
 
 // Variables
 const initialValues = {
@@ -135,4 +136,5 @@ export default {
   tileOptions,
   initialValues,
   Styles,
+  localites,
 };

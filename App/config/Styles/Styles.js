@@ -241,6 +241,8 @@ const Styles = StyleSheet.create({
     padding: 5,
     margin: 10,
     marginLeft: 15,
+    borderRadius: 15,
+    backgroundColor: customProps.darkCardBackgroundColor,
   },
   labelStyle: {
     ...customProps.font,

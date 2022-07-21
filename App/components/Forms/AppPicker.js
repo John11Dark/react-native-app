@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Styles } from "../../config/";
@@ -35,10 +35,7 @@ export default function AppPicker({
   };
   return (
     <>
-      <TouchableWithoutFeedback
-        disabled={disabled}
-        onPress={() => setVisible(true)}
-      >
+      <TouchableOpacity disabled={disabled} onPress={() => setVisible(true)}>
         <View style={[styles.container, { width: width, ...style }]}>
           {icon && (
             <MaterialCommunityIcons
@@ -60,7 +57,7 @@ export default function AppPicker({
             />
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
       <AppModal
         data={data}
         isVisible={visible}

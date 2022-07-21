@@ -32,10 +32,10 @@ const Listings = ({
               imageUrl={item.images[0].url}
               thumbnailUrl={item.images[0].thumbnail}
               onPress={() => navigation.navigate(itemNavigationRoute, item)}
-              title={item.title}
+              title={item.site}
               subTitle={item.description}
               user={item.user}
-              status={item.status ? item.status : item.isInArchive}
+              status={item.status}
               archive={item.isInArchive}
               restore={item.isInRecycleBin}
               initialDate={item.initialDate}

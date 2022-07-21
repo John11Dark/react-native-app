@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Image, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import BottomActionSheet from "../Lists/BottomActionSheet";
+import Icon from "../Icon";
 import { Styles } from "../../config";
+import { imagesApi } from "../../api";
 
 export default function ImageInput({
   imageUri,
@@ -19,42 +15,68 @@ export default function ImageInput({
   maxLength,
   uriLength,
 }) {
-  useEffect(() => {
-    const requestPermission = async () => {
-      const { granted } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (!granted) alert("Please grant access permission for media library");
-    };
-    requestPermission();
-  }, []);
+  // ? * --> States
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [showRole, setShowRole] = useState(false);
 
-  const selectImage = async () => {
+  // ? * --> Functions
+
+  async function openGallery() {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
+        allowsMultipleSelection: true,
       });
-      if (!result.cancelled) {
-        onImageChange(result.uri);
+      if (!cancelled) {
+        onImageChange(uri);
       }
     } catch (error) {
       console.error({ ImageError: error });
     }
-  };
+  }
 
-  const handlePress = () => {
-    if (uriLength >= maxLength)
-      return Alert.alert(
-        "Image input",
-        "You have reached the maximum images (3)"
-      );
+  async function takePhoto() {
+    try {
+      const { cancelled, uri } = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        quality: 1,
+        aspect: [1, 2],
+
+        allowsMultipleSelection: true,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      if (!cancelled) {
+        onImageChange(uri);
+      }
+    } catch (error) {
+      console.error({ ImageError: error });
+    }
+  }
+
+  async function role() {
+    try {
+      const response = await imagesApi.getImages();
+      if (!response.ok) {
+        console.log(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handlePress() {
     if (!imageUri) {
-      selectImage();
+      setBottomSheetVisible(true);
+    } else if (uriLength >= maxLength) {
+      console.log("first");
     } else {
       Alert.alert(
         "Delete Image",
         "Are you sure you want to Delete this image?",
         [
+          { text: "Cancel" },
           {
             text: "Yes",
             style: "destructive",
@@ -62,46 +84,59 @@ export default function ImageInput({
               onImageChange(null);
             },
           },
-          { text: "Cancel", style: "cancel" },
         ]
       );
     }
-  };
+  }
 
+  // ? * --> Effects
+  useEffect(() => {
+    const requestPermission = async () => {
+      const { granted: camera } = ImagePicker.requestCameraPermissionsAsync();
+      const { granted: mediaLibrary } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      //if (!camera) alert(camera);
+      if (!mediaLibrary)
+        alert("Please grant access permission for media library");
+    };
+    requestPermission();
+  }, []);
   return (
-    <TouchableWithoutFeedback onPress={handlePress}>
-      <View
+    <>
+      <TouchableOpacity
         style={[
-          styles.container,
+          Styles.ImageContainer,
           { height: size, width: size, borderRadius: borderRadius },
         ]}
+        onPress={handlePress}
       >
         {imageUri ? (
           <Image
             resizeMode="cover"
             source={{ uri: imageUri }}
-            style={styles.image}
+            style={{ height: "110%", width: "110%" }}
           />
         ) : (
-          <MaterialCommunityIcons name="camera-image" style={styles.icon} />
+          <Icon
+            name="camera-image"
+            disabled
+            innerSize={50}
+            backgroundColor="transparent"
+          />
         )}
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableOpacity>
+      <BottomActionSheet
+        buttonsArray={["Take Photo", "Role", "Gallery", "Cancel"]}
+        functionsArray={[takePhoto, role, openGallery, undefined]}
+        destructiveIndex={undefined}
+        onPress={(index) => {
+          index ? index() : undefined;
+          setBottomSheetVisible(false);
+        }}
+        title="Image"
+        message="Choose how you want to add your image"
+        visible={bottomSheetVisible}
+      />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...Styles.ImageContainer,
-    borderRadius: 15,
-    backgroundColor: Styles.colors.darkCardBackgroundColor,
-  },
-  icon: {
-    fontSize: 40,
-    color: Styles.colors.primaryColorLight,
-  },
-  image: {
-    height: "110%",
-    width: "110%",
-  },
-});

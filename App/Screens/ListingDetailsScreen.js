@@ -269,7 +269,7 @@ export default function ListingDetails({ route }) {
       !edit
         ? Alert.alert(
             "modify Project",
-            `Are you sure you want to modify ${values.title}? 
+            `Are you sure you want to modify ${values.site}? 
       \nany changes made will take place on the server only when *SAVE* button is pressed `,
             [
               {
@@ -338,12 +338,12 @@ export default function ListingDetails({ route }) {
     values.isInArchive
       ? Alert.alert(
           "Unarchive Project",
-          `are you sure you want to unarchive ${values.title}?`,
+          `are you sure you want to unarchive ${values.site}?`,
           [{ text: "Yes", onPress: () => unarchiveRequest() }, { text: "No" }]
         )
       : Alert.alert(
           "Archive Project",
-          `Are you sure you want to archive ${values.title}?`,
+          `Are you sure you want to archive ${values.site}?`,
           [
             {
               text: "Yes",
@@ -371,7 +371,7 @@ export default function ListingDetails({ route }) {
     values.isInRecycleBin
       ? Alert.alert(
           "Restore Project",
-          `Are you sure you want to restore ${values.title}?`,
+          `Are you sure you want to restore ${values.site}?`,
           [
             {
               text: "Yes",
@@ -391,14 +391,14 @@ export default function ListingDetails({ route }) {
         )
       : Alert.alert(
           "Delete Project",
-          `Are you sure you want Delete ${values.title}?`,
+          `Are you sure you want Delete ${values.site}?`,
           [
             {
               text: "Yes",
               onPress: () => {
                 Alert.alert(
                   "Info",
-                  `${values.title} has been moved to the recycle bin 
+                  `${values.site} has been moved to the recycle bin 
                 and it will be permanently deleted after 30 days`
                 );
                 listingsApi.deleteList(values.id);
@@ -453,7 +453,7 @@ export default function ListingDetails({ route }) {
       );
     Alert.alert(
       "Change Project Status",
-      `Are you sure you want to mark ${values.title} as ${
+      `Are you sure you want to mark ${values.site} as ${
         status ? "not ready" : "ready"
       }?`,
       [
@@ -521,11 +521,10 @@ export default function ListingDetails({ route }) {
       });
     }
   };
-
   // Effects
   useEffect(() => {
     request(values.id);
-    setDiscussionData(data);
+    //setDiscussionData(data);
   }, [isFocused, route.params, discussionData]);
   return (
     <KeyboardAvoidingView
@@ -548,7 +547,7 @@ export default function ListingDetails({ route }) {
         )}
         renderForeground={() => (
           <View style={styles.headerTitleBox}>
-            <Text style={styles.headerTitle}> {values.title}</Text>
+            <Text style={styles.headerTitle}> {values.site}</Text>
           </View>
         )}
         renderFixedForeground={() => (
@@ -562,7 +561,7 @@ export default function ListingDetails({ route }) {
               },
             ]}
           >
-            {values.title}
+            {values.site}
           </Animated.Text>
         )}
       >
@@ -634,14 +633,12 @@ export default function ListingDetails({ route }) {
                 clientPhoneNumber: values.clientPhoneNumber,
                 clientFirstName: values.clientFirstName,
                 clientLastName: values.clientLastName,
-                clientAddressStreetOne: values.clientAddressStreetOne,
-                clientAddressStreetTwo: values.clientAddressStreetTwo,
-                clientAddressLocality: values.clientAddressLocality,
-                status: false,
+                streetLineOne: values.address.streetLineOne,
+                streetLineTwo: values.address.streetLineTwo,
+                locality: values.address.locality,
+                status: values.status,
                 indoor: values.indoor,
-                mosaicOrTile: values.mosaicOrTile,
                 poolSteps: values.poolSteps,
-                poolLeaking: values.poolLeaking,
                 // option pickers
                 projectType: values.projectType,
                 poolType: values.poolType,
@@ -724,7 +721,7 @@ export default function ListingDetails({ route }) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 icon="map"
-                name="clientAddressStreetOne"
+                name="streetLineOne"
                 textContentType="streetAddressLine1"
                 editable={edit}
                 defaultValue={values.clientAddressStreetOne}
@@ -735,7 +732,7 @@ export default function ListingDetails({ route }) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 icon="map"
-                name="clientAddressStreetTwo"
+                name="streetLineTwo"
                 textContentType="streetAddressLine2"
                 placeholder="Street address Line 2"
                 editable={edit}
@@ -747,45 +744,12 @@ export default function ListingDetails({ route }) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 icon="map"
-                name="clientAddressLocality"
+                name="locality"
                 textContentType="addressCity"
                 title="Locality"
                 editable={edit}
                 defaultValue={values.clientAddressLocality}
                 clearButtonMode="while-editing"
-              />
-              <FormPicker
-                data={projectTypePicker}
-                selectedItem={projectType}
-                onItemSelect={(item) => setProjectType(item)}
-                numOfColumns={3}
-                icon="progress-question"
-                placeholder="Project Type"
-                title="Project Type"
-                name="projectTypePicker"
-                disabled={!edit}
-              />
-              <FormPicker
-                selectedItem={poolType}
-                onItemSelect={(item) => setPoolType(item)}
-                data={poolTypePicker}
-                numOfColumns={3}
-                icon="progress-question"
-                placeholder="Pool Type"
-                title="Pool Type"
-                name="poolType"
-                disabled={!edit}
-              />
-              <FormPicker
-                selectedItem={poolLocation}
-                onItemSelect={(item) => setPoolLocation(item)}
-                data={PoolLocationPicker}
-                numOfColumns={3}
-                icon="crosshairs-question"
-                placeholder="Pool Location"
-                title="Pool Location"
-                name="poolLocation"
-                disabled={!edit}
               />
 
               <CheckBox
@@ -1139,13 +1103,7 @@ export default function ListingDetails({ route }) {
                 numberOfLines={5}
                 multiline
               />
-              <ItemsListPicker
-                data={ItemsAddOnsListValue}
-                onItemRemove={onItemAddOnsRemove}
-                onItemAdd={onItemAddOnsAdded}
-                Items={ItemsAddOnsSelectedValue}
-                disabled={!edit}
-              />
+
               <SubmitButton
                 title="Save"
                 visible={edit}
@@ -1157,20 +1115,17 @@ export default function ListingDetails({ route }) {
           <View style={styles.mapViewBox}>
             <MapView
               initialRegion={{
-                latitude: 35.878173828125,
-                longitude: 14.396160663677879,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
+                ...values.address.location,
               }}
               style={styles.map}
             >
-              {values.location && (
+              {values.address.location && (
                 <Marker
-                  coordinate={values.location}
+                  coordinate={values.address.location}
                   pinColor={customProps.secondaryColor}
                 >
                   <Callout>
-                    <Text>{values.title}</Text>
+                    <Text>{values.site}</Text>
                   </Callout>
                 </Marker>
               )}
@@ -1186,67 +1141,6 @@ export default function ListingDetails({ route }) {
               disabled={true}
             />
           </View>
-          {/* Comments Area */}
-          <ScrollView
-            horizontal
-            scrollEnabled={false}
-            disabled
-            style={{
-              width: "95%",
-              flex: 1,
-              alignSelf: "center",
-              flexDirection: "column",
-              marginBottom: 30,
-            }}
-          >
-            {!error ? (
-              <View style={styles.form}>
-                <Image
-                  resizeMode="contain"
-                  style={{ width: "100%", height: 225, marginVertical: 10 }}
-                  source={require("../assets/Images/heroImages/discussion.png")}
-                />
-                <AppForm
-                  initialValues={{ message: "" }}
-                  onSubmit={handleCommentSubmit}
-                  validationSchema={validationSchema}
-                >
-                  <FlatList
-                    style={styles.list}
-                    data={data}
-                    keyExtractor={(comment) => comment.id.toString()}
-                    refreshing={loading}
-                    onContentSizeChange={() =>
-                      scrollViewRef.current.scrollToEnd()
-                    }
-                    ref={scrollViewRef}
-                    onRefresh={() => request(values.id)}
-                    renderItem={({ item }) => (
-                      <MessageView
-                        title={
-                          item.user.name === user.name ? "you" : item.user.name
-                        }
-                        subTitle={item.comment}
-                        disabled={true}
-                        imagePath={item.user.image[0]}
-                        dateTime={item.dateTime}
-                        right={item.user.name === user.name}
-                      />
-                    )}
-                  />
-
-                  <AppFormField name="message" placeholder="Leave a note 🙂" />
-                  <SubmitButton title="Post" iconName="post" width={250} />
-                </AppForm>
-              </View>
-            ) : (
-              <DataLoadingError
-                visible={error}
-                text="Couldn't load comments from the server"
-                onPress={() => fetchData()}
-              />
-            )}
-          </ScrollView>
         </TriggeringView>
       </ImageHeaderScrollView>
     </KeyboardAvoidingView>

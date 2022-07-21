@@ -15,10 +15,10 @@ import {
   Map,
   Wrapper,
   DateTimePicker,
-} from "../components/";
-import { Styles } from "../config";
-import { useAuth } from "../hooks";
-import listingData from "./listingData";
+} from "../../components";
+import { Styles } from "../../config";
+import { useAuth } from "../../hooks";
+import listingData from "./Data/listingData";
 import Functions from "./Functions/Functions";
 
 export default function ListingEditScreen() {
@@ -30,8 +30,8 @@ export default function ListingEditScreen() {
       .label("client phone number"),
     clientFirstName: Yup.string().required().label("client first name"),
     clientLastName: Yup.string().required().label("client last name"),
-    clientAddressStreetOne: Yup.string().required().label("Street One"),
-    clientAddressLocality: Yup.string().required().label("Locality"),
+    streetLineOne: Yup.string().required().label("Street One"),
+    locality: Yup.object().required().label("Locality"),
     email: Yup.string().required().email().min(10).label("Email"),
     initialDate: Yup.date().required().label("initial date"),
     tileType: Yup.object().required().label("Tile type"),
@@ -68,7 +68,8 @@ export default function ListingEditScreen() {
     }),
   });
   // Variables
-  const { projectTypeOptions, poolLocationOptions, tileOptions } = listingData;
+  const { projectTypeOptions, poolLocationOptions, tileOptions, localites } =
+    listingData;
   const { calculatePoolVolume } = Functions;
   // Hooks
   const [location, setLocation] = useState(null);
@@ -83,8 +84,9 @@ export default function ListingEditScreen() {
   const [projectType, setProjectType] = useState(projectTypeOptions[0]);
   const [poolLocation, setPoolLocation] = useState(poolLocationOptions[0]);
   const [poolTile, setPoolTile] = useState(tileOptions[0]);
+  const [locality, setLocality] = useState(localites.Malta[1]);
 
-  ///*--> Pool required options states
+  /// ? *-->// Pool required options states
   const [poolType, setPoolType] = useState(true);
   const [poolSteps, setPoolSteps] = useState(false);
   const [quotationType, setQuotationType] = useState(true);
@@ -92,22 +94,22 @@ export default function ListingEditScreen() {
   const [poolLeaking, setPoolLeaking] = useState(false);
   const [isNewPool, setIsNewPool] = useState(true);
 
-  ///*--> Pool Parameters
-  const [poolPerimeter, setPoolPerimeter] = useState("");
-  const [poolCopingPerimeter, setPoolCopingPerimeter] = useState("");
-
-  ///*--> Pool parameters states
+  /// ? *-->// Pool parameters states
   const [poolLength, setPoolLength] = useState("");
   const [poolWidth, setPoolWidth] = useState("");
   const [poolDepthStart, setPoolDepthStart] = useState("");
   const [poolDepthEnd, setPoolDepthEnd] = useState("");
   const [poolVolume, setPoolVolume] = useState(0);
 
-  ///*--> balance tank parameters states
+  /// ? *-->// balance tank parameters states
   const [poolBalanceTankLength, setPoolBalanceTankLength] = useState("");
   const [balanceTankWidth, setBalanceTankWidth] = useState("");
   const [balanceTankDepth, setBalanceTankDepth] = useState("");
   const [balanceTankVolume, setBalanceTankVolume] = useState(0);
+
+  /// ? *-->// Pool Parameters
+  const [poolPerimeter, setPoolPerimeter] = useState("");
+  const [poolCopingPerimeter, setPoolCopingPerimeter] = useState("");
 
   // submit function
 
@@ -119,28 +121,38 @@ export default function ListingEditScreen() {
     navigation.navigate("Options", values);
   };
 
+  // ? * -->
   useEffect(() => {
     setPoolVolume(calculatePoolVolume(poolLength, poolWidth, poolDepthStart));
   }, [poolWidth, poolLength, poolDepthStart, poolDepthEnd]);
 
+  // ? * -->
   useEffect(() => {
     setBalanceTankVolume(
       calculatePoolVolume(poolLength, poolWidth, poolDepthStart)
     );
   }, [poolBalanceTankLength, balanceTankWidth, balanceTankDepth]);
+
+  // ? * -->
+  useEffect(() => {
+    setBalanceTankVolume(
+      calculatePoolVolume(poolLength, poolWidth, poolDepthStart)
+    );
+  }, [poolCopingPerimeter, poolPerimeter]);
+
   return (
     <Wrapper>
       <AppForm
         initialValues={{
-          site: "",
-          clientFirstName: "",
-          clientLastName: "",
-          clientAddressStreetOne: "",
-          clientAddressStreetTwo: "",
-          clientAddressLocality: "",
-          clientPhoneNumber: "",
+          site: "site name new site",
+          clientFirstName: "John",
+          clientLastName: "Muller",
+          streetLineOne: "StreetOne",
+          streetLineTwo: "",
+          locality: locality,
+          clientPhoneNumber: "79230096",
           countryCode: "+356",
-          email: "",
+          email: "email@gm.com",
           initialDate: new Date().toDateString(),
           // pickers
           projectType: projectType,
@@ -153,10 +165,12 @@ export default function ListingEditScreen() {
           indoor: false,
           poolLeaking: false,
           isNewPool: true,
-          poolLength: "",
-          poolWidth: "",
-          poolDepthEnd: "",
-          poolDepthStart: "",
+          poolLength: "12",
+          poolWidth: "12",
+          poolDepthEnd: "12",
+          poolDepthStart: "12",
+          copingParameter: "",
+          poolParameter: "",
           balanceTankLength: "",
           balanceTankWidth: "",
           balanceTankDepth: "",
@@ -171,7 +185,7 @@ export default function ListingEditScreen() {
           },
         }}
         onSubmit={handleSubmit}
-        //validationSchema={validationSchema}
+        validationSchema={validationSchema}
       >
         <Text style={Styles.secondaryTextHeroSection}>Quotation 📜 </Text>
 
@@ -233,7 +247,7 @@ export default function ListingEditScreen() {
           />
 
           <AppFormField
-            name="clientAddressStreetOne"
+            name="streetLineOne"
             icon="map"
             placeholder="Street Address"
             title="Street Address "
@@ -243,7 +257,7 @@ export default function ListingEditScreen() {
           />
 
           <AppFormField
-            name="clientAddressStreetTwo"
+            name="streetLineTwo"
             icon="map"
             title="Street address Line 2"
             placeholder="optional"
@@ -252,20 +266,21 @@ export default function ListingEditScreen() {
             textContentType="streetAddressLine2"
           />
 
-          <AppFormField
-            name="clientAddressLocality"
+          <FormPicker
+            name="locality"
             placeholder="Locality"
             title="Locality"
-            icon="map"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="addressCity"
+            icon="city"
+            data={localites.Malta}
+            selectedItem={locality}
+            onItemSelect={(item) => setLocality(item)}
+            numOfColumns={3}
           />
 
           <DateTimePicker name="initialDate" />
 
           {/*
-           *--> pool required options
+           // ? * --> pool required options
            */}
 
           <CheckBox
@@ -351,8 +366,8 @@ export default function ListingEditScreen() {
             selected={poolType}
           />
 
-          {/*
-           *-->  Pool parameters
+          {/* 
+           // ? * -->  Pool parameters
            */}
 
           <AppFormField
@@ -406,8 +421,27 @@ export default function ListingEditScreen() {
             value={poolVolume.toString()}
             title="Pool Volume"
           />
+
+          <AppFormField
+            name="copingParameter"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            getValue={(value) => setPoolCopingPerimeter(value)}
+            placeholder="ex: 23"
+            title="Coping Parameter"
+          />
+          <AppFormField
+            name="poolParameter"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            getValue={(value) => setPoolPerimeter(value)}
+            placeholder="ex: 23"
+            title="Pool Parameter"
+          />
           {/*
-            *--> Balance Tank Parameters
+            // ? * --> Balance Tank Parameters
             if poolType === "Overflow"?    
           */}
           {!poolType && (
