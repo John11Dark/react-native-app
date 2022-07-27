@@ -1,5 +1,5 @@
 //
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -12,9 +12,10 @@ import { useFormikContext } from "formik";
 
 //
 import AppPicker from "../Forms/AppPicker";
-import ListItem from "../Lists/ListItem";
-import BottomActionSheet from "../Lists/BottomActionSheet";
+import ListItem from "./ListItem";
+import BottomActionSheet from "./BottomActionSheet";
 import ErrorMessage from "../Forms/ErrorMessage";
+
 import { customProps, Styles } from "../../config";
 import addOnsData from "../../assets/Data/items";
 
@@ -60,7 +61,8 @@ export default function ItemsListPicker({
 
   // ? * --> Functions
   function increment(item) {
-    Alert.alert(`${item.label}`, "are you sure you want to Remove this Item?", [
+    //TODO: fix the sort after increment or decrement
+    Alert.alert(`${item.label}`, "increment or decrement", [
       {
         text: "increment",
         onPress: () => {
@@ -120,10 +122,11 @@ export default function ItemsListPicker({
   return (
     <View style={styles.containerParent}>
       <Text style={Styles.labelStyle}>Options</Text>
+
       <View style={styles.container}>
         <ScrollView
           horizontal
-          onContentSizeChange={() => scrollViewRef.current.scrollToEnd()}
+          onContentSizeChange={() => scrollViewRef?.current?.scrollToEnd()}
           ref={scrollViewRef}
           showsHorizontalScrollIndicator={false}
           style={styles.containerScroll}
@@ -153,7 +156,9 @@ export default function ItemsListPicker({
             disabled={disabled}
           />
         </ScrollView>
+
         <ErrorMessage visible={touched[name]} error={errors[name]} />
+
         <BottomActionSheet
           visible={bottomSheetVisible}
           title={"Options"}

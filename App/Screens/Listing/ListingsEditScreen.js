@@ -1,10 +1,15 @@
 // Third parties libraries
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, Alert, TouchableOpacity, StyleSheet } from "react-native";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 
 // Project components  and configurations
+import { Styles, customProps } from "../../config";
+import { useAuth } from "../../hooks";
+import { listingsApi } from "../../api";
+import listingData from "./Data/listingData";
+import Functions from "./Functions/Functions";
 import {
   AppForm,
   AppFormField,
@@ -15,11 +20,9 @@ import {
   Map,
   Wrapper,
   DateTimePicker,
+  FormImagePicker,
+  ItemsListPicker,
 } from "../../components";
-import { Styles } from "../../config";
-import { useAuth } from "../../hooks";
-import listingData from "./Data/listingData";
-import Functions from "./Functions/Functions";
 
 export default function ListingEditScreen() {
   const validationSchema = Yup.object().shape({
@@ -32,50 +35,71 @@ export default function ListingEditScreen() {
     clientLastName: Yup.string().required().label("client last name"),
     streetLineOne: Yup.string().required().label("Street One"),
     locality: Yup.object().required().label("Locality"),
-    email: Yup.string().required().email().min(10).label("Email"),
+    email: Yup.string().required().email().min(8).label("Email"),
     initialDate: Yup.date().required().label("initial date"),
     tileType: Yup.object().required().label("Tile type"),
     projectType: Yup.object().required().label("Project Type"),
     poolLocation: Yup.object().required().label("Pool Location"),
     poolLength: Yup.number().required().label("Pool Length"),
     poolWidth: Yup.number().required().label("Pool Width"),
-    poolDepthEnd: Yup.number().required().label("Pool Depth End"),
+    poolDepthEnd: Yup.number().notRequired().label("Pool Depth End"),
     poolDepthStart: Yup.number().required().label("Pool Depth Start"),
-    poolVolume: Yup.number().required().label("Pool Volume"),
-    balanceTankLength: Yup.lazy(() => {
-      if (!poolType) {
-        return Yup.number().required().label("Balance Tank Length");
-      }
-      return Yup.number().notRequired().label("Balance Tank Length");
-    }),
-    balanceTankWidth: Yup.lazy(() => {
-      if (!poolType) {
-        return Yup.number().required().label("Balance Tank Width");
-      }
-      return Yup.number().notRequired().label("Balance Tank Width");
-    }),
-    balanceTankDepth: Yup.lazy(() => {
-      if (!poolType) {
-        return Yup.number().required().label("Balance Tank Depth");
-      }
-      return Yup.number().notRequired().label("Balance Tank Depth");
-    }),
-    balanceTankVolume: Yup.lazy(() => {
-      if (!poolType) {
-        return Yup.number().required().label("Balance Tank Volume");
-      }
-      return Yup.number().notRequired().label("Balance Tank Volume");
-    }),
+    poolVolume: Yup.number().notRequired().label("Pool Volume"),
+    balanceTankLength: Yup.number().notRequired().label("Balance Tank Length"),
+    balanceTankWidth: Yup.number().notRequired().label("Balance Tank Width"),
+    balanceTankDepth: Yup.number().notRequired().label("Balance Tank Depth"),
+    //
+    description: Yup.string().notRequired().label("Description"),
+    images: Yup.array()
+      .min(1, "Please select at least on image")
+      .max(3, "The maximum is three images"),
+    optionalPackages: Yup.array().notRequired().label("Options"),
+    numberOfWallInlets: Yup.number()
+      .notRequired()
+      .label("Number of Wall Inlets"),
+    numberOfSkimmers: Yup.number().notRequired().label("Number of Skimmers"),
+    numberOfSumps: Yup.number().notRequired().label("Number of Sumps"),
+    numberOfLights: Yup.number().notRequired().label("Number of Lights"),
+    spaJets: Yup.number().notRequired().label("Spa Jets"),
+    counterCurrent: Yup.number().notRequired().label("Counter Current"),
+    vacuumPoints: Yup.number().notRequired().label("Vacuum Points"),
+    // balanceTankLength: Yup.lazy(() => {
+    //   if (!poolType) {
+    //     return Yup.number().required().label("Balance Tank Length");
+    //   }
+    //   return Yup.number().notRequired().label("Balance Tank Length");
+    // }),
+    // balanceTankWidth: Yup.lazy(() => {
+    //   if (!poolType) {
+    //     return Yup.number().required().label("Balance Tank Width");
+    //   }
+    //   return Yup.number().notRequired().label("Balance Tank Width");
+    // }),
+    // balanceTankDepth: Yup.lazy(() => {
+    //   if (!poolType) {
+    //     return Yup.number().required().label("Balance Tank Depth");
+    //   }
+    //   return Yup.number().notRequired().label("Balance Tank Depth");
+    // }),
   });
+
   // Variables
-  const { projectTypeOptions, poolLocationOptions, tileOptions, localites } =
-    listingData;
+  const {
+    projectTypeOptions,
+    poolLocationOptions,
+    tileOptions,
+    localites,
+    availablePackages,
+  } = listingData;
+
   const { calculatePoolVolume } = Functions;
+
   // Hooks
   const [location, setLocation] = useState(null);
   const { user } = useAuth();
   const navigation = useNavigation();
-  // States
+
+  // ? * -->  States
 
   ///*--> Application states
   const [error, setError] = useState(null);
@@ -86,7 +110,7 @@ export default function ListingEditScreen() {
   const [poolTile, setPoolTile] = useState(tileOptions[0]);
   const [locality, setLocality] = useState(localites.Malta[1]);
 
-  /// ? *-->// Pool required options states
+  ///  *-->// Pool required options states
   const [poolType, setPoolType] = useState(true);
   const [poolSteps, setPoolSteps] = useState(false);
   const [quotationType, setQuotationType] = useState(true);
@@ -94,44 +118,154 @@ export default function ListingEditScreen() {
   const [poolLeaking, setPoolLeaking] = useState(false);
   const [isNewPool, setIsNewPool] = useState(true);
 
-  /// ? *-->// Pool parameters states
+  ///  *-->// Pool parameters states
   const [poolLength, setPoolLength] = useState("");
   const [poolWidth, setPoolWidth] = useState("");
   const [poolDepthStart, setPoolDepthStart] = useState("");
   const [poolDepthEnd, setPoolDepthEnd] = useState("");
   const [poolVolume, setPoolVolume] = useState(0);
 
-  /// ? *-->// balance tank parameters states
+  ///  *-->// balance tank parameters states
   const [poolBalanceTankLength, setPoolBalanceTankLength] = useState("");
   const [balanceTankWidth, setBalanceTankWidth] = useState("");
   const [balanceTankDepth, setBalanceTankDepth] = useState("");
   const [balanceTankVolume, setBalanceTankVolume] = useState(0);
 
-  /// ? *-->// Pool Parameters
+  ///  *-->// Pool Parameters
   const [poolPerimeter, setPoolPerimeter] = useState("");
   const [poolCopingPerimeter, setPoolCopingPerimeter] = useState("");
 
-  // submit function
+  const [totalVolumeState, setTotalVolume] = useState(0);
 
-  const handleSubmit = (values) => {
+  const [totalPrice, setTotalPrice] = useState({
+    package: { label: "", value: 0, price: 0 },
+    options: {},
+    totalPrice: 0,
+  });
+
+  const [recommendedPackage, setRecommendedPackage] = useState(
+    availablePackages[0]
+  );
+  ///*-->  Submit animation state
+  const [progress, setProgress] = useState();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [animationFinish, setAnimationFinish] = useState(false);
+  const [dataUploaded, setDataUploaded] = useState(false);
+
+  // ? * --> Functions
+
+  // submit function
+  const handleSubmit = async (values, { resetForm }) => {
+    if (balanceTankVolume === 0 && !poolType)
+      return Alert.alert(
+        "Balance Tank Volume",
+        "balance tank volume can not be zero please check you inputs or reenter the pool volume again and do not modify the balance tank to be default to 20% of the pool"
+      );
+    if (
+      !poolType &&
+      balanceTankVolume.includes("20% of pool volume") &&
+      (poolBalanceTankLength === 0 || poolBalanceTankLength == null) &&
+      (balanceTankWidth === 0 || balanceTankWidth == null) &&
+      (balanceTankDepth === 0 || balanceTankDepth == null)
+    )
+      return Alert.alert(
+        "balance Tank Volume",
+        "Balance tank volume did not receive any parameters so it defaults to 20% of pool volume\n do you want  to proceed? ",
+        [
+          {
+            text: "yes",
+            style: "destructive",
+            onPress: navigation.navigate("Options", values),
+          },
+          {
+            text: "No",
+            style: "cancel",
+          },
+        ]
+      );
+    values.totalVolume = totalVolumeState;
     values.poolVolume = poolVolume.toString();
     values.balanceTankVolume = balanceTankVolume.toString();
     values.location = location;
+
+    setProgress(0);
+    setUploadVisible(true);
+    const response = await listingsApi.addListing(values, (value) =>
+      setProgress(value)
+    );
+    setAnimationFinish(true);
+    if (!response.ok) {
+      setDataUploaded(true);
+      setError(
+        response.data.error
+          ? response.data.error
+          : "unexpected error occurs\n Please check your internetConnection"
+      );
+      return alert(
+        response.data.error
+          ? `Could not post ${values.site} Project.\nPlease try again and check that you have inserted all values correctly`
+          : "unexpected error occurs\n Please check your internet Connection and try again"
+      );
+    }
+    setDataUploaded(true);
     setError(null);
-    navigation.navigate("Options", values);
+    //resetForm();
   };
 
-  // ? * -->
+  // ? * --> use Effects
+
+  ///*--> Submit Effect
   useEffect(() => {
-    setPoolVolume(calculatePoolVolume(poolLength, poolWidth, poolDepthStart));
-  }, [poolWidth, poolLength, poolDepthStart, poolDepthEnd]);
+    if (dataUploaded && animationFinish) {
+      setAnimationFinish(false);
+      setDataUploaded(false);
+      setUploadVisible(false);
+    }
+  }, [dataUploaded, animationFinish]);
 
   // ? * -->
   useEffect(() => {
-    setBalanceTankVolume(
-      calculatePoolVolume(poolLength, poolWidth, poolDepthStart)
-    );
-  }, [poolBalanceTankLength, balanceTankWidth, balanceTankDepth]);
+    if (poolType) {
+      const { volume, totalVolume } = calculatePoolVolume(
+        poolType,
+        poolLength,
+        poolWidth,
+        poolDepthStart,
+        poolDepthEnd
+      );
+      setPoolVolume(volume);
+      setTotalVolume(totalVolume);
+    }
+  }, [poolWidth, poolLength, poolDepthStart, poolDepthEnd, poolType]);
+
+  // ? * -->
+  useEffect(() => {
+    if (poolType) return;
+    if (!poolType) {
+      const { totalVolume, volume, balanceVolume } = calculatePoolVolume(
+        poolType,
+        poolWidth,
+        poolLength,
+        poolDepthStart,
+        poolDepthEnd,
+        poolBalanceTankLength,
+        balanceTankWidth,
+        balanceTankDepth
+      );
+      setBalanceTankVolume(balanceVolume);
+      setPoolVolume(volume);
+      setTotalVolume(totalVolume);
+    }
+  }, [
+    poolType,
+    poolWidth,
+    poolLength,
+    poolDepthStart,
+    poolDepthEnd,
+    poolBalanceTankLength,
+    balanceTankWidth,
+    balanceTankDepth,
+  ]);
 
   // ? * -->
   useEffect(() => {
@@ -141,7 +275,12 @@ export default function ListingEditScreen() {
   }, [poolCopingPerimeter, poolPerimeter]);
 
   return (
-    <Wrapper>
+    <Wrapper
+      animation
+      progress={progress}
+      uploadVisible={uploadVisible}
+      onFinish={() => setAnimationFinish(true)}
+    >
       <AppForm
         initialValues={{
           site: "site name new site",
@@ -165,17 +304,17 @@ export default function ListingEditScreen() {
           indoor: false,
           poolLeaking: false,
           isNewPool: true,
-          poolLength: "12",
-          poolWidth: "12",
-          poolDepthEnd: "12",
-          poolDepthStart: "12",
+          poolLength: "",
+          poolWidth: "",
+          poolDepthEnd: "",
+          poolDepthStart: "",
           copingParameter: "",
           poolParameter: "",
           balanceTankLength: "",
           balanceTankWidth: "",
           balanceTankDepth: "",
-          poolVolume: poolVolume.toString(),
-          balanceTankVolume: balanceTankVolume.toString(),
+          poolVolume: "",
+          balanceTankVolume: "",
           status: false,
           user: {
             name: user.name,
@@ -183,12 +322,25 @@ export default function ListingEditScreen() {
             role: user.role,
             image: user.images[0].url,
           },
+          images: [],
+          options: [],
+          selectedPackage: recommendedPackage,
+          numberOfWallInlets: "",
+          numberOfSkimmers: "",
+          numberOfSumps: "",
+          numberOfLights: "",
+          spaJets: "",
+          counterCurrent: "",
+          vacuumPoints: "",
+          description: "",
+          totalPrice: totalPrice,
+          finalPrice: totalPrice.total,
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <Text style={Styles.secondaryTextHeroSection}>Quotation 📜 </Text>
-
+        <FormImagePicker maxLength={3} name="images" />
         <View style={Styles.inputContinuer}>
           {/*
            *--> Project details
@@ -410,11 +562,13 @@ export default function ListingEditScreen() {
             keyboardType="decimal-pad"
             icon="move-resize-variant"
             getValue={(value) => setPoolDepthEnd(value)}
-            placeholder="ex: 23"
+            placeholder="Optional"
             title="Pool Depth End"
           />
 
           <AppFormField
+            //  Todo: set pool volume
+            // ? * -->  name="poolVolume"
             autoCapitalize="none"
             keyboardType="decimal-pad"
             icon="move-resize-variant"
@@ -486,17 +640,167 @@ export default function ListingEditScreen() {
                 autoCapitalize="none"
                 keyboardType="decimal-pad"
                 icon="move-resize-variant"
-                defaultValue={balanceTankVolume.toString()}
+                value={balanceTankVolume.toString()}
                 title="Balance Tank Volume"
-                getValue={(value) => setBalanceTankVolume(value)}
+                numberOfLines={3}
+                multiline
+                //getValue={(value) => setBalanceTankVolume(value)}
               />
             </View>
           )}
+
+          <AppFormField
+            name="numberOfWallInlets"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="No. of Wall inlets"
+          />
+          <AppFormField
+            name="numberOfSumps"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="No. of Sumps"
+          />
+          <AppFormField
+            name="numberOfSkimmers"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="No. of skimmers"
+          />
+          <AppFormField
+            name="numberOfLights"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="No. of Lights"
+          />
+          <AppFormField
+            name="spaJets"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="No. of Spa Jets"
+          />
+          <AppFormField
+            name="counterCurrent"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="Counter Current"
+          />
+          <AppFormField
+            name="vacuumPoints"
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            icon="move-resize-variant"
+            placeholder="Optional Number"
+            title="Vacuum points"
+          />
+
+          {/* Description */}
+          <AppFormField
+            name="description"
+            autoCapitalize="sentences"
+            autoCorrect
+            placeholder="Type a description or extra remarks"
+            title="Description"
+            numberOfLines={5}
+            multiline
+          />
+          {/* Options picker */}
+          <ItemsListPicker name="options" />
+          {/* Recommended package */}
+          <TouchableOpacity style={styles.container}>
+            <Text style={styles.title1}>Recommended Package 📦</Text>
+            <Text style={styles.label}>Over flow Package </Text>
+            <Text style={styles.label}>€ 1200:00 </Text>
+          </TouchableOpacity>
           <ErrorMessage visible={error} error={error} />
         </View>
-        <SubmitButton title={"Next"} iconName={"page-next"} width={250} />
+        <SubmitButton title={"Post"} iconName={"post"} width={250} />
+        <Map view location={(pin) => setLocation(pin)} />
       </AppForm>
-      <Map location={(pin) => setLocation(pin)} />
     </Wrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    ...customProps.font,
+    fontSize: 30,
+    fontWeight: "900",
+    color: customProps.primaryColorLight,
+    borderColor: customProps.primaryColorLight,
+    margin: 20,
+    marginTop: 5,
+  },
+  labelName: {
+    ...customProps.font,
+    fontSize: 21,
+    fontWeight: "700",
+    color: customProps.primaryColorLightGray,
+    textAlign: "left",
+    alignSelf: "flex-start",
+    shadowColor: customProps.primaryColorDark,
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 1,
+  },
+  title1: {
+    ...customProps.font,
+    fontWeight: "700",
+    color: customProps.TertiaryColor,
+    margin: 5,
+    textAlign: "left",
+    alignSelf: "flex-start",
+    shadowColor: customProps.primaryColorDark,
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 1,
+  },
+  flexDirection: {
+    width: "100%",
+    justifyContent: "flex-start",
+    padding: 5,
+    paddingLeft: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  label: {
+    ...customProps.font,
+    fontSize: 20,
+    fontWeight: "800",
+    color: customProps.primaryColorLight,
+    alignSelf: "flex-start",
+    shadowColor: customProps.primaryColorDark,
+    shadowOffset: { width: 0.1, height: 0.1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+  },
+  container: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(200,240,210,0.89)",
+    shadowColor: customProps.TertiaryColor,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 0,
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 5,
+    borderTopEndRadius: 25,
+    borderBottomStartRadius: 25,
+    minHeight: 120,
+    overflow: "hidden",
+  },
+});

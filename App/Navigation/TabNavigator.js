@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
 import EditScreenNavigator from "./EditScreenNavigator";
-import { NotificationScreen, SearchScreen } from "../Screens";
+import { NotificationScreen, SearchScreen, GalleryScreen } from "../Screens";
 
 import Routes from "./routes";
 import TabActionButton from "./TabActionButton";
@@ -68,7 +68,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Notification"
-        component={NotificationScreen}
+        component={GalleryScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="bell" size={size} color={color} />

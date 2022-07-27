@@ -26,14 +26,14 @@ const addListing = (listing, onUploadProgress) => {
   data.append("email", listing.email);
   data.append("initialDate", listing.initialDate);
   data.append("address", JSON.stringify(address));
-  data.append("status", listing.status);
+  data.append("status", JSON.stringify(listing.status));
 
   // ? * --> Check boxes
-  data.append("newPool", listing.newPool);
-  data.append("quotationType", listing.quotationType);
-  data.append("indoor", listing.indoor);
-  data.append("poolSteps", listing.poolSteps);
-  data.append("poolType", listing.poolType);
+  data.append("newPool", JSON.stringify(listing.newPool));
+  data.append("quotationType", JSON.stringify(listing.quotationType));
+  data.append("indoor", JSON.stringify(listing.indoor));
+  data.append("poolSteps", JSON.stringify(listing.poolSteps));
+  data.append("poolType", JSON.stringify(listing.poolType));
 
   // ? *-> Pickers
   data.append("projectType_Id", listing.projectType.value);
@@ -59,7 +59,7 @@ const addListing = (listing, onUploadProgress) => {
   data.append("balanceTankDepth", listing.balanceTankDepth);
   data.append("balanceTankVolume", listing.balanceTankVolume);
 
-  // ! *--> options if it is not set it will be undefined
+  // ! *--> options if it is not Selected it will be set to undefined
   data.append("numberOfWallInlets", listing.numberOfWallInlets);
   data.append("numberOfSkimmers", listing.numberOfSkimmers);
   data.append("numberOfSumps", listing.numberOfSumps);
@@ -68,6 +68,8 @@ const addListing = (listing, onUploadProgress) => {
   data.append("counterCurrent", listing.counterCurrent);
   data.append("vacuumPoints", listing.vacuumPoints);
   data.append("description", listing.description);
+  data.append("finalPrice", listing.finalPrice);
+  data.append("selectedPackage", listing.selectedPackage);
 
   data.append("options", JSON.stringify(listing.options));
 

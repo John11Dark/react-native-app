@@ -10,6 +10,7 @@ import {
   UsersScreen,
   ListingDetails,
   RecycleBinScreen,
+  GalleryScreen,
 } from "../Screens";
 import Routes from "./routes";
 import { Icon } from "../components";
@@ -37,6 +38,12 @@ export default function AccountNavigator() {
       />
       <Stack.Screen
         name={Routes.USER_LISTINGS}
+        component={FeedScreen}
+        options={{ title: "My listings" }}
+      />
+      <Stack.Screen name={Routes.IMAGES} component={GalleryScreen} />
+      <Stack.Screen
+        name={Routes.ITEMS}
         component={FeedScreen}
         options={{ title: "My listings" }}
       />

@@ -27,3 +27,21 @@
 // export default {
 //   formatRelativeDate,
 // };
+
+const Today = new Date();
+const hours = Today.getHours();
+console.log(hours);
+
+function greeting(userInitialDate) {
+  let greet = "Good Morning";
+  //TODO: Need to arrange welcome to app
+  if (userInitialDate <= Today)
+    return (greet = "Welcome to dolphin pools app!");
+  if (hours >= 12 && hours <= 17) return (greet = "Good Afternoon");
+  if (hours >= 17 && hours <= 24) return (greet = "Good Evening");
+  return greet;
+}
+
+export default {
+  greeting,
+};

@@ -4,19 +4,20 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
 
-import { envKeys, Styles } from "../config";
+import { customProps, envKeys, Styles } from "../config";
 import Icon from "./Icon";
 
-export default function Map({ title, location }) {
+export default function Map({ title, location, view = false, projectPin }) {
   const mapRef = useRef(null);
 
   // location state
   const [pin, setPin] = useState({
-    latitude: 35.89099722016769,
-    longitude: 14.461754106055244,
+    latitude: 35.8909972201676,
+    longitude: 14.461754106055244444,
     latitudeDelta: 0.4,
     longitudeDelta: 0.4,
   });
+
   useEffect(() => {
     setLocation();
   }, []);
@@ -31,10 +32,10 @@ export default function Map({ title, location }) {
       } = await Location.getCurrentPositionAsync();
 
       setPin({ latitude, longitude, latitudeDelta: 0.3, longitudeDelta: 0.3 });
-      location(pin);
+      if (location) location(pin);
       const camera = await mapRef.current?.getCamera();
       if (camera) {
-        camera.center = pin;
+        camera.center = projectPin ? projectPin : pin;
         mapRef.current.animateCamera(camera, { duration: 500 });
       }
     } catch (error) {
@@ -44,83 +45,89 @@ export default function Map({ title, location }) {
 
   return (
     <View style={styles.mapViewBox}>
-      <ScrollView
-        horizontal
-        style={{
-          flex: 0,
-          position: "absolute",
-          top: 20,
-          width: "95%",
-          zIndex: 1,
-          backgroundColor: Styles.colors.darkCardBackgroundColor,
-          borderRadius: 10,
-        }}
-      >
-        <GooglePlacesAutocomplete
-          placeholder="search"
-          GooglePlacesSearchQuery={{
-            rankby: "distance",
+      {view && (
+        <ScrollView
+          horizontal
+          style={{
+            flex: 0,
+            position: "absolute",
+            top: 20,
+            width: "95%",
+            zIndex: 1,
+            backgroundColor: Styles.colors.darkCardBackgroundColor,
+            borderRadius: 10,
           }}
-          fetchDetails={true}
-          onPress={(data, details = null) => {
-            setPin({
-              latitude: details.geometry.location.lat,
-              longitude: details.geometry.location.lng,
-              latitudeDelta: 0.5,
-              longitudeDelta: 0.5,
-            });
-          }}
-          query={{
-            key: envKeys.googleApiKey,
-            language: "en",
-            components: "country:mt",
-            radius: "30000",
-            location: pin,
-          }}
-          bounce={300}
-          maxLength={3}
-          styles={{
-            container: {
-              width: "100%",
-              borderRadius: 10,
-              height: 50,
-              justifyContent: "center",
-              alignItems: "center",
-              alignContent: "center",
-            },
-            textInput: {
-              backgroundColor: Styles.colors.darkCardBackgroundColor,
-              color: Styles.colors.primaryColorLight,
-              ...Styles.colors.font,
-              width: "100%",
-              height: "100%",
-              minWidth: 365,
-              fontSize: 18,
-            },
-          }}
+        >
+          <GooglePlacesAutocomplete
+            placeholder="search"
+            GooglePlacesSearchQuery={{
+              rankby: "distance",
+            }}
+            fetchDetails={true}
+            onPress={(data, details = null) => {
+              setPin({
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+                latitudeDelta: 0.5,
+                longitudeDelta: 0.5,
+              });
+            }}
+            query={{
+              key: envKeys.googleApiKey,
+              language: "en",
+              components: "country:mt",
+              radius: "30000",
+              location: pin,
+            }}
+            bounce={300}
+            maxLength={3}
+            styles={{
+              container: {
+                width: "100%",
+                borderRadius: 10,
+                height: 50,
+                justifyContent: "center",
+                alignItems: "center",
+                alignContent: "center",
+              },
+              textInput: {
+                backgroundColor: Styles.colors.darkCardBackgroundColor,
+                color: Styles.colors.primaryColorLight,
+                ...Styles.colors.font,
+                width: "100%",
+                height: "100%",
+                minWidth: 365,
+                fontSize: 18,
+              },
+            }}
+          />
+        </ScrollView>
+      )}
+      {view && (
+        <Icon
+          name="map-marker-alert"
+          backgroundColor={Styles.colors.secondaryColor}
+          style={styles.mapMarker}
+          innerSize={30}
+          size={40}
+          onPress={setLocation}
         />
-      </ScrollView>
-
-      <Icon
-        name="map-marker-alert"
-        backgroundColor={Styles.colors.secondaryColor}
-        style={styles.mapMarker}
-        innerSize={30}
-        size={40}
-        onPress={setLocation}
-      />
+      )}
 
       <MapView
         ref={mapRef}
+        userInterfaceStyle={customProps.theme}
+        pitchEnabled={true}
+        showsUserLocation={view ? true : false}
         initialRegion={{
-          latitude: 35.878173828125,
-          longitude: 14.396160663677879,
-          latitudeDelta: 0.4,
-          longitudeDelta: 0.4,
+          latitude: projectPin ? projectPin.latitude : 35.878173828125,
+          longitude: projectPin ? projectPin.longitude : 14.396160663677879,
+          latitudeDelta: projectPin ? 0.05 : 0.4,
+          longitudeDelta: projectPin ? 0.05 : 0.4,
         }}
         style={styles.map}
       >
-        {true && (
+        {view && (
           <Marker
             coordinate={pin}
             pinColor={Styles.colors.secondaryColor}
@@ -136,6 +143,20 @@ export default function Map({ title, location }) {
             <Callout>
               <Text>{title}</Text>
             </Callout>
+          </Marker>
+        )}
+
+        {!view && (
+          <Marker
+            coordinate={projectPin}
+            pinColor={Styles.colors.secondaryColor}
+            draggable={false}
+          >
+            {title && (
+              <Callout>
+                <Text>{title}</Text>
+              </Callout>
+            )}
           </Marker>
         )}
       </MapView>

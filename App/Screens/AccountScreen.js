@@ -31,6 +31,22 @@ let menuItems = [
     targetScreen: routes.MESSAGES,
   },
   {
+    title: "Images",
+    icon: {
+      name: "folder-multiple-image",
+      backgroundColor: "#FF9966",
+    },
+    targetScreen: routes.IMAGES,
+  },
+  {
+    title: "Items",
+    icon: {
+      name: "package",
+      backgroundColor: "#9966CC",
+    },
+    targetScreen: routes.ITEMS,
+  },
+  {
     title: "My Listing",
     icon: {
       name: "format-list-bulleted",

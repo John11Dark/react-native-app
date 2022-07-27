@@ -27,6 +27,7 @@ export default function Card({
   archive,
   restore,
   handleState,
+  poolType,
 }) {
   const [projectStatus, setProjectStatus] = useState(status);
 
@@ -57,11 +58,48 @@ export default function Card({
     // card Continuer
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.cardContinuerTwo}>
+        {/* Status icon */}
+
+        {archive ? (
+          <Icon
+            onPress={() => handleState(listId)}
+            style={styles.icon}
+            backgroundColor={"transparent"}
+            innerSize={80}
+            iconColor={customProps.secondaryColor}
+            name={projectStatus ? "archive-cancel" : "archive"}
+          />
+        ) : restore ? (
+          <Icon
+            onPress={() => handleState(listId)}
+            style={styles.icon}
+            backgroundColor={"transparent"}
+            innerSize={80}
+            iconColor={customProps.greenColor}
+            name={"delete-restore"}
+          />
+        ) : (
+          <Icon
+            onPress={() => handleStatusUpdate(projectStatus)}
+            style={styles.icon}
+            backgroundColor={
+              projectStatus ? customProps.finished : "transparent"
+            }
+            innerSize={80}
+            iconColor={
+              projectStatus
+                ? customProps.primaryColorLight
+                : customProps.importantIconColor
+            }
+            name={projectStatus ? "check-circle" : "check-circle-outline"}
+          />
+        )}
         <Image
           preview={{ uri: thumbnailUrl }}
-          tint={"dark"}
+          tint={customProps.theme}
           uri={imageUrl}
           style={styles.image}
+          transitionDuration={400}
         />
 
         <View style={styles.contentContainer}>
@@ -73,53 +111,16 @@ export default function Card({
           <Text numberOfLines={2} style={styles.subTitle}>
             {subTitle}
           </Text>
+          <Text style={styles.poolType}>
+            {poolType ? "Skimmer" : "Overflow"} pool 📦
+          </Text>
 
-          <View style={styles.bottomContainer}>
-            {/*  created date and by */}
-            <ListItem
-              imagePath={user.image}
-              title={user.name}
-              subTitle={initialDate}
-              textWidth={"50%"}
-              disabled={true}
-            />
-            {/* Status icon */}
-
-            {archive ? (
-              <Icon
-                onPress={() => handleState(listId)}
-                style={styles.icon}
-                backgroundColor={"transparent"}
-                innerSize={80}
-                iconColor={customProps.secondaryColor}
-                name={projectStatus ? "archive-cancel" : "archive"}
-              />
-            ) : restore ? (
-              <Icon
-                onPress={() => handleState(listId)}
-                style={styles.icon}
-                backgroundColor={"transparent"}
-                innerSize={80}
-                iconColor={customProps.greenColor}
-                name={"delete-restore"}
-              />
-            ) : (
-              <Icon
-                onPress={() => handleStatusUpdate(projectStatus)}
-                style={styles.icon}
-                backgroundColor={
-                  projectStatus ? customProps.finished : "transparent"
-                }
-                innerSize={80}
-                iconColor={
-                  projectStatus
-                    ? customProps.primaryColorLight
-                    : customProps.importantIconColor
-                }
-                name={projectStatus ? "check-circle" : "check-circle-outline"}
-              />
-            )}
-          </View>
+          <ListItem
+            imagePath={user.image}
+            title={user.name}
+            subTitle={initialDate}
+            disabled={true}
+          />
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -150,6 +151,8 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 45,
     right: 20,
+    top: 20,
+    position: "absolute",
   },
   bottomContainer: {
     flexDirection: "row",
@@ -187,6 +190,12 @@ const styles = StyleSheet.create({
     fontSize: customProps.mediumTextFontSize,
     color: customProps.primaryColorLight,
     textTransform: "capitalize",
+  },
+  poolType: {
+    ...customProps.font,
+    fontSize: customProps.smallTextFontSize,
+    color: customProps.secondaryColor,
+    fontWeight: "800",
   },
   date: {
     fontSize: customProps.dateTextFontSize,

@@ -27,6 +27,7 @@ const RecycleBinScreen = ({ route }) => {
       errorApi.sendError({ catchError: error, user: "user" });
     }
   };
+
   const handleRestore = (id) => {
     Alert.alert("Recycle bin", "are you sure to restore this list?", [
       {
@@ -43,11 +44,12 @@ const RecycleBinScreen = ({ route }) => {
 
   // effect
   useEffect(() => {
-    if (isFocused == true) request();
+    if (isFocused === true) request();
   }, [isFocused]);
   return (
     <Listings
       data={data}
+      headerTitle={"Recycle Bin"}
       error={error}
       itemNavigationRoute={routes.RECYCLE_BIN_LISTING_DETAILS}
       loading={loading}

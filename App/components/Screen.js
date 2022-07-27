@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import Constants from "expo-constants";
 import customProps from "../config/customProps";
-export default function Screen({ children, style, imageUrl }) {
+export default function Screen({ children, style }) {
   return (
     <SafeAreaView
       style={[

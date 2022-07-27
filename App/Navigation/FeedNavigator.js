@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View } from "react-native";
 
 import Routes from "./routes";
-import { FeedScreen, ListingDetails, ViewImage } from "../Screens";
+import { FeedScreen, ListingDetails, GalleryScreen } from "../Screens";
 import { customProps } from "../config";
 import { Icon, File } from "../components";
 const Stack = createStackNavigator();
@@ -12,7 +12,7 @@ export default function FeedNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} mode="modal">
       <Stack.Screen name={Routes.LISTINGS} component={FeedScreen} />
-      <Stack.Screen name={Routes.VIEW_IMAGE} component={ViewImage} />
+      <Stack.Screen name={Routes.VIEW_IMAGE} component={GalleryScreen} />
       <Stack.Screen
         name={Routes.LISTING_DETAILS}
         component={ListingDetails}

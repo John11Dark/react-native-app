@@ -58,6 +58,7 @@ const darkOrLight = (theme) => {
       primaryColor: "#50BED2",
       primaryColorDark: "#1E2931",
       primaryColorLight: "#EDEEE4",
+      primaryColorLightOpacity: "#edeee4d2",
       primaryColorLightGray: "#b6abab",
       primaryColorDarkGray: "#678186",
       primaryColorDarkOpacity: "#1e29319a",

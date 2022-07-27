@@ -14,6 +14,7 @@ const AppTextInput = ({
   width = "100%",
   title,
   secondIcon,
+  secondIconEnabled,
   onSecondIconPress,
   ...otherProps
 }) => {
@@ -46,6 +47,7 @@ const AppTextInput = ({
             iconColor={customProps.secondaryColor}
             onPress={onSecondIconPress}
             backgroundColor="transparent"
+            disabled={secondIconEnabled}
           />
         )}
       </View>

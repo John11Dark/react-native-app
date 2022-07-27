@@ -13,6 +13,7 @@ const DateTimePicker = ({
   title = "Initial Date",
   placeholder = "ex: Mon Jun 10 2022",
   otherProps,
+  enabled,
 }) => {
   // states
   const [date, setDate] = useState(new Date());
@@ -26,6 +27,7 @@ const DateTimePicker = ({
         value={values[name]}
         icon="calendar"
         secondIcon="calendar-edit"
+        secondIconEnabled={enabled}
         onSecondIconPress={() => setVisible(!visible)}
         title={title}
         editable={false}

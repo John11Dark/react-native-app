@@ -4,6 +4,8 @@ const routes = Object.freeze({
   ARCHIVED_LISTING_DETAILS: "archivedListingDetails",
   EDIT_USER_PROFILE: "EditUserProfile",
   FORGOT: "ForgotPassword",
+  IMAGES: "Images",
+  ITEMS: "items",
   LISTINGS: "Feed",
   LISTING_DETAILS: "ListingDetails",
   LISTING_EDIT: "ListingEdit",

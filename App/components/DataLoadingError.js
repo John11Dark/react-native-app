@@ -16,7 +16,9 @@ const DataLoadingError = ({ onPress, text, visible, imageViable = false }) =>
       />
       <View style={Styles.errorContainer}>
         <Icon name="update" onPress={onPress} />
-        <Text style={[Styles.errorText]}>{text}</Text>
+        <Text numberOfLines={3} style={[Styles.errorText]}>
+          {text}
+        </Text>
       </View>
     </>
   ) : null;

@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { Styles } from "../../../config";
 import localites from "../../../assets/Data/localites";
-
+import availablePackages from "../../../assets/Data/availablePackages";
 // Variables
 const initialValues = {
   email: "",
@@ -53,21 +53,21 @@ const validationSchema = Yup.object().shape({
 const projectTypeOptions = [
   {
     label: "Pool",
-    value: 1,
+    value: 0,
     icon: "pool",
     backgroundColor: "#BEB3AD",
   },
-  { label: "Spa", value: 3, icon: "spa", backgroundColor: "#55bbda" },
+  { label: "Spa", value: 1, icon: "spa", backgroundColor: "#55bbda" },
   {
     label: "Well",
-    value: 4,
+    value: 2,
     icon: "apps",
     backgroundColor: "#ea552b",
   },
   {
     label: "Other",
     name: "Other",
-    value: 4,
+    value: 3,
     icon: "progress-question",
     backgroundColor: "#613224",
   },
@@ -76,26 +76,26 @@ const projectTypeOptions = [
 const tileOptions = [
   {
     label: "tile",
-    value: 1,
+    value: 0,
     icon: "align-vertical-bottom",
     backgroundColor: "#55bbda",
   },
   {
     label: "Mosaic",
-    value: 2,
+    value: 1,
     icon: "overscan",
     backgroundColor: "#ea552b",
   },
   {
     label: "Liner",
-    value: 3,
+    value: 2,
     icon: "update",
     backgroundColor: "#B5C273",
   },
 
   {
     label: "Other",
-    value: 4,
+    value: 3,
     icon: "progress-question",
     backgroundColor: "#613224",
   },
@@ -104,26 +104,26 @@ const tileOptions = [
 const poolLocationOptions = [
   {
     label: "in-Ground",
-    value: 1,
+    value: 0,
     icon: "floor-plan",
     backgroundColor: "#55bbda",
   },
   {
     label: "RoofTop",
-    value: 2,
+    value: 1,
     icon: "home-roof",
     backgroundColor: "#ea552b",
   },
   {
     label: "AboveGround",
-    value: 3,
+    value: 2,
     icon: "grass",
     backgroundColor: "#B5C273",
   },
   {
     label: "Other",
     name: "Other",
-    value: 4,
+    value: 3,
     icon: "progress-question",
     backgroundColor: "#613224",
   },
@@ -137,4 +137,5 @@ export default {
   initialValues,
   Styles,
   localites,
+  availablePackages,
 };

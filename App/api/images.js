@@ -1,9 +1,15 @@
 import client from "./client";
+import pixelsClient from "./pixelsClient";
 import { getExtension, getImageType } from "../utils";
 
 const endpoint = "images";
 
+const pixelsEndPoint = "pools";
+
 const getImages = () => client.get(endpoint);
+
+const getImagesFromPixelsServer = async () => pixelsClient(pixelsEndPoint);
+
 const deleteImage = (id) => client.delete(endpoint + id);
 
 const postImages = async (images) => {
@@ -19,8 +25,10 @@ const postImages = async (images) => {
   const res = await client.post(endpoint, imagesData);
   return res;
 };
+
 export default {
   getImages,
   postImages,
   deleteImage,
+  getImagesFromPixelsServer,
 };

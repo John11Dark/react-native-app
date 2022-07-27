@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, FlatList, Alert } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-import { ActivityIndicator, Card, DataLoadingError, Screen } from "../";
+import { ActivityIndicator, Card, DataLoadingError, Screen, Header } from "../";
 import customProps from "../../config/customProps";
 import Routes from "../../Navigation/routes";
 
@@ -13,6 +12,7 @@ const Listings = ({
   onRefresh,
   itemNavigationRoute = Routes.LISTING_DETAILS,
   handleState,
+  headerTitle,
 }) => {
   const navigation = useNavigation();
   return (
@@ -22,9 +22,13 @@ const Listings = ({
         <DataLoadingError
           visible={error}
           onPress={onRefresh}
-          text="Couldn't retrieve the listings."
+          text="Could not retrieve Feeds from the Server."
         />
         <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          refreshing={loading}
+          onRefresh={() => onRefresh()}
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -41,12 +45,10 @@ const Listings = ({
               initialDate={item.initialDate}
               listId={item.id}
               handleState={handleState}
+              poolType={item.poolType}
             />
           )}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          refreshing={loading}
-          onRefresh={() => onRefresh()}
+          ListHeaderComponent={<Header title={headerTitle} searchBar={false} />}
         />
       </Screen>
     </>

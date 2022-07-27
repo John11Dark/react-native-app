@@ -56,6 +56,10 @@ export default function ImageInput({
   }
 
   async function role() {
+    return Alert.alert(
+      "info",
+      "This Functionality are not available at the moment"
+    );
     try {
       const response = await imagesApi.getImages();
       if (!response.ok) {

@@ -49,6 +49,7 @@ const ArchivedScreen = ({ route }) => {
   }, [route.params?.userArchivedListings, isFocused]);
   return route.params?.userArchivedListings ? (
     <Listings
+      headerTitle={"Archived"}
       data={data}
       error={error}
       itemNavigationRoute={routes.ARCHIVED_LISTING_DETAILS}
@@ -58,6 +59,7 @@ const ArchivedScreen = ({ route }) => {
     />
   ) : (
     <Listings
+      headerTitle={"Archived"}
       data={data}
       error={error}
       itemNavigationRoute={routes.ARCHIVED_LISTING_DETAILS}

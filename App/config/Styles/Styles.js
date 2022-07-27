@@ -147,6 +147,8 @@ const Styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: "center",
     width: "100%",
+    maxWidth: 300,
+    textAlign: "center",
     alignSelf: "flex-start",
   },
   primaryText: {
@@ -265,6 +267,7 @@ const Styles = StyleSheet.create({
     fontSize: 22,
     color: customProps.primaryColorLight,
     textTransform: "capitalize",
+    maxWidth: 250,
   },
   errorContainer: {
     flexDirection: "row",

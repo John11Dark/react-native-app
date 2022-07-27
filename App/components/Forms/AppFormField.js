@@ -15,7 +15,6 @@ export default function AppFormField({
 }) {
   const { errors, setFieldTouched, setFieldValue, touched, values } =
     useFormikContext();
-
   return (
     <>
       <TextInput

@@ -20,6 +20,7 @@ export default function FeedScreen({ route }) {
     <Listings
       data={userListings.data}
       error={userListings.error}
+      headerTitle={"For You"}
       itemNavigationRoute={Routes.USER_LISTING_DETAILS}
       loading={userListings.loading}
       onRefresh={() => {
@@ -28,6 +29,7 @@ export default function FeedScreen({ route }) {
     />
   ) : (
     <Listings
+      headerTitle={"Feed"}
       data={allListings.data}
       error={allListings.error}
       loading={allListings.loading}
