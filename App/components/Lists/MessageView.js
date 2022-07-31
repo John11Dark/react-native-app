@@ -23,10 +23,18 @@ export default function MessageView({
           style={[styles.container, styleParameter]}
         >
           <Image
-            preview={{ uri: imagePath.thumbnail }}
+            preview={{
+              uri: imagePath.thumbnail
+                ? imagePath.thumbnail
+                : "https://cdn-icons-png.flaticon.com/128/149/149071.png",
+            }}
             style={styles.image}
-            tint={"light"}
-            uri={imagePath.url}
+            tint={customProps.theme}
+            uri={
+              imagePath.url
+                ? imagePath.url
+                : "https://cdn-icons-png.flaticon.com/128/149/149071.png"
+            }
           />
           <View style={styles.textContainer}>
             {title && (
@@ -104,7 +112,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "red",
+    overflow: "hidden",
   },
   textContainer: {
     marginLeft: 15,

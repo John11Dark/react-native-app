@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "DolphinPoolsLtd",
-    "slug": "DolphinPoolsLtd",
+    "name": "Dolphin Pools Limited",
+    "slug": "DolphinPoolsLtdApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./App/assets/mainIcon.png",
@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.johnmuller.DolphinPoolsLtd"
@@ -33,6 +31,6 @@
     "notification": {
       "iosDisplayInForeground": true
     },
-    "description": ""
+    "description": "dolphin pools app "
   }
 }

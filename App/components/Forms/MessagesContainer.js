@@ -117,7 +117,11 @@ export default function MessagesContainer({ user, listId }) {
                   title={item.user.name === user.name ? "you" : item.user.name}
                   subTitle={item.comment}
                   disabled={true}
-                  imagePath={item.user.image[0]}
+                  imagePath={
+                    item.user.image[0]
+                      ? item.user.image[0]
+                      : "https://cdn-icons-png.flaticon.com/128/149/149071.png"
+                  }
                   dateTime={item.dateTime}
                   right={item.user.name === user.name}
                 />
