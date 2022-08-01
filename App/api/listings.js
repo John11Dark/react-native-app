@@ -36,9 +36,9 @@ const addListing = (listing, onUploadProgress) => {
   data.append("poolType", JSON.stringify(listing.poolType));
 
   // ? *-> Pickers
-  data.append("projectType_Id", listing.projectType.value);
-  data.append("poolLocation_Id", listing.poolLocation.value);
-  data.append("tileType_Id", listing.tileType.value);
+  data.append("projectType", JSON.stringify(listing.projectType));
+  data.append("poolLocation", JSON.stringify(listing.poolLocation));
+  data.append("tileType", JSON.stringify(listing.tileType));
 
   // ? * --> coping permeates
   data.append("poolPerimeter", listing.poolPerimeter);

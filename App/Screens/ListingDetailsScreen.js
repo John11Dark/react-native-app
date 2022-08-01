@@ -25,6 +25,7 @@ import {
   Icon,
   CheckBox,
   ScrollerView,
+  Wrapper,
 } from "../components";
 import Functions from "./Listing/Functions/Functions";
 
@@ -110,13 +111,9 @@ export default function ListingDetails({ route }) {
   const [error, setError] = useState(null);
 
   ///*--> Picker states
-  const [projectType, setProjectType] = useState(
-    projectTypeOptions[values.projectType_Id]
-  );
-  const [poolLocation, setPoolLocation] = useState(
-    poolLocationOptions[values.poolLocation_Id]
-  );
-  const [poolTile, setPoolTile] = useState(tileOptions[values.projectType_Id]);
+  const [projectType, setProjectType] = useState(values.projectType);
+  const [poolLocation, setPoolLocation] = useState(values.poolLocation);
+  const [poolTile, setPoolTile] = useState(tileOptions[values.projectType]);
   const [locality, setLocality] = useState(
     localites.Malta[values.address.locality.id]
   );
@@ -555,13 +552,25 @@ export default function ListingDetails({ route }) {
             user: values.user,
             options: values.options,
             selectedPackage: values.selectedPackage,
-            numberOfWallInlets: values.numberOfWallInlets,
-            numberOfSkimmers: values.numberOfSkimmers,
-            numberOfSumps: values.numberOfSumps,
-            numberOfLights: values.numberOfLights,
-            spaJets: values.spaJets,
-            counterCurrent: values.counterCurrent,
-            vacuumPoints: values.vacuumPoints,
+            numberOfWallInlets: values.numberOfWallInlets
+              ? values.numberOfWallInlets.toString()
+              : "0",
+            numberOfSkimmers: values.numberOfSkimmers
+              ? values.numberOfSkimmers.toString()
+              : "0",
+            numberOfSumps: values.numberOfSumps
+              ? values.numberOfSumps.toString()
+              : "0",
+            numberOfLights: values.numberOfLights
+              ? values.numberOfLights.toString()
+              : "0",
+            spaJets: values.spaJets ? values.spaJets.toString() : "0",
+            counterCurrent: values.counterCurrent
+              ? values.counterCurrent.toString()
+              : "0",
+            vacuumPoints: values.vacuumPoints
+              ? values.vacuumPoints.toString()
+              : "0",
             description: values.description,
             totalPrice: values.totalPrice,
             finalPrice: values.finalPrice,
@@ -891,7 +900,9 @@ export default function ListingDetails({ route }) {
                     autoCapitalize="none"
                     keyboardType="decimal-pad"
                     icon="move-resize-variant"
-                    value={balanceTankVolume.toString()}
+                    value={
+                      balanceTankVolume ? balanceTankVolume.toString() : ""
+                    }
                     title="Balance Tank Volume"
                     numberOfLines={3}
                     multiline
@@ -909,6 +920,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="No. of Wall inlets"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <AppFormField
               name="numberOfSumps"
@@ -918,6 +930,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="No. of Sumps"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <AppFormField
               name="numberOfSkimmers"
@@ -927,6 +940,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="No. of skimmers"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <AppFormField
               name="numberOfLights"
@@ -936,6 +950,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="No. of Lights"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <AppFormField
               name="spaJets"
@@ -945,6 +960,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="No. of Spa Jets"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <AppFormField
               name="counterCurrent"
@@ -954,6 +970,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="Counter Current"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <AppFormField
               name="vacuumPoints"
@@ -963,6 +980,7 @@ export default function ListingDetails({ route }) {
               placeholder="Optional Number"
               title="Vacuum points"
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             {/* Description */}
             <AppFormField
@@ -974,6 +992,7 @@ export default function ListingDetails({ route }) {
               numberOfLines={5}
               multiline
               editable={edit}
+              clearButtonMode={edit ? "always" : "never"}
             />
             <ErrorMessage visible={error} error={error} />
           </View>
@@ -995,7 +1014,9 @@ export default function ListingDetails({ route }) {
         imagePath={values.user.image}
         clearButtonMode={edit ? "always" : "never"}
         disabled={true}
-        style={{ container: { width: "90%", backgroundColor: "transparent" } }}
+        style={{
+          container: { width: "90%", backgroundColor: "transparent" },
+        }}
       />
       <MessagesContainer user={user} />
     </ScrollerView>
