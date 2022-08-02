@@ -12,6 +12,7 @@ import TabActionButton from "./TabActionButton";
 import Navigation from "../Navigation/rootNavigation";
 import pushTokenApi from "../api/expoPushToken";
 import { useNotifications } from "../hooks";
+import Role from "../Screens/Role";
 
 const Tab = createBottomTabNavigator();
 
@@ -68,7 +69,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Notification"
-        component={NotificationScreen}
+        component={Role}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="bell" size={size} color={color} />

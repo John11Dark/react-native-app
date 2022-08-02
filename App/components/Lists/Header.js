@@ -4,19 +4,32 @@ import SearchBar from "./SearchBar";
 import { customProps } from "../../config";
 import { useAuth } from "../../hooks";
 import functions from "../../config/Functions/functions";
+import Icon from "../Icon";
+import { useNavigation } from "@react-navigation/native";
 export default function Header({
   title = "Today",
   subTitle = "",
-  username = "John",
   searchBar,
   uri,
+  goBack,
+  style,
 }) {
+  const navigation = useNavigation();
   const { user } = useAuth();
   !subTitle ? (subTitle = functions.greeting(Date(user.iat))) : subTitle;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.flexConcent}>
         <View style={styles.textContainer}>
+          {goBack && (
+            <Icon
+              name={"keyboard-backspace"}
+              backgroundColor={"transparent"}
+              iconColor={customProps.primaryColorLight}
+              onPress={() => navigation.goBack()}
+              style={styles.goBack}
+            />
+          )}
           <Text style={styles.title}>{title}</Text>
           <Text numberOfLines={1} style={styles.subTitle}>
             {subTitle} {user.name}
@@ -50,6 +63,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 0,
     elevation: 4,
+    overflow: "hidden",
   },
   flexConcent: {
     flexDirection: "row",
@@ -71,10 +85,22 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     color: customProps.secondaryColor,
     textAlign: "left",
-    maxWidth: 250,
+    //maxWidth: 250,
   },
   textContainer: {
     marginLeft: 15,
     justifyContent: "flex-start",
+  },
+  goBack: {
+    position: "absolute",
+    top: -30,
+    left: -30,
+    backgroundColor: customProps.secondaryColor,
+    zIndex: -1,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomEndRadius: 40,
+    height: 40,
+    paddingTop: 10,
   },
 });

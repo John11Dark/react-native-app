@@ -22,6 +22,7 @@ export default function FeedScreen({ route }) {
       error={userListings.error}
       headerTitle={"For You"}
       itemNavigationRoute={Routes.USER_LISTING_DETAILS}
+      goBack
       loading={userListings.loading}
       onRefresh={() => {
         userListings.request(user.userId);

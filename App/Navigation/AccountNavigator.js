@@ -14,7 +14,8 @@ import {
 } from "../Screens";
 import Routes from "./routes";
 import { Icon } from "../components";
-import { customProps } from "../config";
+import { customProps, File } from "../config";
+import Role from "../Screens/Role";
 
 const Stack = createStackNavigator();
 
@@ -39,9 +40,13 @@ export default function AccountNavigator() {
       <Stack.Screen
         name={Routes.USER_LISTINGS}
         component={FeedScreen}
-        options={{ title: "My listings" }}
+        options={{ title: "My listings", headerShown: false }}
       />
-      <Stack.Screen name={Routes.IMAGES} component={GalleryScreen} />
+      <Stack.Screen
+        name={Routes.IMAGES}
+        component={Role}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name={Routes.ITEMS}
         component={FeedScreen}
@@ -60,7 +65,7 @@ export default function AccountNavigator() {
               }}
             >
               <Icon
-                onPress={() => File.print(route.params)}
+                onPress={() => File.Print(route.params)}
                 iconColor={customProps.primaryColor}
                 backgroundColor="transparent"
                 name="printer"
@@ -105,7 +110,7 @@ export default function AccountNavigator() {
               }}
             >
               <Icon
-                onPress={() => File.print(route.params)}
+                onPress={() => File.Print(route.params)}
                 iconColor={customProps.primaryColor}
                 backgroundColor="transparent"
                 name="printer"
@@ -136,7 +141,7 @@ export default function AccountNavigator() {
       <Stack.Screen
         name={Routes.RECYCLE}
         component={RecycleBinScreen}
-        options={{ title: "Recycle bin" }}
+        options={{ title: "Recycle bin", headerShown: false }}
       />
       <Stack.Screen
         name={Routes.RECYCLE_BIN_LISTING_DETAILS}
@@ -151,7 +156,7 @@ export default function AccountNavigator() {
               }}
             >
               <Icon
-                onPress={() => File.print(route.params)}
+                onPress={() => File.Print(route.params)}
                 iconColor={customProps.primaryColor}
                 backgroundColor="transparent"
                 name="printer"

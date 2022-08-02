@@ -4,8 +4,8 @@ import { View } from "react-native";
 
 import Routes from "./routes";
 import { FeedScreen, ListingDetails, GalleryScreen } from "../Screens";
-import { customProps } from "../config";
-import { Icon, File } from "../components";
+import { customProps, File } from "../config";
+import { Icon } from "../components";
 const Stack = createStackNavigator();
 
 export default function FeedNavigator() {
@@ -26,7 +26,7 @@ export default function FeedNavigator() {
               }}
             >
               <Icon
-                onPress={() => File.print(route.params)}
+                onPress={() => File.Print(route.params)}
                 iconColor={customProps.primaryColor}
                 backgroundColor="transparent"
                 name="printer"

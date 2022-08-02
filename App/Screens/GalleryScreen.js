@@ -14,7 +14,7 @@ import { customProps } from "../config";
 
 export default function DescriptionContainer({ route, navigation }) {
   // ? * -->
-  const values = route.params.images;
+  const values = route?.params?.images;
   const { height, width } = Dimensions.get("screen");
   const imageSize = 80;
   const spacing = 11.5;
@@ -125,6 +125,15 @@ export default function DescriptionContainer({ route, navigation }) {
     </>
   ) : (
     <>
+      <Icon
+        name="backburger"
+        onPress={() => navigation.goBack()}
+        backgroundColor={customProps.darkOpacity}
+        iconColor={customProps.secondaryColor}
+        style={styles.closeIcon}
+        size={45}
+        innerSize={30}
+      />
       <FlatList
         ref={listIndexRef}
         data={images}

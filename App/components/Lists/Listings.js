@@ -10,6 +10,7 @@ const Listings = ({
   error,
   loading,
   onRefresh,
+  goBack = false,
   itemNavigationRoute = Routes.LISTING_DETAILS,
   handleState,
   headerTitle,
@@ -48,7 +49,9 @@ const Listings = ({
               poolType={item.poolType}
             />
           )}
-          ListHeaderComponent={<Header title={headerTitle} searchBar={false} />}
+          ListHeaderComponent={
+            <Header title={headerTitle} goBack={goBack} searchBar={false} />
+          }
         />
       </Screen>
     </>

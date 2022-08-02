@@ -382,7 +382,7 @@ const generatePdf = (data) => {
           </div>
           <div class="details">
             <h2 class="filedLabel">Locality:</h2>
-            <h3 class="filedValue">${data.address.locality}</h3>
+            <h3 class="filedValue">${data.address.locality.label}</h3>
           </div>
           <div class="details">
             <h2 class="filedLabel">Address Street One</h2>
@@ -446,35 +446,44 @@ const generatePdf = (data) => {
             }</h3>
           </div>
 
-          ${
-            !data.poolType
-              ? `<div class="details">
-            <h2 class="filedLabel">Balance Tank Length:</h2>
-            <h3 class="filedValue Number">${
-              data.balanceTankLength ? data.balanceTankLength : "0"
-            }</h3>
-          </div>
-          <div class="details">
-            <h2 class="filedLabel">Balance Tank Width</h2>
-            <h3 class="filedValue Number">${
-              data.balanceTankWidth ? data.balanceTankWidth : "0"
-            }</h3>
-          </div>
-          <div class="details">
-            <h2 class="filedLabel">Balance Tank Depth</h2>
-            <h3 class="filedValue Number">${
-              data.balanceTankDepth ? data.balanceTankDepth : "0"
-            }</h3>
-          </div>
+         
+        </section>
+        ${
+          !data.poolType
+            ? `
+            <section class="box PoolParameter">
+            <div class="boxTitle">
+              <h2 class="containerTitle">Balance Tank Parameter</h2>
+              <div class="containerTitleAfter"></div>
+            </div>
+            
+            <div class="details">
+          <h2 class="filedLabel">Balance Tank Length:</h2>
+          <h3 class="filedValue Number">${
+            data.balanceTankLength ? data.balanceTankLength : "0"
+          }</h3>
+        </div>
+        <div class="details">
+          <h2 class="filedLabel">Balance Tank Width</h2>
+          <h3 class="filedValue Number">${
+            data.balanceTankWidth ? data.balanceTankWidth : "0"
+          }</h3>
+        </div>
+        <div class="details">
+          <h2 class="filedLabel">Balance Tank Depth</h2>
+          <h3 class="filedValue Number">${
+            data.balanceTankDepth ? data.balanceTankDepth : "0"
+          }</h3>
+        </div>
 
-          <div class="details">
-            <h2 class="filedLabel">Balance Tank Volume</h2>
-            <h3 class="filedValue Number">${
-              data.poolVolume ? data.balanceTankVolume : "0"
-            }</h3>
-          </div>`
-              : " "
-          }
+        <div class="details">
+          <h2 class="filedLabel">Balance Tank Volume</h2>
+          <h3 class="filedValue Number">${
+            data.poolVolume ? data.balanceTankVolume : "0"
+          }</h3>
+        </div>`
+            : " "
+        }
         </section>
   
         <!-- Pool Options optional -->
@@ -606,7 +615,8 @@ const generatePdf = (data) => {
 
   return html;
 };
-const print = async (data) => {
+
+const Print = async (data) => {
   try {
     await printAsync({
       html: generatePdf(data),
@@ -625,6 +635,6 @@ const Share = async (data) => {
 };
 
 export default {
-  print,
+  Print,
   Share,
 };

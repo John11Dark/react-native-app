@@ -50,6 +50,7 @@ const RecycleBinScreen = ({ route }) => {
     <Listings
       data={data}
       headerTitle={"Recycle Bin"}
+      goBack
       error={error}
       itemNavigationRoute={routes.RECYCLE_BIN_LISTING_DETAILS}
       loading={loading}

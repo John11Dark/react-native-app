@@ -52,6 +52,7 @@ const ArchivedScreen = ({ route }) => {
       headerTitle={"Archived"}
       data={data}
       error={error}
+      goBack
       itemNavigationRoute={routes.ARCHIVED_LISTING_DETAILS}
       loading={loading}
       onRefresh={request}
