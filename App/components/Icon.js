@@ -6,7 +6,7 @@ export default function Icon({
   name,
   size = customProps.primaryIconScaleSize,
   innerSize = size * 0.6,
-  backgroundColor = customProps.primaryColor,
+  backgroundColor = "transparent",
   iconColor = customProps.primaryColorLight,
   style,
   onPress,

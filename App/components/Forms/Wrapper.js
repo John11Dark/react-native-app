@@ -5,7 +5,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import UploadIndicator from "../UploadIndicator";
 import Screen from "../Screen";
 const Wrapper = ({
@@ -14,11 +14,19 @@ const Wrapper = ({
   uploadVisible = false,
   onFinish,
   animation = false,
+  scrollEnabled = true,
+  scrollBarVisible = true,
 }) => {
+  const scrollViewRef = useRef(null);
   return (
     <Screen>
       <KeyboardAvoidingView keyboardVerticalOffset={50} behavior={"padding"}>
-        <ScrollView>
+        <ScrollView
+          //onContentSizeChange={() => scrollViewRef?.current?.scrollToEnd()}
+          ref={scrollViewRef}
+          scrollEnabled={scrollEnabled}
+          showsVerticalScrollIndicator={scrollBarVisible}
+        >
           {/* upload animation */}
           {animation && (
             <UploadIndicator

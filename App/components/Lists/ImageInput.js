@@ -14,6 +14,7 @@ export default function ImageInput({
   borderRadius = 25,
   maxLength,
   uriLength,
+  marginLeft = 15,
 }) {
   // ? * --> States
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -110,7 +111,12 @@ export default function ImageInput({
       <TouchableOpacity
         style={[
           Styles.ImageContainer,
-          { height: size, width: size, borderRadius: borderRadius },
+          {
+            height: size,
+            width: size,
+            borderRadius: borderRadius,
+            marginLeft,
+          },
         ]}
         onPress={handlePress}
       >

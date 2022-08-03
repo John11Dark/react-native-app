@@ -128,10 +128,10 @@ export default function ProfileScreen({ navigation }) {
             id: user.userId,
             image: [user.images[0].url],
             name: user.name,
+            username: user.username,
+            phoneNumber: user.phoneNumber,
             newPassword: null,
             oldPassword: null,
-            phoneNumber: user.phoneNumber,
-            username: user.username,
           }}
           onSubmit={handleUpdate}
           validationSchema={validationSchema}

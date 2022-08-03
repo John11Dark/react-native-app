@@ -84,6 +84,7 @@ const darkOrLight = (theme) => {
       primaryTextFontSize: Platform.OS === "android" ? 19.5 : 22.5,
       mediumTextFontSize: Platform.OS === "android" ? 18 : 20,
       smallTextFontSize: Platform.OS === "android" ? 14 : 16,
+      descriptionTextFontSize: Platform.OS === "android" ? 16 : 18,
       innerTextFontSize: Platform.OS === "android" ? 18 : 20,
       dateTextFontSize: Platform.OS === "android" ? 13 : 15,
 

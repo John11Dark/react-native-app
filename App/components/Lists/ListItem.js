@@ -14,6 +14,7 @@ export default function ListItem({
   disabled = false,
   users = false,
   description,
+  marginBottom,
 }) {
   return !users ? (
     // Images
@@ -23,7 +24,7 @@ export default function ListItem({
         underlayColor={customProps.primaryColorDarkOpacity}
         onPress={onPress}
       >
-        <View style={[styles.container, style.container]}>
+        <View style={[{ marginBottom }, styles.container, style.container]}>
           {IconComponent}
           {imagePath && (
             <Image
@@ -35,7 +36,9 @@ export default function ListItem({
             />
           )}
           {/* Text */}
-          <View style={[styles.textContainer, { width: textWidth }]}>
+          <View
+            style={[styles.textContainer, { width: textWidth }, style?.text]}
+          >
             <Text style={[styles.title, style.text]}>{title}</Text>
             {subTitle && (
               <Text style={[styles.subTitle, style.text]}>{subTitle}</Text>
