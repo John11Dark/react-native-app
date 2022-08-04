@@ -54,6 +54,7 @@ export default function Card({
   useEffect(() => {
     setProjectStatus(status);
   }, [status]);
+  console.log(user);
   return (
     // card Continuer
     <TouchableWithoutFeedback onPress={onPress}>
@@ -83,7 +84,7 @@ export default function Card({
             onPress={() => handleStatusUpdate(projectStatus)}
             style={styles.icon}
             backgroundColor={
-              projectStatus ? customProps.finished : "transparent"
+              projectStatus ? customProps.primaryColor : "transparent"
             }
             innerSize={80}
             iconColor={
