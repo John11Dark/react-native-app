@@ -33,7 +33,7 @@ export default function Dialog({
       <TextInput
         autoCapitalize={"words"}
         clearButtonMode={"while-editing"}
-        autoFocus
+        autoFocus={visible}
         style={styles.textInput}
         onChangeText={(text) => setTextContent(text)}
       />

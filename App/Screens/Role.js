@@ -19,6 +19,7 @@ import {
   Icon,
   ImageInput,
   ListItem,
+  PrimaryButton,
   Wrapper,
 } from "../components";
 import { customProps } from "../config";
@@ -111,11 +112,16 @@ export default function Role({
   const [currentItem, setCurrentItem] = useState(null);
   const [data, setData] = useState(dataProp ? dataProp : folders);
   const [selected, setSelected] = useState(null);
-  const [dialogVisible, setDialogVisible] = useState(true);
-  const [saveButtonVisible, setSaveButtonVisible] = useState(true);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [saveButtonVisible, setSaveButtonVisible] = useState(false);
   // ? * -->  refs
   const transitionRef = useRef();
 
+  // ? * --> Functions
+  const submit = async () => {
+    const result = 1 + 1;
+    return result;
+  };
   // ? * --> Main
   return (
     <Wrapper scrollBarVisible={false}>
@@ -260,6 +266,11 @@ export default function Role({
             iconColor={customProps.primaryColor}
           />
         }
+      />
+      <PrimaryButton
+        title={"Post"}
+        handlePress={() => submit()}
+        visible={saveButtonVisible}
       />
       <Dialog
         visible={dialogVisible}

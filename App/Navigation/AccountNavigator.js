@@ -30,7 +30,7 @@ export default function AccountNavigator() {
       <Stack.Screen
         name={Routes.MESSAGES}
         component={MessagesScreen}
-        options={{ title: "Messages" }}
+        options={{ title: "Messages", headerShown: false }}
       />
       <Stack.Screen
         name={Routes.USERS}

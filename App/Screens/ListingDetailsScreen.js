@@ -113,9 +113,9 @@ export default function ListingDetails({ route }) {
   ///*--> Picker states
   const [projectType, setProjectType] = useState(values.projectType);
   const [poolLocation, setPoolLocation] = useState(values.poolLocation);
-  const [poolTile, setPoolTile] = useState(tileOptions[values.projectType]);
+  const [poolTile, setPoolTile] = useState(values.tileType);
   const [locality, setLocality] = useState(
-    localites.Malta[values.address.locality.id]
+    localites.Malta[values.address.locality]
   );
 
   ///  *-->// Pool required options states
@@ -447,13 +447,12 @@ export default function ListingDetails({ route }) {
     balanceTankWidth,
     balanceTankDepth,
   ]);
-
+  console.log(values);
   ///*--> Surface Area
   useEffect(() => {
     if (!edit) return;
     console.log("per");
   }, [poolCopingPerimeter, poolPerimeter]);
-
   return (
     <ScrollerView title={values.site} imageUri={values.images[0].url}>
       <View style={styles.detailsHeader}>
@@ -520,7 +519,9 @@ export default function ListingDetails({ route }) {
             clientFirstName: values.clientFirstName,
             clientLastName: values.clientLastName,
             streetLineOne: values.address.streetLineOne,
-            streetLineTwo: values.streetLineTwo,
+            streetLineTwo: values.address.streetLineTwo
+              ? values.address.streetLineTwo
+              : "",
             locality: locality,
             clientPhoneNumber: values.clientPhoneNumber,
             countryCode: values.countryCode,
@@ -536,13 +537,15 @@ export default function ListingDetails({ route }) {
             quotationType: values.quotationType,
             indoor: values.indoor,
             poolLeaking: values.poolLeaking,
-            isNewPool: values.isNewPool,
+            newPool: values.newPool,
             poolLength: values.poolLength,
             poolWidth: values.poolWidth,
             poolDepthEnd: values.poolDepthEnd,
             poolDepthStart: values.poolDepthStart,
-            copingParameter: values.copingParameter,
-            poolParameter: values.poolParameter,
+            copingPerimeter: values.copingPerimeter
+              ? values.copingPerimeter
+              : "0",
+            poolPerimeter: values.poolPerimeter ? values.poolPerimeter : "0",
             poolVolume: values.poolVolume,
             balanceTankLength: values.balanceLength,
             balanceTankWidth: values.balanceTankWidth,
@@ -650,20 +653,19 @@ export default function ListingDetails({ route }) {
               clearButtonMode={edit ? "always" : "never"}
               editable={edit}
             />
-            {values.address.streetLineTwo ||
-              (edit && (
-                <AppFormField
-                  name="streetLineTwo"
-                  icon="map"
-                  title="Street address Line 2"
-                  placeholder="optional"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  textContentType="streetAddressLine2"
-                  clearButtonMode={edit ? "always" : "never"}
-                  editable={edit}
-                />
-              ))}
+            {(values.address.streetLineTwo || edit) && (
+              <AppFormField
+                name="streetLineTwo"
+                icon="map"
+                title="Street address Line 2"
+                placeholder="optional"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="streetAddressLine2"
+                clearButtonMode={edit ? "always" : "never"}
+                editable={edit}
+              />
+            )}
             <FormPicker
               name="locality"
               placeholder="Locality"
@@ -680,7 +682,7 @@ export default function ListingDetails({ route }) {
            // ? * --> pool required options
            */}
             <CheckBox
-              name="isNewPool"
+              name="newPool"
               placeholder="New Pool"
               choiceOne="Yes"
               choiceTwo="No"
@@ -827,30 +829,30 @@ export default function ListingDetails({ route }) {
               editable={edit}
             />
             <AppFormField
-              name="copingParameter"
+              name="copingPerimeter"
               autoCapitalize="none"
               keyboardType="decimal-pad"
               icon="move-resize-variant"
               getValue={(value) => setPoolCopingPerimeter(value)}
               placeholder="ex: 23"
-              title="Coping Parameter"
+              title="Coping Perimeter"
               clearButtonMode={edit ? "always" : "never"}
               editable={edit}
             />
             <AppFormField
-              name="poolParameter"
+              name="poolPerimeter"
               autoCapitalize="none"
               keyboardType="decimal-pad"
               icon="move-resize-variant"
               getValue={(value) => setPoolPerimeter(value)}
               placeholder="ex: 23"
-              title="Pool Parameter"
+              title="Pool Perimeter"
               clearButtonMode={edit ? "always" : "never"}
               editable={edit}
             />
             {/*
             // ? * --> Balance Tank Parameters
-            if poolType === "Overflow"?    
+            if poolType === true ? => "Overflow"?    
           */}
             {(!poolType && edit) ||
               (!values.poolType && (

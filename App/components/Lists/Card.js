@@ -54,7 +54,6 @@ export default function Card({
   useEffect(() => {
     setProjectStatus(status);
   }, [status]);
-  console.log(user);
   return (
     // card Continuer
     <TouchableWithoutFeedback onPress={onPress}>

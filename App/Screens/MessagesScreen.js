@@ -1,10 +1,10 @@
 //import React, { useEffect, useState } from "react";
-//import { FlatList, StyleSheet, Alert } from "react-native";
-import { Image } from "react-native";
-
+import { FlatList, View, Image, Text, StyleSheet, Alert } from "react-native";
+import { customProps } from "../config";
 //import messagesApi from "../api/messages";
 //import { useApi } from "../hooks";
 import {
+  Header,
   Screen,
   //DataLoadingError,
   //ListItem,
@@ -78,24 +78,41 @@ const MessagesScreen = () => {
   );
   return (
     <Screen>
-      <Image
-        resizeMode="contain"
-        style={{
-          width: "95%",
-          height: "100%",
-          alignSelf: "center",
-          transform: [{ translateY: 105 }],
-        }}
-        source={require("../assets/Images/heroImages/notAvailableAtTheMoment.png")}
-      />
+      <Header title={"Messages"} goBack />
+      <View style={styles.container}>
+        <Image
+          resizeMode="contain"
+          style={styles.image}
+          source={require("../assets/Images/heroImages/Messages.png")}
+        />
+        <Text style={styles.text}>
+          Sorry this page are not available at the moment!
+        </Text>
+      </View>
     </Screen>
   );
 };
 
-// const styles = StyleSheet.create({
-//   list: {
-//     flex: 1,
-//   },
-// });
+const styles = StyleSheet.create({
+  image: {
+    width: 350,
+    alignSelf: "center",
+    height: 350,
+  },
+  text: {
+    ...customProps.font,
+    fontSize: customProps.largePrimaryTextFontSize,
+    textAlign: "center",
+    color: customProps.primaryColorLight,
+    fontWeight: "700",
+    margin: 10,
+    marginTop: 20,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default MessagesScreen;

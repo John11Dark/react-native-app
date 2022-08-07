@@ -69,7 +69,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Notification"
-        component={Role}
+        component={NotificationScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="bell" size={size} color={color} />

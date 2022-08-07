@@ -104,19 +104,13 @@ export default function ListingEditScreen() {
   ///*--> Application states
   const [error, setError] = useState(null);
 
-  ///*--> Picker states
-  const [projectType, setProjectType] = useState(projectTypeOptions[0]);
-  const [poolLocation, setPoolLocation] = useState(poolLocationOptions[0]);
-  const [poolTile, setPoolTile] = useState(tileOptions[0]);
-  const [locality, setLocality] = useState(localites.Malta[1]);
-
   ///  *-->// Pool required options states
   const [poolType, setPoolType] = useState(true);
   const [poolSteps, setPoolSteps] = useState(false);
   const [quotationType, setQuotationType] = useState(true);
   const [indoor, setIndoor] = useState(false);
   const [poolLeaking, setPoolLeaking] = useState(false);
-  const [isNewPool, setIsNewPool] = useState(true);
+  const [newPool, setNewPool] = useState(true);
 
   ///  *-->// Pool parameters states
   const [poolLength, setPoolLength] = useState("");
@@ -197,14 +191,14 @@ export default function ListingEditScreen() {
     if (!response.ok) {
       setDataUploaded(true);
       setError(
-        response.data.error
+        response?.data?.error != null
           ? response.data.error
-          : "unexpected error occurs\n Please check your internetConnection"
+          : "unexpected error occurs\n Please check your internet connection"
       );
       return alert(
-        response.data.error
+        response?.data?.error != null
           ? `Could not post ${values.site} Project.\nPlease try again and check that you have inserted all values correctly`
-          : "unexpected error occurs\n Please check your internet Connection and try again"
+          : "unexpected error occurs\n Please check your internet connection and try again"
       );
     }
     setDataUploaded(true);
@@ -288,22 +282,22 @@ export default function ListingEditScreen() {
           clientLastName: "Muller",
           streetLineOne: "StreetOne",
           streetLineTwo: "",
-          locality: locality,
+          locality: undefined,
           clientPhoneNumber: "79230096",
           countryCode: "+356",
           email: "email@gm.com",
           initialDate: new Date().toDateString(),
           // pickers
-          projectType: projectType,
-          poolLocation: poolLocation,
-          tileType: poolTile,
+          projectType: undefined,
+          poolLocation: undefined,
+          tileType: undefined,
           // required options
           poolType: true,
           poolSteps: false,
           quotationType: false,
           indoor: false,
           poolLeaking: false,
-          isNewPool: true,
+          newPool: true,
           poolLength: "",
           poolWidth: "",
           poolDepthEnd: "",
@@ -424,8 +418,6 @@ export default function ListingEditScreen() {
             title="Locality"
             icon="city"
             data={localites.Malta}
-            selectedItem={locality}
-            onItemSelect={(item) => setLocality(item)}
             numOfColumns={3}
           />
 
@@ -436,14 +428,14 @@ export default function ListingEditScreen() {
            */}
 
           <CheckBox
-            name="isNewPool"
+            name="newPool"
             placeholder="New Pool"
             choiceOne="Yes"
             choiceTwo="No"
             //choiceOne="New"
             //choiceTwo="Refurbishment"
-            onPress={(value) => setIsNewPool(value)}
-            selected={isNewPool}
+            onPress={(value) => setNewPool(value)}
+            selected={newPool}
           />
 
           <CheckBox
@@ -462,8 +454,6 @@ export default function ListingEditScreen() {
             placeholder="Project Type"
             title="Project type"
             data={projectTypeOptions}
-            selectedItem={projectType}
-            onItemSelect={(item) => setProjectType(item)}
             numOfColumns={3}
           />
 
@@ -472,8 +462,6 @@ export default function ListingEditScreen() {
             icon="progress-question"
             placeholder="Pool Location"
             title="Pool Location"
-            selectedItem={poolLocation}
-            onItemSelect={(item) => setPoolLocation(item)}
             numOfColumns={3}
             data={poolLocationOptions}
           />
@@ -483,8 +471,6 @@ export default function ListingEditScreen() {
             icon="progress-question"
             placeholder="Tile Type"
             title="Tile Type"
-            selectedItem={poolTile}
-            onItemSelect={(item) => setPoolTile(item)}
             numOfColumns={3}
             data={tileOptions}
           />
@@ -577,22 +563,22 @@ export default function ListingEditScreen() {
           />
 
           <AppFormField
-            name="copingParameter"
+            name="copingPerimeter"
             autoCapitalize="none"
             keyboardType="decimal-pad"
             icon="move-resize-variant"
             getValue={(value) => setPoolCopingPerimeter(value)}
             placeholder="ex: 23"
-            title="Coping Parameter"
+            title="Coping Perimeter"
           />
           <AppFormField
-            name="poolParameter"
+            name="poolPerimeter"
             autoCapitalize="none"
             keyboardType="decimal-pad"
             icon="move-resize-variant"
             getValue={(value) => setPoolPerimeter(value)}
             placeholder="ex: 23"
-            title="Pool Parameter"
+            title="Pool Perimeter"
           />
           {/*
             // ? * --> Balance Tank Parameters

@@ -13,7 +13,7 @@ const addListing = (listing, onUploadProgress) => {
   const address = {
     streetLineOne: listing.streetLineOne,
     streetLineTwo: listing.streetLineTwo,
-    locality: listing.locality.label,
+    locality: listing.locality.value,
     location: listing.location,
   };
 

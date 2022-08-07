@@ -79,7 +79,12 @@ export default function AppPicker({
                 container: { width: "95%", alignSelf: "center", margin: 2 },
               }}
               IconComponent={
-                <Icon name={"package-variant"} innerSize={40} size={60} />
+                <Icon
+                  name={"package-variant"}
+                  disabled
+                  innerSize={40}
+                  size={60}
+                />
               }
             />
           )

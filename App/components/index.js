@@ -47,3 +47,4 @@ export { default as TouchableImage } from "./Lists/TouchableImage";
 export { default as Header } from "./Lists/Header";
 export { default as ScrollerView } from "./Forms/ScrollerView";
 export { default as Dialog } from "./Forms/Dialog";
+export { default as Template } from "./Templates/Template";

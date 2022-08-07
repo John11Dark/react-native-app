@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function Header({
   title = "Today",
   subTitle = "",
-  searchBar,
+  searchBar = false,
   uri,
   goBack,
   style,
@@ -37,8 +37,8 @@ export default function Header({
         </View>
         <Image
           resizeMode="contain"
-          source={require("../../assets/Images/heroImages/Feedhero.png")}
-          style={{ width: 140, height: 110, left: 10, top: -5 }}
+          source={require("../../assets/Images/heroImages/FeedHero.png")}
+          style={{ width: 140, height: 110, left: -10, top: -5 }}
         />
       </View>
       <Image source={{ uri: uri }} />
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
     ...customProps.font,
     color: customProps.primaryColorLight,
     fontWeight: "900",
-    fontSize: 45,
+    fontSize: 44,
     textAlign: "left",
+    maxWidth: 265,
   },
   subTitle: {
     ...customProps.font,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     color: customProps.secondaryColor,
     textAlign: "left",
-    //maxWidth: 250,
+    maxWidth: 265,
   },
   textContainer: {
     marginLeft: 15,

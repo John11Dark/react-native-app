@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import React from "react";
-import { Screen, SearchBar, Icon } from "../components";
-
+import React, { useState } from "react";
+import { Screen, SearchBar, Icon, AppModal } from "../components";
+import { customProps } from "../config";
 const SearchScreen = () => {
+  const [visible, setVisible] = useState(false);
   const filterSearch = () => {
-    console.log("first");
+    setVisible(true);
   };
+
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
@@ -16,9 +18,18 @@ const SearchScreen = () => {
           onPress={filterSearch}
         />
       </View>
-      <Image
-        source={require("../assets/Images/heroImages/Search.png")}
-        style={styles.heroImage}
+      <View style={styles.container}>
+        <Image
+          resizeMode="contain"
+          style={styles.image}
+          source={require("../assets/Images/heroImages/Search.png")}
+        />
+        <Text style={styles.text}>What are you looking for?</Text>
+      </View>
+      <AppModal
+        isVisible={visible}
+        onClose={() => setVisible(false)}
+        data={["users", "Projects", "Skimmer", "Overflow"]}
       />
     </Screen>
   );
@@ -36,11 +47,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  heroImage: {
+  image: {
+    width: 350,
     alignSelf: "center",
-    width: "95%",
-    height: 400,
-    position: "absolute",
-    bottom: 10,
+    height: 350,
+  },
+  text: {
+    ...customProps.font,
+    fontSize: customProps.largePrimaryTextFontSize,
+    textAlign: "center",
+    color: customProps.primaryColorLight,
+    fontWeight: "700",
+    margin: 10,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
