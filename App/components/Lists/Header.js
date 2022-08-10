@@ -13,6 +13,7 @@ export default function Header({
   uri,
   goBack,
   style,
+  username = true,
 }) {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -32,7 +33,7 @@ export default function Header({
           )}
           <Text style={styles.title}>{title}</Text>
           <Text numberOfLines={1} style={styles.subTitle}>
-            {subTitle} {user.name}
+            {subTitle} {username && user.name}
           </Text>
         </View>
         <Image
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     color: customProps.secondaryColor,
     textAlign: "left",
+    width: 265,
     maxWidth: 265,
   },
   textContainer: {

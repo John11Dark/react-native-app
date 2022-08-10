@@ -1,23 +1,16 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import React, { useState } from "react";
-import { Screen, SearchBar, Icon, AppModal } from "../components";
+import React from "react";
+import { Screen, Header } from "../components";
 import { customProps } from "../config";
 const SearchScreen = () => {
-  const [visible, setVisible] = useState(false);
-  const filterSearch = () => {
-    setVisible(true);
-  };
-
   return (
     <Screen style={styles.container}>
-      <View style={styles.header}>
-        <SearchBar visible />
-        <Icon
-          name="filter"
-          backgroundColor="transparent"
-          onPress={filterSearch}
-        />
-      </View>
+      <Header
+        searchBar
+        title="Search"
+        username={false}
+        subTitle={`What are you looking for ?`}
+      />
       <View style={styles.container}>
         <Image
           resizeMode="contain"
@@ -26,11 +19,6 @@ const SearchScreen = () => {
         />
         <Text style={styles.text}>What are you looking for?</Text>
       </View>
-      <AppModal
-        isVisible={visible}
-        onClose={() => setVisible(false)}
-        data={["users", "Projects", "Skimmer", "Overflow"]}
-      />
     </Screen>
   );
 };

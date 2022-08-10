@@ -12,6 +12,7 @@ export default function Icon({
   onPress,
   disabled = false,
   onBlur,
+  visible = true,
 }) {
   return (
     <TouchableOpacity
@@ -28,6 +29,9 @@ export default function Icon({
           justifyContent: "center",
         },
         style,
+        {
+          display: visible ? "flex" : "none",
+        },
       ]}
     >
       <MaterialCommunityIcons name={name} color={iconColor} size={innerSize} />
