@@ -21,6 +21,7 @@ import {
   Icon,
   EditModal,
   UploadIndicator,
+  Header,
 } from "../components";
 import { customProps, settings } from "../config";
 
@@ -152,6 +153,18 @@ export default function UsersScreen() {
   console.log(usersApi.data[0]);
   return (
     <Screen>
+      <Header
+        searchBar
+        IconComponent={
+          <Icon
+            name={"account-plus"}
+            backgroundColor={"transparent"}
+            iconColor={customProps.secondaryColor}
+            innerSize={35}
+            onPress={createNewUser}
+          />
+        }
+      />
       <View style={{ zIndex: 5 }}>
         <UploadIndicator
           progress={progress}
@@ -167,16 +180,7 @@ export default function UsersScreen() {
         text="Could not retrieve users from server"
         onPress={() => usersApi.request()}
       />
-      <View style={styles.header}>
-        <SearchBar visible textChange={(value) => filterUsers(value)} />
-        <Icon
-          name={"account-plus"}
-          backgroundColor={"transparent"}
-          iconColor={customProps.secondaryColor}
-          innerSize={35}
-          onPress={createNewUser}
-        />
-      </View>
+
       {searchItems ? (
         <FlatList
           showsVerticalScrollIndicator={false}

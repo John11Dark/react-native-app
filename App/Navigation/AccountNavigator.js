@@ -35,7 +35,7 @@ export default function AccountNavigator() {
       <Stack.Screen
         name={Routes.USERS}
         component={UsersScreen}
-        options={{ title: "Users" }}
+        options={{ title: "Users", headerShown: false }}
       />
       <Stack.Screen
         name={Routes.USER_LISTINGS}

@@ -38,27 +38,27 @@ export default function Role({
       images: [
         {
           id: 1,
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
         {
           id: 2,
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
         {
           id: 3,
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
         {
           id: 4,
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
         {
           id: 5,
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
         {
           id: 6,
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
       ],
     },
@@ -69,7 +69,7 @@ export default function Role({
       images: [
         {
           id: "OV2",
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
       ],
     },
@@ -80,7 +80,7 @@ export default function Role({
       images: [
         {
           id: "O3",
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
       ],
     },
@@ -91,7 +91,7 @@ export default function Role({
       images: [
         {
           id: "SA4",
-          uri: "http://192.168.1.181:9000/assets/JohnMuller_full.jpg",
+          uri: "http://10.10.10.106:9000/assets/JohnMuller_full.jpg",
         },
       ],
     },
