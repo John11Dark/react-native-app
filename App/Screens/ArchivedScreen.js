@@ -67,6 +67,7 @@ const ArchivedScreen = ({ route }) => {
       loading={loading}
       onRefresh={request}
       handleState={(id) => handleArchiveState(id)}
+      goBack
     />
   );
 };

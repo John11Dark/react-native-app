@@ -25,76 +25,30 @@ import {
 } from "../components";
 import { customProps } from "../config";
 import { imagesApi, errorApi } from "../api";
-export default function Role({
-  label = "image",
+export default function Items({
+  label = "item",
   dataProp,
-  headerTitle = "images",
+  headerTitle = "Items",
 }) {
   // ? * -->  variables
   const folders = [
     {
       id: 11,
-      label: "Skimmer",
-      iconName: "folder-multiple-image",
-      images: [
-        {
-          id: 1,
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-        {
-          id: 2,
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-        {
-          id: 3,
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-        {
-          id: 4,
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-        {
-          id: 5,
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-        {
-          id: 6,
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-      ],
+      label: "add ons",
+      iconName: "card-plus",
+      images: [],
     },
     {
       id: 12,
-      label: "Overflow",
-      iconName: "folder-multiple-image",
-      images: [
-        {
-          id: "OV2",
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-      ],
+      label: "Packages",
+      iconName: "package-variant",
+      images: [],
     },
     {
       id: 13,
-      label: "Online",
-      iconName: "folder-multiple-image",
-      images: [
-        {
-          id: "O3",
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-      ],
-    },
-    {
-      id: 14,
-      label: "Saved",
-      iconName: "folder-multiple-image",
-      images: [
-        {
-          id: "SA4",
-          uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
-        },
-      ],
+      label: "Localities",
+      iconName: "city-variant",
+      images: [],
     },
   ];
 
@@ -112,7 +66,7 @@ export default function Role({
   // ? * --> States
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentItem, setCurrentItem] = useState(null);
-  const [data, setData] = useState(dataProp ? dataProp : folders);
+  const [data, setData] = useState(folders);
   const [selected, setSelected] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [saveButtonVisible, setSaveButtonVisible] = useState(false);

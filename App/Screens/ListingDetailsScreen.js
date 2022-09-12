@@ -447,7 +447,7 @@ export default function ListingDetails({ route }) {
     balanceTankWidth,
     balanceTankDepth,
   ]);
-  console.log(values);
+
   ///*--> Surface Area
   useEffect(() => {
     if (!edit) return;

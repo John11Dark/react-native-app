@@ -26,6 +26,7 @@ const Wrapper = ({
           ref={scrollViewRef}
           scrollEnabled={scrollEnabled}
           showsVerticalScrollIndicator={scrollBarVisible}
+          style={{ height: "100%" }}
         >
           {/* upload animation */}
           {animation && (

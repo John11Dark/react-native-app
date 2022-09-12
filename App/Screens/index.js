@@ -17,3 +17,4 @@ export { default as SearchScreen } from "./SearchScreen";
 export { default as RecycleBinScreen } from "./RecycleBinScreen";
 export { default as ViewImage } from "./ViewImage";
 export { default as GalleryScreen } from "./GalleryScreen";
+export { default as Items } from "./Items";

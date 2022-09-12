@@ -11,6 +11,7 @@ import {
   ListingDetails,
   RecycleBinScreen,
   GalleryScreen,
+  Items,
 } from "../Screens";
 import Routes from "./routes";
 import { Icon } from "../components";
@@ -49,8 +50,8 @@ export default function AccountNavigator() {
       />
       <Stack.Screen
         name={Routes.ITEMS}
-        component={FeedScreen}
-        options={{ title: "My listings" }}
+        component={Items}
+        options={{ title: "My listings", headerShown: false }}
       />
       <Stack.Screen
         name={Routes.USER_LISTING_DETAILS}
@@ -94,7 +95,7 @@ export default function AccountNavigator() {
       <Stack.Screen
         name={Routes.ARCHIVED}
         component={ArchivedScreen}
-        options={{ title: "Archived" }}
+        options={{ title: "Archived", headerShown: false }}
       />
 
       <Stack.Screen
