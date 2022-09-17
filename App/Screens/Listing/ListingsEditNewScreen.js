@@ -24,7 +24,7 @@ import {
   ItemsListPicker,
 } from "../../components";
 
-export default function ListingEditScreen() {
+export default function ListingsEditNewScreen() {
   const validationSchema = Yup.object().shape({
     site: Yup.string().required().min(15).label("Title"),
     clientPhoneNumber: Yup.number()
@@ -428,12 +428,10 @@ export default function ListingEditScreen() {
            */}
 
           <CheckBox
-            name="newPool"
-            placeholder="New Pool"
-            choiceOne="Yes"
-            choiceTwo="No"
-            //choiceOne="New"
-            //choiceTwo="Refurbishment"
+            name="Form"
+            placeholder="Pool Form"
+            choiceOne="Free form"
+            choiceTwo="Rectangle"
             onPress={(value) => setNewPool(value)}
             selected={newPool}
           />
