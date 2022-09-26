@@ -60,9 +60,19 @@ function calculatePoolVolume(
   };
 }
 
+function calculatePoolPerimeter(width, length) {
+  const poolPerimeterValue = width + length * 2;
+  const copingParameter = poolPerimeterValue + 4 * 0.3;
+  return {
+    copingParameter: copingParameter.toString(),
+    poolPerimeterValue: poolPerimeterValue.toString(),
+  };
+}
+
 export default {
   calculatePoolVolume,
   parseInput,
+  calculatePoolPerimeter,
 };
 
 // } else if (poolTypeId === 3 || poolTypeId === "SKIMMER.Other") {

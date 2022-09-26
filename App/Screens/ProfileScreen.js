@@ -17,6 +17,8 @@ import {
   ErrorMessage,
   SubmitButton,
   EditFiled,
+  Wrapper,
+  Header,
 } from "../components";
 import { customProps, Styles } from "../config";
 import { useAuth, useApi } from "../hooks";
@@ -119,135 +121,127 @@ export default function ProfileScreen({ navigation }) {
   const updateUserApi = useApi(userApi.updateUser);
   const [edit, setEdit] = useState(false);
   return (
-    <KeyboardAvoidingView keyboardVerticalOffset={25} behavior={"padding"}>
+    <Wrapper scrollBarVisible={false}>
       <ActivityIndicator visible={updateUserApi.loading} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <AppForm
-          initialValues={{
-            email: user.email,
-            id: user.userId,
-            image: [user.images[0].url],
-            name: user.name,
-            username: user.username,
-            phoneNumber: user.phoneNumber,
-            newPassword: null,
-            oldPassword: null,
-          }}
-          onSubmit={handleUpdate}
-          validationSchema={validationSchema}
-        >
-          <FormSingleImageInput
-            editable={edit}
-            name="image"
-            style={{
-              width: "100%",
-              height: 280,
-              borderRadius: 0,
-              margin: 0,
-              marginLeft: 0,
-              padding: 0,
-            }}
+      {/* <Header goBack title="My Profile" /> */}
+      <AppForm
+        initialValues={{
+          email: user.email,
+          id: user.userId,
+          image: [user.images[0].url],
+          name: user.name,
+          username: user.username,
+          phoneNumber: user.phoneNumber,
+          newPassword: null,
+          oldPassword: null,
+        }}
+        onSubmit={handleUpdate}
+        validationSchema={validationSchema}
+      >
+        <FormSingleImageInput
+          editable={edit}
+          name="image"
+          style={styles.image}
+        />
+        <ErrorMessage error={error} visible={error} />
+        <View style={Styles.inputContinuer}>
+          <EditFiled
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="account"
+            name="name"
+            placeholder="Full Name"
+            textContentType="name"
+            onPress={handleEdit}
+            edit={edit}
           />
-          <ErrorMessage error={error} visible={error} />
-          <View style={Styles.inputContinuer}>
-            <EditFiled
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="account"
-              name="name"
-              placeholder="Full Name"
-              textContentType="name"
-              onPress={handleEdit}
-              edit={edit}
-            />
-            <EditFiled
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="at"
-              name="username"
-              textContentType="username"
-              placeholder="User Name"
-              onPress={handleEdit}
-              edit={edit}
-            />
-            <EditFiled
-              autoCapitalize="none"
-              icon="cellphone"
-              autoCorrect={false}
-              keyboardType="numeric"
-              textContentType="telephoneNumber"
-              name="phoneNumber"
-              maxLength={8}
-              placeholder="Mobile"
-              returnKeyType="next"
-              onPress={handleEdit}
-              edit={edit}
-            />
-            <EditFiled
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="email"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              name="email"
-              placeholder="Email"
-              onPress={handleEdit}
-              edit={edit}
-            />
-            <EditFiled
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="lock-open-variant"
-              name="oldPassword"
-              placeholder="Old password"
-              maxLength={25}
-              onPress={handleEdit}
-              edit={edit}
-              style={{ display: changePassword ? "flex" : "none" }}
-            />
-            <EditFiled
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="lock-open-variant"
-              textContentType="newPassword"
-              name="email"
-              placeholder="Email"
-              onPress={handleEdit}
-              maxLength={25}
-              edit={edit}
-              style={{ display: changePassword ? "flex" : "none" }}
-            />
+          <EditFiled
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="at"
+            name="username"
+            textContentType="username"
+            placeholder="User Name"
+            onPress={handleEdit}
+            edit={edit}
+          />
+          <EditFiled
+            autoCapitalize="none"
+            icon="cellphone"
+            autoCorrect={false}
+            keyboardType="numeric"
+            textContentType="telephoneNumber"
+            name="phoneNumber"
+            maxLength={8}
+            placeholder="Mobile"
+            returnKeyType="next"
+            onPress={handleEdit}
+            edit={edit}
+          />
+          <EditFiled
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            name="email"
+            placeholder="Email"
+            onPress={handleEdit}
+            edit={edit}
+          />
+          <EditFiled
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="lock-open-variant"
+            name="oldPassword"
+            placeholder="Old password"
+            maxLength={25}
+            onPress={handleEdit}
+            edit={edit}
+            style={{ display: changePassword ? "flex" : "none" }}
+          />
+          <EditFiled
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="lock-open-variant"
+            textContentType="newPassword"
+            name="email"
+            placeholder="Email"
+            onPress={handleEdit}
+            maxLength={25}
+            edit={edit}
+            style={{ display: changePassword ? "flex" : "none" }}
+          />
 
-            <SubmitButton
-              title="Save"
-              visible={edit}
-              iconName="content-save-check"
-            />
-          </View>
-        </AppForm>
-        <TouchableOpacity
-          onPress={updatePassword}
-          style={[styles.buttons, { display: edit ? "flex" : "none" }]}
+          <SubmitButton
+            title="Save"
+            visible={edit}
+            iconName="content-save-check"
+          />
+        </View>
+      </AppForm>
+      <TouchableOpacity
+        onPress={updatePassword}
+        style={[styles.buttons, { display: edit ? "flex" : "none" }]}
+      >
+        <Text style={[Styles.linkText]}>Change Password</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          deleteAccount(user.userId);
+        }}
+        style={styles.buttons}
+      >
+        <Text
+          style={[
+            Styles.linkText,
+            { color: customProps.importantIconColor, marginBottom: 30 },
+          ]}
         >
-          <Text style={[Styles.linkText]}>Change Password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            deleteAccount(user.userId);
-          }}
-          style={styles.buttons}
-        >
-          <Text
-            style={[
-              Styles.linkText,
-              { color: customProps.importantIconColor, marginBottom: 30 },
-            ]}
-          >
-            Delete Account
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          Delete Account
+        </Text>
+      </TouchableOpacity>
+    </Wrapper>
   );
 }
 
@@ -266,5 +260,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
+  },
+  image: {
+    width: "100%",
+    height: 280,
+    borderRadius: 0,
+    margin: 0,
+    marginLeft: 0,
+    padding: 0,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
   },
 });

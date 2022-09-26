@@ -1,10 +1,10 @@
-import ErrorMessage from "./ErrorMessage";
 import React from "react";
-import TextInput from "../TextInput";
 import { useFormikContext } from "formik";
 
+import ErrorMessage from "./ErrorMessage";
+import TextInput from "../TextInput";
+
 export default function AppFormField({
-  keyboardAppearance = "dark",
   icon,
   name,
   placeholder,
@@ -15,6 +15,7 @@ export default function AppFormField({
 }) {
   const { errors, setFieldTouched, setFieldValue, touched, values } =
     useFormikContext();
+
   return (
     <>
       <TextInput

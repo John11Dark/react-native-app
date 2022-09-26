@@ -48,3 +48,5 @@ export { default as Header } from "./Lists/Header";
 export { default as ScrollerView } from "./Forms/ScrollerView";
 export { default as Dialog } from "./Forms/Dialog";
 export { default as Template } from "./Templates/Template";
+export { default as PageIndicators } from "./Forms/PageIndicators";
+export { default as PackagePicker } from "./Forms/PackagePicker";

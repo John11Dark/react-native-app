@@ -7,11 +7,12 @@ const routes = Object.freeze({
   IMAGES: "Images",
   ITEMS: "items",
   LISTINGS: "Feed",
+  LISTING_EDIT_FINAL: "listingEditFinal",
   LISTING_DETAILS: "ListingDetails",
   LISTING_EDIT_MAIN: "ListingEditMain",
-  LISTING_EDIT_NEW: "ListingEditNew",
-  LISTING_EDIT_REFURBISHMENT: "ListingEditRefurbishment",
-  LISTING_EDIT_OPTIONS: "Options",
+  LISTING_EDIT: "ListingEdit",
+  LISTING_EDIT_OPTIONS: "EditOptions",
+  LISTING_EDIT_FINAL: "EditFinal",
   LOGIN: "Login",
   MESSAGES: "Messages",
   OTB_CODE: "OTBCode",
@@ -24,6 +25,8 @@ const routes = Object.freeze({
   USER_LISTING_DETAILS: "UserListingDetails",
   USERS: "Users",
   WELCOME: "Welcome",
+  SEARCH: "Search",
+  NOTIFICATION: "notification",
 });
 
 export default routes;

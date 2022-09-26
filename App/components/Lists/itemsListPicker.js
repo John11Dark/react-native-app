@@ -98,13 +98,8 @@ export default function ItemsListPicker({
           setFieldValue(
             name,
             items.filter((category) => category.value !== item.value)
-          ),
-            setItemsAddOnsListValue([...ItemsAddOnsListValue, item]);
-          setItemsAddOnsListValue(
-            ItemsAddOnsListValue.sort(
-              (elementA, elementB) => elementA.value - elementB.value
-            )
           );
+          setItemsAddOnsListValue([item, ...ItemsAddOnsListValue]);
         },
         style: "destructive",
       },

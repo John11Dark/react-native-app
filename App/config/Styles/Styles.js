@@ -164,9 +164,12 @@ const Styles = StyleSheet.create({
     color: customProps.primaryColorLight,
     fontWeight: "bold",
     fontSize: 35,
-    padding: 10,
+    padding: 5,
     textAlign: "center",
     marginVertical: 20,
+    textTransform: "capitalize",
+    flex: 1,
+    width: "100%",
   },
 
   secondaryText: {

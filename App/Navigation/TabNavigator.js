@@ -2,17 +2,15 @@ import React, { useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import routes from "./routes";
+import Navigation from "../Navigation/rootNavigation";
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
 import EditScreenNavigator from "./EditScreenNavigator";
-import { NotificationScreen, SearchScreen } from "../Screens";
-
-import Routes from "./routes";
 import TabActionButton from "./TabActionButton";
-import Navigation from "../Navigation/rootNavigation";
-import pushTokenApi from "../api/expoPushToken";
+import { NotificationScreen, SearchScreen } from "../Screens";
 import { useNotifications } from "../hooks";
-import Role from "../Screens/Role";
+import pushTokenApi from "../api/expoPushToken";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +30,7 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Feed"
+        name={routes.LISTINGS}
         component={FeedNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
@@ -41,7 +39,7 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Search"
+        name={routes.SEARCH}
         component={SearchScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
@@ -54,12 +52,12 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="ListingEdit"
+        name={routes.LISTING_EDIT_MAIN}
         component={EditScreenNavigator}
         options={({ navigation }) => ({
           tabBarButton: () => (
             <TabActionButton
-              onPress={() => navigation.navigate(Routes.LISTING_EDIT)}
+              onPress={() => navigation.navigate("ListingEditMain")}
             />
           ),
           tabBarIcon: ({ size, color }) => (
@@ -68,7 +66,7 @@ export default function TabNavigator() {
         })}
       />
       <Tab.Screen
-        name="Notification"
+        name={routes.NOTIFICATION}
         component={NotificationScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
@@ -77,7 +75,7 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Account"
+        name={routes.ACCOUNT}
         component={AccountNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (

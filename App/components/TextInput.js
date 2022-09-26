@@ -39,6 +39,8 @@ const AppTextInput = ({
           style={[styles.text, style]}
           returnKeyType={"done"}
           value={value}
+          keyboardAppearance={customProps.theme}
+          autoCapitalize={"none"}
           {...otherProps}
         />
         {secondIcon && (

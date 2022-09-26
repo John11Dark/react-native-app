@@ -1,18 +1,36 @@
+// application third parties libraries
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Routes from "./routes";
-import { ListingEditScreenOptions, ListingEditScreen } from "../Screens";
+// application
+import {
+  ListingEditMainScreen,
+  ListingEditScreen,
+  ListingEditScreenOptions,
+  ListingEditFinalScreen,
+} from "../Screens";
+import routes from "./routes";
+
+// hooks
 const Stack = createStackNavigator();
 
+// main stack
 export default function EditScreenNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} mode="modal">
-      <Stack.Screen name={Routes.LISTING_EDIT} component={ListingEditScreen} />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name={Routes.LISTING_EDIT_OPTIONS}
+        name={routes.LISTING_EDIT_MAIN}
+        component={ListingEditMainScreen}
+      />
+      <Stack.Screen name={routes.LISTING_EDIT} component={ListingEditScreen} />
+
+      <Stack.Screen
+        name={routes.LISTING_EDIT_OPTIONS}
         component={ListingEditScreenOptions}
-        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name={routes.LISTING_EDIT_FINAL}
+        component={ListingEditFinalScreen}
       />
     </Stack.Navigator>
   );

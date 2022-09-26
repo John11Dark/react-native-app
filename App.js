@@ -12,13 +12,6 @@ import authStorage from "./App/auth/storage";
 
 import { LogBox } from "react-native";
 
-LogBox.ignoreLogs([
-  "ViewPropTypes will be removed",
-  "ViewPropTypes will be removed from React Native",
-  "expo-app-loading is deprecated in favor of expo-splash-screen",
-  "EventEmitter.removeListener",
-]);
-
 export default App = () => {
   const [user, setUser] = useState(null);
   const [isReady, setIsReady] = useState(false);

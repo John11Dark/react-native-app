@@ -1,60 +1,44 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View } from "react-native";
+
+// ? * --> application dependencies
 import {
   AccountScreen,
+  ProfileScreen,
   MessagesScreen,
   ArchivedScreen,
-  ProfileScreen,
   FeedScreen,
   UsersScreen,
   ListingDetails,
   RecycleBinScreen,
-  GalleryScreen,
   Items,
+  Role,
 } from "../Screens";
-import Routes from "./routes";
+import routes from "./routes";
 import { Icon } from "../components";
 import { customProps, File } from "../config";
-import Role from "../Screens/Role";
 
 const Stack = createStackNavigator();
 
 export default function AccountNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }} mode="card">
+      <Stack.Screen name={routes.ACCOUNT} component={AccountScreen} />
+      <Stack.Screen name={routes.MESSAGES} component={MessagesScreen} />
+      <Stack.Screen name={routes.USERS} component={UsersScreen} />
+      <Stack.Screen name={routes.USER_LISTINGS} component={FeedScreen} />
+      <Stack.Screen name={routes.ITEMS} component={Items} />
       <Stack.Screen
-        name={Routes.ACCOUNT}
-        component={AccountScreen}
-        options={{ headerShown: false }}
+        name={routes.PROFILE}
+        component={ProfileScreen}
+        options={{ headerShown: true, headerTitle: "My Profile" }}
       />
+      <Stack.Screen name={routes.ARCHIVED} component={ArchivedScreen} />
+      <Stack.Screen name={routes.RECYCLE} component={RecycleBinScreen} />
+      <Stack.Screen name={routes.IMAGES} component={Role} />
       <Stack.Screen
-        name={Routes.MESSAGES}
-        component={MessagesScreen}
-        options={{ title: "Messages", headerShown: false }}
-      />
-      <Stack.Screen
-        name={Routes.USERS}
-        component={UsersScreen}
-        options={{ title: "Users", headerShown: false }}
-      />
-      <Stack.Screen
-        name={Routes.USER_LISTINGS}
-        component={FeedScreen}
-        options={{ title: "My listings", headerShown: false }}
-      />
-      <Stack.Screen
-        name={Routes.IMAGES}
-        component={Role}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name={Routes.ITEMS}
-        component={Items}
-        options={{ title: "My listings", headerShown: false }}
-      />
-      <Stack.Screen
-        name={Routes.USER_LISTING_DETAILS}
+        name={routes.ARCHIVED_LISTING_DETAILS}
         component={ListingDetails}
         options={({ route }) => ({
           headerRight: () => (
@@ -86,66 +70,53 @@ export default function AccountNavigator() {
           headerTitle: false,
           headerBackTitleVisible: false,
         })}
-      />
-      <Stack.Screen
-        name={Routes.PROFILE}
-        component={ProfileScreen}
-        options={{ title: "My Profile" }}
-      />
-      <Stack.Screen
-        name={Routes.ARCHIVED}
-        component={ArchivedScreen}
-        options={{ title: "Archived", headerShown: false }}
       />
 
       <Stack.Screen
-        name={Routes.ARCHIVED_LISTING_DETAILS}
-        component={ListingDetails}
-        options={({ route }) => ({
-          headerRight: () => (
-            <View
-              style={{
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexDirection: "row",
-              }}
-            >
-              <Icon
-                onPress={() => File.Print(route.params)}
-                iconColor={customProps.primaryColor}
-                backgroundColor="transparent"
-                name="printer"
-                innerSize={35}
-              />
-              <Icon
-                onPress={() => File.Share(route.params)}
-                iconColor={customProps.secondaryColor}
-                backgroundColor="transparent"
-                name="share"
-                innerSize={40}
-              />
-            </View>
-          ),
-          headerShown: true,
-          headerTransparent: true,
-          headerTitle: false,
-          headerBackTitleVisible: false,
-        })}
-      />
-      <Stack.Screen
-        name={Routes.EDIT_USER_PROFILE}
+        name={routes.EDIT_USER_PROFILE}
         component={ProfileScreen}
         options={({ route }) => ({
           title: `Edit ${route.params.name}'s Profile`,
         })}
       />
+
       <Stack.Screen
-        name={Routes.RECYCLE}
-        component={RecycleBinScreen}
-        options={{ title: "Recycle bin", headerShown: false }}
+        name={routes.RECYCLE_BIN_LISTING_DETAILS}
+        component={ListingDetails}
+        options={({ route }) => ({
+          headerRight: () => (
+            <View
+              style={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Icon
+                onPress={() => File.Print(route.params)}
+                iconColor={customProps.primaryColor}
+                backgroundColor="transparent"
+                name="printer"
+                innerSize={35}
+              />
+              <Icon
+                onPress={() => File.Share(route.params)}
+                iconColor={customProps.secondaryColor}
+                backgroundColor="transparent"
+                name="share"
+                innerSize={40}
+              />
+            </View>
+          ),
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: false,
+          headerBackTitleVisible: false,
+        })}
       />
+
       <Stack.Screen
-        name={Routes.RECYCLE_BIN_LISTING_DETAILS}
+        name={routes.USER_LISTING_DETAILS}
         component={ListingDetails}
         options={({ route }) => ({
           headerRight: () => (

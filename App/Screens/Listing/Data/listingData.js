@@ -75,16 +75,16 @@ const projectTypeOptions = [
 
 const tileOptions = [
   {
-    label: "tile",
-    value: 0,
-    icon: "align-vertical-bottom",
-    backgroundColor: "#55bbda",
-  },
-  {
     label: "Mosaic",
-    value: 1,
+    value: 0,
     icon: "overscan",
     backgroundColor: "#ea552b",
+  },
+  {
+    label: "Tile",
+    value: 1,
+    icon: "align-vertical-bottom",
+    backgroundColor: "#55bbda",
   },
   {
     label: "Liner",

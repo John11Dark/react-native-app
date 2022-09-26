@@ -24,7 +24,7 @@ export default function AppFormPicker({
       {title && <Text style={Styles.labelStyle}>{title}</Text>}
       <Picker
         data={data}
-        icon={icon}
+        icon={values[name].icon}
         numOfColumns={numOfColumns}
         onItemSelect={(item) => setFieldValue(name, item)}
         placeholder={placeholder}

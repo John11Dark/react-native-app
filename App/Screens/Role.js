@@ -27,6 +27,7 @@ import { customProps } from "../config";
 import { imagesApi, errorApi } from "../api";
 export default function Role({
   label = "image",
+
   dataProp,
   headerTitle = "images",
 }) {
@@ -36,7 +37,7 @@ export default function Role({
       id: 11,
       label: "Skimmer",
       iconName: "folder-multiple-image",
-      images: [
+      items: [
         {
           id: 1,
           uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
@@ -67,7 +68,7 @@ export default function Role({
       id: 12,
       label: "Overflow",
       iconName: "folder-multiple-image",
-      images: [
+      items: [
         {
           id: "OV2",
           uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
@@ -78,7 +79,7 @@ export default function Role({
       id: 13,
       label: "Online",
       iconName: "folder-multiple-image",
-      images: [
+      items: [
         {
           id: "O3",
           uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
@@ -89,7 +90,7 @@ export default function Role({
       id: 14,
       label: "Saved",
       iconName: "folder-multiple-image",
-      images: [
+      items: [
         {
           id: "SA4",
           uri: "http://10.10.10.106:9000/assets/poolFour_thumb.jpg",
@@ -154,8 +155,8 @@ export default function Role({
                   <ListItem
                     marginBottom={0}
                     key={item.id}
-                    subTitle={`${item.images.length}  ${
-                      item.images.length > 1 ? label + "s" : label
+                    subTitle={`${item.items.length}  ${
+                      item.items.length > 1 ? label + "s" : label
                     }`}
                     IconComponent={
                       <Icon
@@ -180,7 +181,7 @@ export default function Role({
                   />
                   {currentIndex === index && (
                     <View style={styles.childrenViw}>
-                      {setCurrentItem(data[index].images)}
+                      {setCurrentItem(data[index].items)}
                       {currentItem?.map(({ id, uri }) => (
                         <TouchableOpacity
                           key={id}
@@ -211,14 +212,14 @@ export default function Role({
                         size={120}
                         borderRadius={10}
                         onImageChange={(uri) => {
-                          data[index].images.push({
-                            id: data[index].images.length + 1,
+                          data[index].items.push({
+                            id: data[index].items.length + 1,
                             uri: uri,
                           });
                           setCurrentItem([
                             ...currentItem,
                             {
-                              id: data[index].images.length + 1,
+                              id: data[index].items.length + 1,
                               uri: uri,
                             },
                           ]);
@@ -250,7 +251,7 @@ export default function Role({
                             id: data.length + 1,
                             label: text,
                             iconName: "folder-multiple-image",
-                            images: [],
+                            items: [],
                           },
                         ])
                       : alert("Folder name is required"),
@@ -296,7 +297,7 @@ export default function Role({
                       id: data.length + 1,
                       label: text,
                       iconName: "folder-multiple-image",
-                      images: [],
+                      items: [],
                     },
                   ])
                 : alert("Folder name is required"),
