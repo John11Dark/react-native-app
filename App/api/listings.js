@@ -6,7 +6,7 @@ const endpoint = "/listings";
 
 // functions
 const addListing = (listing, onUploadProgress) => {
-  //console.log("List", listing);
+  console.log("List", listing);
   const data = new FormData();
 
   // ? * --> all Address data

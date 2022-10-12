@@ -15,10 +15,13 @@ import {
   SubmitButton,
   ActivityIndicator,
   ErrorMessage,
-  Screen,
   FormSingleImageInput,
+  Wrapper,
+  DateTimePicker,
+  CheckBox,
+  Header,
 } from "../components";
-import { Styles } from "../config";
+import { customProps, Styles } from "../config";
 import authApi from "../api/auth";
 import { useApi, useAuth, useNotifications } from "../hooks";
 
@@ -36,21 +39,23 @@ const RegisterScreen = ({ navigation }) => {
     useNotifications();
 
   const registerApi = useApi(authApi.register);
-  const [error, setError] = useState(null);
   const auth = useAuth();
+
+  const [error, setError] = useState(null);
+  const [gender, setGender] = useState(true);
 
   const handleRegistration = async (userInfo, { resetForm }) => {
     const response = await registerApi.request(userInfo);
 
     if (!response.ok) {
-      return setError(response.data.error || "An unexpected error occurred");
+      return setError(response.data.message || "An unexpected error occurred");
     }
 
     setError(null);
-    const { data: AuthToken } = await authApi.login(
-      (email = response.data.email),
-      (password = response.data.password)
-    );
+    const email = response.data.email;
+    const password = response.data.password;
+    const { data: AuthToken } = await authApi.login(email, password);
+    console.log(AuthToken);
     resetForm();
     auth.login(AuthToken);
     scheduleLocalNotification(
@@ -62,100 +67,113 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <>
       <ActivityIndicator visible={registerApi.loading} />
-      <Screen>
-        <KeyboardAvoidingView keyboardVerticalOffset={25} behavior={"padding"}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Image
-              resizeMode="contain"
-              style={[Styles.heroImage]}
-              source={require("../assets/Images/heroImages/RegisterHeroImage.png")}
+      <Wrapper>
+        <Header
+          goBack
+          title="Register"
+          subTitle="Welcome to Dolphin Pools App"
+        />
+        <View style={Styles.inputContinuer}>
+          <AppForm
+            initialValues={{
+              email: "",
+              password: "",
+              username: "",
+              name: "",
+              phoneNumber: "",
+              image: [],
+              gender: true,
+              dateOfBirth: new Date().toDateString(),
+            }}
+            onSubmit={handleRegistration}
+            validationSchema={validationSchema}
+          >
+            <FormSingleImageInput name="image" />
+
+            <AppFormField
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="account"
+              name="name"
+              placeholder="Full Name"
+              textContentType="name"
+              maxLength={20}
+              title={"Full name"}
             />
 
-            <Text style={Styles.primaryTextHeroSection}>Register</Text>
-            <View style={Styles.inputContinuer}>
-              <AppForm
-                initialValues={{
-                  email: "",
-                  password: "",
-                  username: "",
-                  name: "",
-                  phoneNumber: "",
-                  image: [],
-                }}
-                onSubmit={handleRegistration}
-                validationSchema={validationSchema}
-              >
-                <FormSingleImageInput name="image" />
-                <ErrorMessage error={error} visible={error} />
-                <AppFormField
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  icon="account"
-                  name="name"
-                  placeholder="Full Name"
-                  textContentType="name"
-                  maxLength={20}
-                />
-                <AppFormField
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  icon="at"
-                  name="username"
-                  textContentType="username"
-                  placeholder="User Name"
-                  maxLength={20}
-                />
-                <AppFormField
-                  autoCapitalize="none"
-                  icon="cellphone"
-                  autoCorrect={false}
-                  keyboardType="numeric"
-                  textContentType="telephoneNumber"
-                  name="phoneNumber"
-                  placeholder="Mobile"
-                  returnKeyLabel="done"
-                  maxLength={8}
-                />
-                <AppFormField
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  icon="email"
-                  keyboardType="email-address"
-                  textContentType="emailAddress"
-                  name="email"
-                  placeholder="Email"
-                />
-                <AppFormField
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  icon="lock-open-variant"
-                  name="password"
-                  textContentType="password"
-                  placeholder="Password"
-                  maxLength={25}
-                />
+            <AppFormField
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="at"
+              name="username"
+              textContentType="username"
+              placeholder="User Name"
+              maxLength={20}
+              title="User Name"
+            />
+            <AppFormField
+              autoCapitalize="none"
+              icon="cellphone"
+              autoCorrect={false}
+              keyboardType="numeric"
+              textContentType="telephoneNumber"
+              name="phoneNumber"
+              placeholder="Mobile"
+              returnKeyLabel="done"
+              maxLength={8}
+              title="Phone Number"
+            />
+            <AppFormField
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="email"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              name="email"
+              placeholder="Email"
+              title="Email"
+            />
+            <AppFormField
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="lock-open-variant"
+              name="password"
+              textContentType="password"
+              placeholder="Password"
+              maxLength={25}
+              title="Password"
+            />
+            <CheckBox
+              name="gender"
+              placeholder="Gender"
+              choiceOne="Male"
+              choiceTwo="Female"
+              onPress={(value) => setGender(value)}
+              selected={gender}
+            />
+            <DateTimePicker title="Date Of Birth" name="dateOfBirth" />
+            <ErrorMessage error={error} visible={error} />
+            <SubmitButton
+              title={"Submit"}
+              iconName={"send-circle"}
+              marginTop={30}
+            />
+          </AppForm>
+        </View>
 
-                <SubmitButton title={"Submit"} iconName={"send-circle"} />
-              </AppForm>
-            </View>
-
-            <View style={Styles.containerFlexRowLinks}>
-              <Text style={Styles.secondaryText}>
-                Already have an account?{" "}
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={Styles.linkText}
-                  onPress={() => navigation.navigate("Login")}
-                >
-                  {" "}
-                  Login
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </Screen>
+        <View style={Styles.containerFlexRowLinks}>
+          <Text style={Styles.secondaryText}>Already have an account? </Text>
+          <TouchableOpacity>
+            <Text
+              style={Styles.linkText}
+              onPress={() => navigation.navigate("Login")}
+            >
+              {" "}
+              Login
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Wrapper>
     </>
   );
 };

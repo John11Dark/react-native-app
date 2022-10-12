@@ -1,3 +1,4 @@
+// ? * -->
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -8,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-
+// ? * -->
 import { authApi, errorApi, userApi } from "../api";
 import { useApi, useAuth } from "../hooks";
 import routes from "../Navigation/routes";
@@ -17,29 +18,31 @@ import {
   DataLoadingError,
   ListItem,
   ItemSeparator,
-  SearchBar,
   Icon,
   EditModal,
   UploadIndicator,
   Header,
+  SearchBar,
 } from "../components";
-import { customProps, settings } from "../config";
+import { customProps } from "../config";
 
+// ? * --> Main Stack
 export default function UsersScreen() {
-  const assetsUrl = settings.assetsUrl;
-  // hooks and states
+  // ? * -->  hooks and states
   const navigation = useNavigation();
   const usersApi = useApi(userApi.getAll);
   const createNewUserApi = useApi(authApi.register);
   const updateUserApi = useApi(userApi.updateUser);
+  const isFocused = useIsFocused();
+  const { user } = useAuth();
+
+  // ? * --> States
   const [searchItems, setSearchItems] = useState(usersApi.data);
   const [visible, setVisible] = useState(false);
   const [newAccount, setNewAccount] = useState(false);
   const [userData, setUserData] = useState(null);
-  const { user } = useAuth();
-  const isFocused = useIsFocused();
 
-  // animation and upload
+  // ? * -->  animation and upload
   const [progress, setProgress] = useState();
   const [edit, setEdit] = useState();
   const [animationFinish, setAnimationFinish] = useState(false);
@@ -47,11 +50,11 @@ export default function UsersScreen() {
   const [uploadVisible, setUploadVisible] = useState(false);
   const [users, setUsers] = useState(null);
 
-  // Functions
+  // ? * -->  Functions
 
-  const createNewUser = () => {
+  function createNewUser() {
     showModal(true, null, true, true);
-  };
+  }
 
   async function handleSubmitRequest(values, requestType) {
     setVisible(false, null, false, false);
@@ -97,13 +100,15 @@ export default function UsersScreen() {
         setUsers(users.filter((userList) => userList.id != values));
       }
     } catch (er) {
-      console.log(er);
+      console.error(er);
       setUploadVisible(false);
       setDataUploaded(false);
     }
   }
 
-  //_* Set data modal visible
+  // ? * --> Effects
+
+  /// *-->//  Set data modal visible
   const showModal = (visible, item, edit, newAccount) => {
     setVisible(visible);
     setUserData(item);
@@ -111,29 +116,7 @@ export default function UsersScreen() {
     setNewAccount(newAccount);
   };
 
-  //_* Filter Users search
-  const filterUsers = (value) => {
-    value = value.toString().toLowerCase();
-    if (searchItems.length === 0 || searchItems == undefined) {
-      if (usersApi.data.length === 0) request();
-      setSearchItems(usersApi.data);
-    }
-    if (value.length != 0) {
-      console.log(value);
-      setSearchItems(
-        searchItems.filter(
-          (user) =>
-            user.name.toLowerCase().includes(value) ||
-            user.email.toLowerCase().includes(value)
-        )
-      );
-    } else {
-      setSearchItems(usersApi.data);
-    }
-  };
-  // effect hooks
-
-  //_*upload animation
+  /// *-->//   Upload animation
   useEffect(() => {
     if (dataUploaded && animationFinish) {
       setAnimationFinish(false);
@@ -142,38 +125,16 @@ export default function UsersScreen() {
     }
   }, [dataUploaded, animationFinish]);
 
-  //_* request
+  /// *-->//  Request
   useEffect(() => {
     usersApi.request();
     setSearchItems(usersApi.data);
     setUsers(usersApi.data);
   }, [isFocused, users]);
 
-  console.log(`${assetsUrl}maleAvatar_full.jpg`);
-  console.log(usersApi.data[0]);
   return (
     <Screen>
-      <Header
-        searchBar
-        IconComponent={
-          <Icon
-            name={"account-plus"}
-            backgroundColor={"transparent"}
-            iconColor={customProps.secondaryColor}
-            innerSize={35}
-            onPress={createNewUser}
-          />
-        }
-      />
-      <View style={{ zIndex: 5 }}>
-        <UploadIndicator
-          progress={progress}
-          visible={uploadVisible}
-          onFinish={() => {
-            setAnimationFinish(true);
-          }}
-        />
-      </View>
+      <Header goBack title="Users" SearchBar={<SearchBar visible={false} />} />
       <DataLoadingError
         visible={usersApi.error}
         imageViable={true}
@@ -181,40 +142,48 @@ export default function UsersScreen() {
         onPress={() => usersApi.request()}
       />
 
-      {searchItems ? (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          style={styles.list}
-          data={usersApi.data}
-          keyExtractor={(user) => user.id.toString()}
-          renderItem={({ item }) => (
-            <>
-              <ListItem
-                users={true}
-                title={item.name === user.name ? "You" : item.name}
-                description={item.email}
-                subTitle={item.role}
-                style={styles.listItem}
-                onPress={() =>
-                  item.name === user.name
-                    ? navigation.navigate(routes.PROFILE)
-                    : showModal(true, item, false, false)
-                }
-                imagePath={
-                  item.images[0].url
-                    ? item.images[0].url
-                    : `${assetsUrl}maleAvatar_full.jpg`
-                }
-              />
-            </>
-          )}
-          ItemSeparatorComponent={ItemSeparator}
-          refreshing={usersApi.loading}
-          onRefresh={() => usersApi.request()}
-        />
-      ) : (
-        <Image source={require("../assets/Images/heroImages/authScreen.png")} />
-      )}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        style={styles.list}
+        data={usersApi.data}
+        keyExtractor={(user) => user._id.toString()}
+        renderItem={({ item }) => (
+          <>
+            <ListItem
+              users={true}
+              title={item.name === user.name ? "You" : item.name}
+              imagePath={item.images[0].url}
+              description={item.email}
+              style={styles.listItem}
+              onPress={() =>
+                item.name === user.name
+                  ? navigation.navigate(routes.PROFILE)
+                  : showModal(true, item, false, false)
+              }
+            />
+          </>
+        )}
+        ItemSeparatorComponent={ItemSeparator}
+        refreshing={usersApi.loading}
+        onRefresh={() => usersApi.request()}
+      />
+
+      <Image
+        resizeMode="contain"
+        style={styles.image}
+        source={require("../assets/Images/heroImages/authScreen.png")}
+      />
+
+      <Icon
+        name={"account-plus"}
+        backgroundColor={customProps.secondaryColor}
+        iconColor={customProps.barBackgroundColorOpacity}
+        innerSize={35}
+        size={60}
+        onPress={createNewUser}
+        style={styles.createNewUserIcon}
+      />
+
       <EditModal
         onClose={() => setVisible(false)}
         title={`Edit Profile`}
@@ -227,7 +196,16 @@ export default function UsersScreen() {
     </Screen>
   );
 }
+
 const styles = StyleSheet.create({
+  image: {
+    width: 200,
+    height: 200,
+    alignItems: "center",
+    alignSelf: "center",
+    position: "absolute",
+    bottom: 10,
+  },
   list: {
     flex: 1,
     width: "100%",
@@ -245,5 +223,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+  },
+  createNewUserIcon: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });

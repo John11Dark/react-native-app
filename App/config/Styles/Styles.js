@@ -39,7 +39,7 @@ const Styles = StyleSheet.create({
   },
   heroImage: {
     width: "90%",
-    height: 265,
+    height: 250,
     alignSelf: "center",
   },
   heroImageVertical: {

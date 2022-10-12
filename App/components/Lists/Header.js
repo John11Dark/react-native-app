@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function Header({
   title = "Today",
   subTitle = "",
-  searchBar = false,
+  SearchBar = false,
   uri,
   goBack,
   style,
@@ -17,7 +17,7 @@ export default function Header({
 }) {
   const navigation = useNavigation();
   const { user } = useAuth();
-  !subTitle ? (subTitle = functions.greeting(Date(user.iat))) : subTitle;
+  !subTitle ? (subTitle = functions.greeting(Date(user?.iat))) : subTitle;
   return (
     <View style={[styles.container, style]}>
       <View style={styles.flexConcent}>
@@ -33,7 +33,7 @@ export default function Header({
           )}
           <Text style={styles.title}>{title}</Text>
           <Text numberOfLines={1} style={styles.subTitle}>
-            {subTitle} {username && user.name}
+            {subTitle} {username && user?.name}
           </Text>
         </View>
         <Image
@@ -43,7 +43,7 @@ export default function Header({
         />
       </View>
       <Image source={{ uri: uri }} />
-      <SearchBar visible={searchBar} />
+      {SearchBar}
     </View>
   );
 }

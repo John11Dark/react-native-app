@@ -2,6 +2,7 @@
 import * as Yup from "yup";
 import React, { useState } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
+import * as Location from "expo-location";
 
 // ? * -->  Application
 import {
@@ -46,14 +47,32 @@ export default function ListingEditMain({ navigation }) {
 
   // ? * --> Functions
   async function next(values, { resetForm }) {
+    const data = { location: location, ...values };
     navigation.navigate(routes.LISTING_EDIT, values);
-    console.log(values);
     resetForm();
   }
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync();
+      if (!granted) return;
 
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+
+      setLocation({
+        latitude,
+        longitude,
+        latitudeDelta: 0.3,
+        longitudeDelta: 0.3,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   // ? * -->  Hooks
 
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(false);
   const { user } = useAuth();
 
   // ? * -->  States
@@ -71,8 +90,8 @@ export default function ListingEditMain({ navigation }) {
   const [poolLeaking, setPoolLeaking] = useState(false);
 
   useEffect(() => {
-    setLocation(location);
-  }, [location]);
+    getLocation();
+  }, []);
   return (
     <Wrapper>
       <PageIndicators
@@ -85,7 +104,7 @@ export default function ListingEditMain({ navigation }) {
             name: user.name,
             id: user.userId,
             role: user.role,
-            image: user.images[0].url,
+            image: user.image[0].url,
           },
           status: false,
 
@@ -114,7 +133,6 @@ export default function ListingEditMain({ navigation }) {
           indoor: false,
           poolLeaking: false,
           newPool: true,
-          location: location,
         }}
         onSubmit={next}
         validationSchema={validationSchema}
@@ -139,7 +157,7 @@ export default function ListingEditMain({ navigation }) {
           {/*
            *--> Client details
            */}
-
+          <Map view location={(pin) => setLocation(pin)} />
           <AppFormField
             name="site"
             title={"Site"}
@@ -322,7 +340,6 @@ export default function ListingEditMain({ navigation }) {
           />
         </View>
         <SubmitButton title={"Next"} iconName={"page-next"} width={250} />
-        <Map view location={(pin) => setLocation(pin)} />
       </AppForm>
     </Wrapper>
   );

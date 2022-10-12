@@ -403,3 +403,33 @@ export default function ListingEditScreen({ route, navigation }) {
 //   }
 //   return Yup.number().notRequired().label("Balance Tank Depth");
 // }),
+// if (balanceTankVolume === 0 && !data.poolType)
+//       return Alert.alert(
+//         "Balance Tank Volume",
+//         "balance tank volume can not be zero please check you inputs or reenter the pool volume again and do not modify the balance tank to be default to 20% of the pool"
+//       );
+//     if (
+//       !data.poolType &&
+//       balanceTankVolume.includes("20% of pool volume") &&
+//       (poolBalanceTankLength === 0 || poolBalanceTankLength == null) &&
+//       (balanceTankWidth === 0 || balanceTankWidth == null) &&
+//       (balanceTankDepth === 0 || balanceTankDepth == null)
+//     )
+//       return Alert.alert(
+//         "balance Tank Volume",
+//         "Balance tank volume did not receive any parameters so it defaults to 20% of pool volume\n do you want  to proceed? ",
+//         [
+//           {
+//             text: "yes",
+//             style: "destructive",
+//             onPress: navigation.navigate("Options", values),
+//           },
+//           {
+//             text: "No",
+//             style: "cancel",
+//           },
+//         ]
+//       );
+//     values.totalVolume = totalVolumeState;
+//     values.poolVolume = poolVolume.toString();
+//     values.balanceTankVolume = balanceTankVolume.toString();

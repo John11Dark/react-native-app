@@ -11,11 +11,25 @@ import AuthContext from "./App/auth/context";
 import authStorage from "./App/auth/storage";
 
 import { LogBox } from "react-native";
+import { errorApi } from "./App/api";
+
+LogBox.ignoreLogs([
+  "expo-app-loading is deprecated in favor of expo-splash-screen",
+  "EventEmitter.removeListener",
+  "onAnimatedValueUpdate",
+  "Require cycle",
+  "expo-app-loading is deprecated in favor of expo-splash-screen: use SplashScreen.preventAutoHideAsync() and SplashScren.hideAsync() instead. https://docs.expo.dev/versions/latest/sdk/splash-screen/",
+  "EventEmitter.removeListener('keyboardWillHide', ...): Method has been deprecated. Please instead use `remove()` on the subscription returned by `EventEmitter.addListener`.",
+  "EventEmitter",
+]);
 
 export default App = () => {
   const [user, setUser] = useState(null);
   const [isReady, setIsReady] = useState(false);
 
+  useEffect(() => {
+    errorApi.sendLog();
+  }, [user]);
   useEffect(() => {
     const checkAuthStatus = async () => {
       const user = await authStorage.getUser();
@@ -38,24 +52,3 @@ export default App = () => {
     </AuthContext.Provider>
   );
 };
-
-//import { Text, View } from "react-native";
-
-//  <View
-//       style={{
-//         backgroundColor: "black",
-//         justifyContent: "center",
-//         alignItems: "center",
-//       }}
-//     >
-//       <Text
-//         style={{
-//           color: "white",
-//           fontSize: 50,
-//           justifyContent: "center",
-//           alignItems: "center",
-//         }}
-//       >
-//         Hi
-//       </Text>
-//     </View>

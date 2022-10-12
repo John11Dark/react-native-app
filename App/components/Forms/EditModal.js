@@ -19,6 +19,7 @@ import EditFiled from "./EditFiled";
 import AppForm from "./AppForm";
 import ModalSubmit from "./ModalSubmit";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import CheckBox from "./CheckBox";
 
 export default function EditModal({
   data = true,
@@ -53,6 +54,7 @@ export default function EditModal({
       password: "0123456789_MT",
       image: [`${assetsUrl}maleAvatar_full.jpg`],
       requestTypeApi: "post",
+      gender: true,
     };
     if (data) {
       newData.email = data.email;
@@ -76,7 +78,7 @@ export default function EditModal({
   // role type state
 
   const [role, setRole] = useState(data != undefined ? data.role : "User");
-
+  const [gender, setGender] = useState(true);
   // handling edit press
   const [edit, setEdit] = useState();
   const handleEdit = () => {
@@ -262,6 +264,16 @@ export default function EditModal({
                       );
                     }}
                   />
+                  <CheckBox
+                    name={"gender"}
+                    choiceOne={"Male"}
+                    choiceTwo={"Female"}
+                    onPress={() => setGender(!gender)}
+                    selected={gender}
+                    placeholder={"Gender"}
+                    disabled={!edit}
+                    style={styles.checkBoxStyle}
+                  />
                   <TouchableOpacity onPress={handleDelete}>
                     <Text
                       style={[
@@ -327,8 +339,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     alignSelf: "center",
     justifyContent: "center",
+    alignItems: "center",
     padding: 20,
     marginBottom: 20,
+    width: "95%",
   },
   title: {
     ...customProps.font,
@@ -356,5 +370,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderWidth: 2,
     borderColor: customProps.secondaryColor,
+  },
+  checkBoxStyle: {
+    title: {
+      color: customProps.primaryColorLightGray,
+      ...customProps.font,
+      fontSize: 20,
+      paddingLeft: 25,
+    },
+    buttonsContinuer: {
+      width: "100%",
+      padding: 10,
+      flexDirection: "row",
+      justifyContent: "space-around",
+    },
+    continuer: {
+      width: "95%",
+      margin: 20,
+      backgroundColor: "red",
+    },
   },
 });

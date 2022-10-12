@@ -128,7 +128,7 @@ export default function ProfileScreen({ navigation }) {
         initialValues={{
           email: user.email,
           id: user.userId,
-          image: [user.images[0].url],
+          image: [user.image[0].url],
           name: user.name,
           username: user.username,
           phoneNumber: user.phoneNumber,

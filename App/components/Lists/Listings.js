@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Image, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator, Card, DataLoadingError, Screen, Header } from "../";
 import customProps from "../../config/customProps";
@@ -53,6 +53,14 @@ const Listings = ({
             <Header title={headerTitle} goBack={goBack} searchBar={false} />
           }
         />
+        <View style={styles.bottomContainer}>
+          <Image
+            resizeMode="contain"
+            source={require("../../assets/Images/heroImages/HomeScreenHeroImage.png")}
+          />
+          <Text>you're all caught up</Text>
+          <Text>you have seen all posts</Text>
+        </View>
       </Screen>
     </>
   );
@@ -61,6 +69,14 @@ const Listings = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: customProps.primaryColorDark,
+  },
+  bottomContainer: {
+    margin: 10,
+    overflow: "hidden",
+    height: 100,
+    width: "95%",
+    alignItems: "center",
+    display: "none",
   },
 });
 

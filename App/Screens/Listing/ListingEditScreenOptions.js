@@ -1,6 +1,6 @@
 // ? * -->  Third parties libraries
 import { Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 
 // ? * -->  Project components  and configurations
@@ -14,7 +14,6 @@ import {
   SubmitButton,
   PageIndicators,
 } from "../../components";
-import { useEffect } from "react";
 import { routes } from "../../Navigation";
 
 // ? * --> main stack

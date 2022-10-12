@@ -1,4 +1,4 @@
-//import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, View, Image, Text, StyleSheet, Alert } from "react-native";
 import { customProps } from "../config";
 //import messagesApi from "../api/messages";
@@ -11,11 +11,9 @@ import {
   //DeleteItemAction,
   //ListItemSeparator,
 } from "../components";
-
 const MessagesScreen = () => {
   // const { data, error, loading, request } = useApi(messagesApi.getMessages);
   // const [messages, setMessages] = useState(data);
-
   // const handlePress = (message) => {};
 
   // const removeMessage = async (message) => {
@@ -73,9 +71,12 @@ const MessagesScreen = () => {
   //   );
   //
 
-  alert(
-    "This functionality are not available at the moment!\nWhen it is available you will be notified!🙂"
-  );
+  let notifiedBefore = true;
+  if (!notifiedBefore) {
+    alert(
+      "This functionality are not available at the moment!\nWhen it is available you will be notified!🙂"
+    );
+  }
   return (
     <Screen>
       <Header title={"Messages"} goBack />
@@ -86,7 +87,7 @@ const MessagesScreen = () => {
           source={require("../assets/Images/heroImages/Messages.png")}
         />
         <Text style={styles.text}>
-          Sorry this page are not available at the moment!
+          Sorry the messages functionality are not available at the moment!
         </Text>
       </View>
     </Screen>

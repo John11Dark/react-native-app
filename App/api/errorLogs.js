@@ -10,7 +10,13 @@ const sendError = async (error) => {
   const res = await client.post(endpoint, { Error: error, device: Constants });
   return res;
 };
+const sendLog = async (error) => {
+  const res = await client.post(endpoint, { Error: error, device: Constants });
+  console.log(res);
+  return res;
+};
 export default {
   getErrors,
   sendError,
+  sendLog,
 };

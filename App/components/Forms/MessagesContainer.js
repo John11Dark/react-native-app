@@ -36,7 +36,7 @@ export default function MessagesContainer({ user, listId }) {
         user: {
           name: user.name,
           id: user.id,
-          image: user.images,
+          image: user.image,
         },
       };
       const result = await commentsApi.postComment(comment);

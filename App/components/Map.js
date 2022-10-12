@@ -18,9 +18,6 @@ export default function Map({ title, location, view = false, projectPin }) {
     longitudeDelta: 0.4,
   });
 
-  useEffect(() => {
-    setLocation();
-  }, []);
   // set location function
   const setLocation = async () => {
     try {
@@ -36,12 +33,16 @@ export default function Map({ title, location, view = false, projectPin }) {
       const camera = await mapRef.current?.getCamera();
       if (camera) {
         camera.center = projectPin ? projectPin : pin;
-        mapRef.current.animateCamera(camera, { duration: 500 });
+        mapRef.current.animateCamera(camera, { duration: 200 });
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    setLocation();
+  }, []);
 
   return (
     <View style={styles.mapViewBox}>
@@ -191,12 +192,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    width: "90%",
+    width: "100%",
     height: 350,
-    borderRadius: 20,
+    borderRadius: 10,
     overflow: "hidden",
     margin: 10,
-    marginBottom: 30,
   },
   map: {
     width: "100%",

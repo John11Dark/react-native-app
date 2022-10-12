@@ -98,10 +98,13 @@ export default function AccountScreen({ navigation, route }) {
       menuItems = menuItems.filter((item) => item.title !== "Users");
     }
   }, [isFocused]);
+  console.log(user.image);
   return (
     <Screen>
       <AuthorComponent
-        imagePath={{ uri: user.images[0].url }}
+        imagePath={{
+          uri: user.image[0].url,
+        }}
         title={user.name}
         subTitle={user.role}
       />

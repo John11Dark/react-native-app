@@ -25,10 +25,8 @@ export default function ImageInput({
   async function openGallery() {
     try {
       const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
-        allowsMultipleSelection: true,
       });
       if (!cancelled) {
         onImageChange(uri);
