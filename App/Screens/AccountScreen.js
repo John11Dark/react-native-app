@@ -97,8 +97,7 @@ export default function AccountScreen({ navigation, route }) {
     if (!user.role.includes("Admin")) {
       menuItems = menuItems.filter((item) => item.title !== "Users");
     }
-  }, [isFocused]);
-  console.log(user.image);
+  }, [isFocused, user]);
   return (
     <Screen>
       <AuthorComponent

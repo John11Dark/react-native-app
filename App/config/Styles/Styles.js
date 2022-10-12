@@ -50,11 +50,12 @@ const Styles = StyleSheet.create({
   },
   inputContinuer: {
     padding: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
     width: "95%",
+    marginBottom: 35,
   },
   OTBInputContinuer: {
     padding: 10,

@@ -30,7 +30,7 @@
 
 const Today = new Date();
 const hours = Today.getHours();
-console.log(hours);
+// console.log(hours);
 
 function greeting(userInitialDate) {
   let greet = "Good Morning";

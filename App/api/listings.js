@@ -6,7 +6,7 @@ const endpoint = "/listings";
 
 // functions
 const addListing = (listing, onUploadProgress) => {
-  console.log("List", listing);
+  // console.log("List", listing);
   const data = new FormData();
 
   // ? * --> all Address data
@@ -34,6 +34,9 @@ const addListing = (listing, onUploadProgress) => {
   data.append("indoor", JSON.stringify(listing.indoor));
   data.append("poolSteps", JSON.stringify(listing.poolSteps));
   data.append("poolType", JSON.stringify(listing.poolType));
+  data.append("whiteGoodsOnly", JSON.stringify(listing.whiteGoodsOnly));
+  data.append("extraLights", JSON.stringify(listing.extraLights));
+  data.append("extra", JSON.stringify(listing.extra));
 
   // ? *-> Pickers
   data.append("projectType", JSON.stringify(listing.projectType));
@@ -50,6 +53,12 @@ const addListing = (listing, onUploadProgress) => {
   data.append("poolDepthEnd", listing.poolDepthEnd);
   data.append("poolDepthStart", listing.poolDepthStart);
   data.append("poolVolume", listing.poolVolume);
+
+  if (listing.newPool) {
+    data.append("optionOne", JSON.stringify(listing.optionOne));
+    data.append("optionTwo", JSON.stringify(listing.optionTwo));
+    data.append("optionThree", JSON.stringify(listing.optionThree));
+  }
 
   // !  *--> balance tank Parameters only if overflow pool if it is not set it will be undefined
 

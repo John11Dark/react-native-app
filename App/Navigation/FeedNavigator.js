@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 
 import Routes from "./routes";
 import { FeedScreen, ListingDetails, GalleryScreen } from "../Screens";
@@ -26,14 +26,56 @@ export default function FeedNavigator() {
               }}
             >
               <Icon
-                onPress={() => File.Print(route.params)}
+                onPress={() =>
+                  Alert.alert(
+                    `Print ${route.params?.site} PDF File`,
+                    "Choose for whom you want to print the File.",
+                    [
+                      {
+                        text: "Client",
+                        style: "destructive",
+                        onPress: () => File.Print(route.params),
+                      },
+                      {
+                        text: "Self",
+                        style: "default",
+                        onPress: () => File.Print(route.params),
+                      },
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                    ]
+                  )
+                }
                 iconColor={customProps.primaryColor}
                 backgroundColor="transparent"
                 name="printer"
                 innerSize={35}
               />
               <Icon
-                onPress={() => File.Share(route.params)}
+                onPress={() =>
+                  Alert.alert(
+                    `Share ${route.params?.site} PDF File`,
+                    "Choose With whom you want to share the File.",
+                    [
+                      {
+                        text: "Client",
+                        style: "destructive",
+                        onPress: () => File.Share(route.params),
+                      },
+                      {
+                        text: "Self",
+                        style: "default",
+                        onPress: () => File.Share(route.params),
+                      },
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                    ]
+                  )
+                }
                 iconColor={customProps.secondaryColor}
                 backgroundColor="transparent"
                 name="share"

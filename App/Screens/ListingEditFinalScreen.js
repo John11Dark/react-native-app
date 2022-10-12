@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   AppForm,
@@ -8,13 +8,14 @@ import {
   PageIndicators,
   SubmitButton,
   Wrapper,
-} from "../../components";
-import availablePackages from "../../assets/Data/availablePackages";
-import { listingsApi } from "../../api";
+} from "../components";
+// import availablePackages from "../assets/Data/availablePackages";
+import { listingsApi } from "../api";
+import { routes } from "../Navigation";
 
 export default function ListingEditFinalScreen({ route, navigation }) {
   // ? * --> variables
-  console.log(availablePackages);
+  // console.log(availablePackages);
   const data = route?.params;
 
   // ? * -->  States
@@ -71,6 +72,7 @@ export default function ListingEditFinalScreen({ route, navigation }) {
     setDataUploaded(true);
     setError(null);
     resetForm();
+    navigation.navigate(routes.LISTING_EDIT_MAIN);
   }
 
   /// *--> Start Effect
@@ -85,41 +87,44 @@ export default function ListingEditFinalScreen({ route, navigation }) {
     }
   }, [dataUploaded, animationFinish]);
   return (
-    <Wrapper
-      animation
-      progress={progress}
-      onFinish={animationFinish}
-      uploadVisible={uploadVisible}
-    >
+    <>
       <PageIndicators
+        title={"last Step"}
         indicatorTwo={{ active: true }}
         indicatorThree={{ active: true }}
         indicatorFour={{ active: true, current: true, error: error }}
       />
-      <AppForm
-        initialValues={{
-          object: "name",
-        }}
-        //validationSchema={{}}
-        onSubmit={handleSubmit}
+      <Wrapper
+        animation
+        progress={progress}
+        onFinish={animationFinish}
+        uploadVisible={uploadVisible}
       >
-        <View style={styles.container}>
-          <PackagePicker
-            totalPrice={{ total: 200 }}
-            packages={[{}]}
-            selectedPackage={{
-              id: 0,
-              label: "overFlow",
-              price: 100,
-              filter: { size: 10, price: 10, name: "12kg AVO45" },
-            }}
-          />
-          <AppFormField name={"object"} placeholder={"extra"} />
-          <SubmitButton title={"Post"} iconName={"post"} />
-          <ErrorMessage visible={error} error={error} />
-        </View>
-      </AppForm>
-    </Wrapper>
+        <AppForm
+          initialValues={{
+            object: "name",
+          }}
+          //validationSchema={{}}
+          onSubmit={handleSubmit}
+        >
+          <View style={styles.container}>
+            <PackagePicker
+              totalPrice={{ total: 200 }}
+              packages={[{}]}
+              selectedPackage={{
+                id: 0,
+                label: "overFlow",
+                price: 100,
+                filter: { size: 10, price: 10, name: "12kg AVO45" },
+              }}
+            />
+            <AppFormField name={"object"} placeholder={"extra"} />
+            <SubmitButton title={"Post"} iconName={"post"} />
+            <ErrorMessage visible={error} error={error} />
+          </View>
+        </AppForm>
+      </Wrapper>
+    </>
   );
 }
 const styles = StyleSheet.create({

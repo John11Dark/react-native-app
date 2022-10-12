@@ -4,9 +4,9 @@ import { Text, View, Alert } from "react-native";
 import * as Yup from "yup";
 
 // ? * -->  Project components  and configurations
-import { customProps, Styles } from "../../config";
-import Functions from "./Functions/Functions";
-import routes from "../../Navigation/routes";
+import { customProps, Styles } from "../config";
+import Functions from "./Listing/Functions/Functions";
+import routes from "../Navigation/routes";
 import {
   AppForm,
   AppFormField,
@@ -14,7 +14,7 @@ import {
   SubmitButton,
   Wrapper,
   CheckBox,
-} from "../../components";
+} from "../components";
 
 // ? * --> main stack
 export default function ListingEditScreen({ route, navigation }) {
@@ -161,226 +161,208 @@ export default function ListingEditScreen({ route, navigation }) {
 
   // ? * --> main
   return (
-    <Wrapper>
+    <>
       <PageIndicators
-        indicatorTwo={{ id: 2, active: true, current: true, error: error }}
-      />
-      <Text style={Styles.secondaryTextHeroSection}>
-        {`${
+        title={`${
           data.newPool
             ? `New  ${data.poolType ? "skimmer" : "overflow"}`
             : `Refurbishment   ${data.poolType ? "skimmer" : "overflow"}`
         } Pool Quotation 📜`}
-      </Text>
-      <AppForm
-        onSubmit={next}
-        validationSchema={validationSchema}
-        initialValues={{
-          poolLength: "5",
-          poolWidth: "5",
-          poolDepthEnd: "5",
-          poolDepthStart: "5",
-          copingPerimeter: "",
-          poolPerimeter: "",
-          poolVolume: "",
-          optionOne: false,
-          optionTwo: false,
-          optionThree: false,
-          optionFour: false,
-          optionFive: false,
-        }}
-      >
-        <View style={Styles.inputContinuer}>
-          {/* 
+        indicatorTwo={{ id: 2, active: true, current: true, error: error }}
+      />
+      <Wrapper>
+        <AppForm
+          onSubmit={next}
+          validationSchema={validationSchema}
+          initialValues={{
+            poolLength: "5",
+            poolWidth: "5",
+            poolDepthEnd: "5",
+            poolDepthStart: "5",
+            copingPerimeter: "",
+            poolPerimeter: "",
+            poolVolume: "",
+            optionOne: false,
+            optionTwo: false,
+            optionThree: false,
+          }}
+        >
+          <View style={Styles.inputContinuer}>
+            {/* 
            // ? * -->  If Old | refurbishment pool
            */}
 
-          {!data.newPool && (
-            <>
-              <Text
-                style={{
-                  ...customProps.font,
-                  color: customProps.primaryColorLight,
-                }}
-              >
-                Refurbishment pool Options
-              </Text>
-              <CheckBox
-                choiceOne={"Yes"}
-                choiceTwo={"No"}
-                name={"optionOne"}
-                placeholder={"Option One"}
-                onPress={() => setOptionOne(!optionOne)}
-                selected={optionOne}
-              />
-              <CheckBox
-                choiceOne={"Yes"}
-                choiceTwo={"No"}
-                name={"optionTwo"}
-                placeholder={"Option Two"}
-                onPress={() => setOptionTwo(!optionTwo)}
-                selected={optionTwo}
-              />
-              <CheckBox
-                choiceOne={"Yes"}
-                choiceTwo={"No"}
-                name={"optionThree"}
-                placeholder={"Option Three"}
-                onPress={() => setOptionThree(!optionThree)}
-                selected={optionThree}
-              />
-              <CheckBox
-                choiceOne={"Yes"}
-                choiceTwo={"No"}
-                name={"optionFour"}
-                placeholder={"Option Four"}
-                onPress={() => setOptionFour(!optionFour)}
-                selected={optionFour}
-              />
-              <CheckBox
-                choiceOne={"Yes"}
-                choiceTwo={"No"}
-                name={"optionFive"}
-                placeholder={"Option Five"}
-                onPress={() => setOptionFive(!optionFive)}
-                selected={optionFive}
-              />
-            </>
-          )}
+            {!data.newPool && (
+              <>
+                <Text
+                  style={{
+                    ...customProps.font,
+                    color: customProps.primaryColorLight,
+                  }}
+                >
+                  Refurbishment pool Options
+                </Text>
+                <CheckBox
+                  choiceOne={"Yes"}
+                  choiceTwo={"No"}
+                  name={"optionOne"}
+                  placeholder={"Changes of white goods"}
+                  onPress={() => setOptionOne(!optionOne)}
+                  selected={optionOne}
+                />
+                <CheckBox
+                  choiceOne={"Yes"}
+                  choiceTwo={"No"}
+                  name={"optionTwo"}
+                  placeholder={"Removal of tile border"}
+                  onPress={() => setOptionTwo(!optionTwo)}
+                  selected={optionTwo}
+                />
+                <CheckBox
+                  choiceOne={"Yes"}
+                  choiceTwo={"No"}
+                  name={"optionThree"}
+                  placeholder={"Require pressure test "}
+                  onPress={() => setOptionThree(!optionThree)}
+                  selected={optionThree}
+                />
+              </>
+            )}
 
-          {/* 
+            {/* 
            // ? * -->  Pool parameters
            */}
-          <>
-            <AppFormField
-              name="poolLength"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              getValue={(value) => setPoolLength(value)}
-              placeholder="ex: 23"
-              title="pool Length"
-            />
+            <>
+              <AppFormField
+                name="poolLength"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                getValue={(value) => setPoolLength(value)}
+                placeholder="ex: 23"
+                title="pool Length"
+              />
 
-            <AppFormField
-              name="poolWidth"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              placeholder="ex: 23"
-              title="Pool Width"
-              getValue={(value) => setPoolWidth(value)}
-            />
+              <AppFormField
+                name="poolWidth"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                placeholder="ex: 23"
+                title="Pool Width"
+                getValue={(value) => setPoolWidth(value)}
+              />
 
-            <AppFormField
-              name="poolDepthStart"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              getValue={(value) => setPoolDepthStart(value)}
-              placeholder="ex: 23"
-              title="Pool Depth Start"
-            />
+              <AppFormField
+                name="poolDepthStart"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                getValue={(value) => setPoolDepthStart(value)}
+                placeholder="ex: 23"
+                title="Pool Depth Start"
+              />
 
-            <AppFormField
-              name="poolDepthEnd"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              getValue={(value) => setPoolDepthEnd(value)}
-              placeholder="Optional"
-              title="Pool Depth End"
-            />
+              <AppFormField
+                name="poolDepthEnd"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                getValue={(value) => setPoolDepthEnd(value)}
+                placeholder="Optional"
+                title="Pool Depth End"
+              />
 
-            <AppFormField
-              //  Todo: set pool volume
-              // ? * -->  name="poolVolume"
-              autoCapitalize="none"
-              name="poolVolume"
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              value={poolVolume.toString()}
-              title="Pool Volume"
-            />
+              <AppFormField
+                //  Todo: set pool volume
+                // ? * -->  name="poolVolume"
+                autoCapitalize="none"
+                name="poolVolume"
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                value={poolVolume.toString()}
+                title="Pool Volume"
+              />
 
-            <AppFormField
-              //  Todo: set pool coping
-              // ? * -->   name="copingPerimeter"
-              autoCapitalize="none"
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              value={poolCopingPerimeter.toString()}
-              getValue={(value) => setPoolCopingPerimeter(value)}
-              placeholder="ex: 23"
-              title="Coping Perimeter"
-            />
-            <AppFormField
-              //  Todo: set pool Perimeter
-              // ? * --> name="poolPerimeter"
-              autoCapitalize="none"
-              keyboardType="decimal-pad"
-              icon="move-resize-variant"
-              value={poolPerimeter.toString()}
-              getValue={(value) => setPoolPerimeter(value)}
-              placeholder="ex: 23"
-              title="Pool Perimeter"
-            />
-          </>
+              <AppFormField
+                //  Todo: set pool coping
+                // ? * -->   name="copingPerimeter"
+                autoCapitalize="none"
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                value={poolCopingPerimeter.toString()}
+                getValue={(value) => setPoolCopingPerimeter(value)}
+                placeholder="ex: 23"
+                title="Coping Perimeter"
+              />
+              <AppFormField
+                //  Todo: set pool Perimeter
+                // ? * --> name="poolPerimeter"
+                autoCapitalize="none"
+                keyboardType="decimal-pad"
+                icon="move-resize-variant"
+                value={poolPerimeter.toString()}
+                getValue={(value) => setPoolPerimeter(value)}
+                placeholder="ex: 23"
+                title="Pool Perimeter"
+              />
+            </>
 
-          {/*
+            {/*
             // ? * --> Balance Tank Parameters
             if data.poolType "false" || "Overflow"?    
           */}
-          {!data.poolType && (
-            <>
-              <AppFormField
-                name="balanceTankLength"
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                title="Balance Tank Length"
-                getValue={(value) => setPoolBalanceTankLength(value)}
-              />
-              <AppFormField
-                name="balanceTankWidth"
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                title="Balance Tank Width"
-                getValue={(value) => setBalanceTankWidth(value)}
-              />
-              <AppFormField
-                name="balanceTankDepth"
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                placeholder="ex: 23"
-                title="Balance Tank Depth"
-                getValue={(value) => setBalanceTankDepth(value)}
-              />
-              <AppFormField
-                name="balanceTankVolume"
-                autoCapitalize="none"
-                keyboardType="decimal-pad"
-                icon="move-resize-variant"
-                value={balanceTankVolume.toString()}
-                title="Balance Tank Volume"
-                numberOfLines={3}
-                multiline
-                getValue={(value) => setBalanceTankVolume(value)}
-              />
-            </>
-          )}
-        </View>
-        <SubmitButton title={"Next"} iconName={"page-next"} width={250} />
-      </AppForm>
-    </Wrapper>
+            {!data.poolType && (
+              <>
+                <AppFormField
+                  name="balanceTankLength"
+                  autoCapitalize="none"
+                  keyboardType="decimal-pad"
+                  icon="move-resize-variant"
+                  placeholder="ex: 23"
+                  title="Balance Tank Length"
+                  getValue={(value) => setPoolBalanceTankLength(value)}
+                />
+                <AppFormField
+                  name="balanceTankWidth"
+                  autoCapitalize="none"
+                  keyboardType="decimal-pad"
+                  icon="move-resize-variant"
+                  placeholder="ex: 23"
+                  title="Balance Tank Width"
+                  getValue={(value) => setBalanceTankWidth(value)}
+                />
+                <AppFormField
+                  name="balanceTankDepth"
+                  autoCapitalize="none"
+                  keyboardType="decimal-pad"
+                  icon="move-resize-variant"
+                  placeholder="ex: 23"
+                  title="Balance Tank Depth"
+                  getValue={(value) => setBalanceTankDepth(value)}
+                />
+                <AppFormField
+                  name="balanceTankVolume"
+                  autoCapitalize="none"
+                  keyboardType="decimal-pad"
+                  icon="move-resize-variant"
+                  value={balanceTankVolume.toString()}
+                  title="Balance Tank Volume"
+                  numberOfLines={3}
+                  multiline
+                  getValue={(value) => setBalanceTankVolume(value)}
+                />
+              </>
+            )}
+          </View>
+          <SubmitButton title={"Next"} iconName={"page-next"} width={250} />
+        </AppForm>
+      </Wrapper>
+    </>
   );
 }
 

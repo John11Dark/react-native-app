@@ -59,7 +59,7 @@ export default function Map({ title, location, view = false, projectPin }) {
             borderRadius: 10,
           }}
         >
-          <GooglePlacesAutocomplete
+          {/* <GooglePlacesAutocomplete
             placeholder="search"
             GooglePlacesSearchQuery={{
               rankby: "distance",
@@ -101,7 +101,7 @@ export default function Map({ title, location, view = false, projectPin }) {
                 fontSize: 18,
               },
             }}
-          />
+          /> */}
         </ScrollView>
       )}
       {view && (

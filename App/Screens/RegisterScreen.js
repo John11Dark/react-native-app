@@ -55,7 +55,7 @@ const RegisterScreen = ({ navigation }) => {
     const email = response.data.email;
     const password = response.data.password;
     const { data: AuthToken } = await authApi.login(email, password);
-    console.log(AuthToken);
+    // console.log(AuthToken);
     resetForm();
     auth.login(AuthToken);
     scheduleLocalNotification(

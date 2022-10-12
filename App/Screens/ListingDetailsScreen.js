@@ -451,7 +451,7 @@ export default function ListingDetails({ route }) {
   ///*--> Surface Area
   useEffect(() => {
     if (!edit) return;
-    console.log("per");
+    // console.log("per");
   }, [poolCopingPerimeter, poolPerimeter]);
   return (
     <ScrollerView title={values.site} imageUri={values.images[0].url}>

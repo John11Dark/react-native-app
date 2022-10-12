@@ -10,7 +10,7 @@ export { default as FeedScreen } from "./FeedScreen";
 export { default as NotificationScreen } from "./NotificationScreen";
 export { default as AccountScreen } from "./AccountScreen";
 export { default as SearchScreen } from "./SearchScreen";
-export { default as ListingEditMainScreen } from "./Listing/ListingEditMainScreen";
+export { default as ListingEditMainScreen } from "./ListingEditMainScreen";
 
 // ? * -->  Feed navigator screens
 export { default as ListingDetails } from "./ListingDetailsScreen";
@@ -27,6 +27,6 @@ export { default as GalleryScreen } from "./GalleryScreen";
 export { default as Role } from "./Role";
 
 // ? * -->  Edit navigator screens
-export { default as ListingEditScreen } from "./Listing/ListingsEditScreen";
-export { default as ListingEditScreenOptions } from "./Listing/ListingEditScreenOptions";
-export { default as ListingEditFinalScreen } from "./Listing/ListingEditFinalScreen";
+export { default as ListingEditScreen } from "./ListingsEditScreen";
+export { default as ListingEditScreenOptions } from "./ListingEditScreenOptions";
+export { default as ListingEditFinalScreen } from "./ListingEditFinalScreen";

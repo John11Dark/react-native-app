@@ -15,10 +15,15 @@ export default function AppFormPicker({
   width,
   title,
   disabled,
+  setError,
   ...otherProps
 }) {
   const { errors, setFieldValue, touched, values } = useFormikContext();
-
+  if (errors[name]) {
+    if (setError) setError(true);
+  } else {
+    if (setError) setError(false);
+  }
   return (
     <>
       {title && <Text style={Styles.labelStyle}>{title}</Text>}

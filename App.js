@@ -17,7 +17,6 @@ LogBox.ignoreLogs([
   "expo-app-loading is deprecated in favor of expo-splash-screen",
   "EventEmitter.removeListener",
   "onAnimatedValueUpdate",
-  "Require cycle",
   "expo-app-loading is deprecated in favor of expo-splash-screen: use SplashScreen.preventAutoHideAsync() and SplashScren.hideAsync() instead. https://docs.expo.dev/versions/latest/sdk/splash-screen/",
   "EventEmitter.removeListener('keyboardWillHide', ...): Method has been deprecated. Please instead use `remove()` on the subscription returned by `EventEmitter.addListener`.",
   "EventEmitter",

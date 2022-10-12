@@ -30,7 +30,6 @@ export default function LoginScreen({ navigation }) {
     const response = await loginApi.request(email, password);
 
     if (!response.ok) {
-      console.log(response);
       return setLoginError(
         response.data
           ? response.data.error
