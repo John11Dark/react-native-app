@@ -13,7 +13,9 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-
+env
+.env
+.env.local
 # macOS
 .DS_Store
 
