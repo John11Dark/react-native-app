@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 
 // ? * -->  Project components  and configurations
-import listingData from "./Listing/Data/listingData";
+import listingData from "../Data/listingData";
 import {
   Wrapper,
   AppForm,
@@ -13,8 +13,8 @@ import {
   ItemsListPicker,
   SubmitButton,
   PageIndicators,
-} from "../components";
-import routes from "../Navigation/routes";
+} from "../../../components";
+import routes from "../../../Navigation/routes";
 
 // ? * --> main stack
 export default function ListingEditScreenOptions({ route, navigation }) {

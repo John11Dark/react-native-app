@@ -15,11 +15,11 @@ import {
   Map,
   DateTimePicker,
   PageIndicators,
-} from "../components";
-import { useAuth } from "../hooks";
-import { customProps, Styles } from "../config";
-import routes from "../Navigation/routes";
-import listingData from "./Listing/Data/listingData";
+} from "../../../components";
+import { useAuth } from "../../../hooks";
+import { customProps, Styles } from "../../../config";
+import routes from "../../../Navigation/routes";
+import listingData from "../Data/listingData";
 
 // ? * --> main stack
 export default function ListingEditMain({ navigation }) {
@@ -148,7 +148,7 @@ export default function ListingEditMain({ navigation }) {
           {/* Design */}
           <View style={styles.container}>
             <Image
-              source={require("../assets/Images/heroImages/HeaderLogoHigh.png")}
+              source={require("../../../assets/Images/heroImages/HeaderLogoHigh.png")}
               style={styles.image}
             />
 

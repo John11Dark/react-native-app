@@ -6,11 +6,11 @@ import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 
 // ? * --> App libraries
-import { errorApi, listingsApi } from "../api";
-import { useAuth } from "../hooks";
-import Routes from "../Navigation/routes";
-import listingData from "./Listing/Data/listingData";
-import { customProps } from "../config";
+import { errorApi, listingsApi } from "../../../api";
+import { useAuth } from "../../../hooks";
+import Routes from "../../../Navigation/routes";
+import listingData from "../Data/listingData";
+import { customProps } from "../../../config";
 import {
   AppForm,
   AppFormField,
@@ -26,8 +26,8 @@ import {
   CheckBox,
   ScrollerView,
   Wrapper,
-} from "../components";
-import Functions from "./Listing/Functions/Functions";
+} from "../../../components";
+import Functions from "../Functions/Functions";
 
 export default function ListingDetails({ route }) {
   // ? * -->  variables

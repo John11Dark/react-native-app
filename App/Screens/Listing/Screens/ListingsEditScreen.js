@@ -4,9 +4,9 @@ import { Text, View, Alert } from "react-native";
 import * as Yup from "yup";
 
 // ? * -->  Project components  and configurations
-import { customProps, Styles } from "../config";
-import Functions from "./Listing/Functions/Functions";
-import routes from "../Navigation/routes";
+import { customProps, Styles } from "../../../config";
+import Functions from "../Functions/Functions";
+import routes from "../../../Navigation/routes";
 import {
   AppForm,
   AppFormField,
@@ -14,7 +14,7 @@ import {
   SubmitButton,
   Wrapper,
   CheckBox,
-} from "../components";
+} from "../../../components";
 
 // ? * --> main stack
 export default function ListingEditScreen({ route, navigation }) {

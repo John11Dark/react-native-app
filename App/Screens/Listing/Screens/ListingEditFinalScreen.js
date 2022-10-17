@@ -8,10 +8,10 @@ import {
   PageIndicators,
   SubmitButton,
   Wrapper,
-} from "../components";
+} from "../../../components";
 // import availablePackages from "../assets/Data/availablePackages";
-import { listingsApi } from "../api";
-import { routes } from "../Navigation";
+import { listingsApi } from "../../../api";
+import routes from "../../../Navigation/routes";
 
 export default function ListingEditFinalScreen({ route, navigation }) {
   // ? * --> variables
