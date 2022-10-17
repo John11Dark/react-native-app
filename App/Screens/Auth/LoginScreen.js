@@ -4,9 +4,9 @@ import { Image, Text, TouchableOpacity, View, ScrollView } from "react-native";
 import React, { useState } from "react";
 
 // application libraries
-import { useApi, useAuth } from "../hooks";
-import authApi from "../api/auth";
-import { Styles } from "../config";
+import { useApi, useAuth } from "../../hooks";
+import authApi from "../../api/auth";
+import { Styles } from "../../config";
 import {
   AppForm,
   AppFormField,
@@ -14,7 +14,7 @@ import {
   SubmitButton,
   ErrorMessage,
   ActivityIndicator,
-} from "../components";
+} from "../../components";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
           <Image
             resizeMode="contain"
             style={[Styles.heroImageVertical]}
-            source={require("../assets/Images/heroImages/authScreen.png")}
+            source={require("../../assets/Images/heroImages/authScreen.png")}
           />
           <Text style={Styles.primaryTextHeroSection}>Login</Text>
 

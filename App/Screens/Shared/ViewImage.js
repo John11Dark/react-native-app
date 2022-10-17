@@ -8,8 +8,8 @@ import {
   Dimensions,
 } from "react-native";
 
-import colors from "../config/customProps";
-import { Icon, Screen } from "../components";
+import colors from "../../config/customProps";
+import { Icon, Screen } from "../../components";
 export default function ViewImage({ route, navigation }) {
   const images = route.params;
   const { width } = Dimensions.get("window");

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import React from "react";
-import { Screen, Header } from "../components";
-import { customProps } from "../config";
+import { Screen, Header } from "../../components";
+import { customProps } from "../../config";
 const SearchScreen = () => {
   return (
     <Screen style={styles.container}>
@@ -15,7 +15,7 @@ const SearchScreen = () => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={require("../assets/Images/heroImages/Search.png")}
+          source={require("../../assets/Images/heroImages/Search.png")}
         />
         <Text style={styles.text}>What are you looking for?</Text>
       </View>

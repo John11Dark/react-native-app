@@ -20,10 +20,10 @@ import {
   DateTimePicker,
   CheckBox,
   Header,
-} from "../components";
-import { customProps, Styles } from "../config";
-import authApi from "../api/auth";
-import { useApi, useAuth, useNotifications } from "../hooks";
+} from "../../components";
+import { customProps, Styles } from "../../config";
+import authApi from "../../api/auth";
+import { useApi, useAuth, useNotifications } from "../../hooks";
 
 const validationSchema = Yup.object().shape({
   image: Yup.array().required().min(1),

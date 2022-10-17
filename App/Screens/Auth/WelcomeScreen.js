@@ -1,8 +1,8 @@
 import { Image, View } from "react-native";
-import { PrimaryButton, SecondaryButton, Screen } from "../components/";
+import { PrimaryButton, SecondaryButton, Screen } from "../../components";
 
 import React from "react";
-import { Styles } from "../config";
+import { Styles } from "../../config";
 
 function WelcomeScreen({ navigation }) {
   return (
@@ -10,7 +10,7 @@ function WelcomeScreen({ navigation }) {
       <Image
         resizeMode="contain"
         style={Styles.mainLogo}
-        source={require("../assets/Images/heroImages/WelcomeScreen.png")}
+        source={require("../../assets/Images/heroImages/WelcomeScreen.png")}
       />
       <View style={Styles.containerFlexRow}>
         <PrimaryButton

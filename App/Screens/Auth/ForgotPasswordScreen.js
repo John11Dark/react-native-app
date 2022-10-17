@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
   ErrorMessage,
   Screen,
-} from "../components";
-import { Styles } from "../config";
-import authApi from "../api/auth";
-import { useApi } from "../hooks";
+} from "../../components";
+import { Styles } from "../../config";
+import authApi from "../../api/auth";
+import { useApi } from "../../hooks";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().min(3).label("User Name"),
@@ -39,7 +39,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         <Image
           resizeMode="contain"
           style={[Styles.heroImage]}
-          source={require("../assets/Images/heroImages/LoginHeroImage.png")}
+          source={require("../../assets/Images/heroImages/LoginHeroImage.png")}
         />
 
         <Text style={Styles.secondaryTextHeroSection}>Forgot password?</Text>

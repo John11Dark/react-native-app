@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
 
-import useAuth from "../hooks/useAuth";
-import customProps from "../config/customProps";
-import routes from "../Navigation/routes";
+import useAuth from "../../hooks/useAuth";
+import customProps from "../../config/customProps";
+import routes from "../../Navigation/routes";
 import {
   AuthorComponent,
   Icon,
   ItemSeparator,
   ListItem,
   Screen,
-} from "../components";
+} from "../../components";
 import { useIsFocused } from "@react-navigation/native";
 
 let menuItems = [

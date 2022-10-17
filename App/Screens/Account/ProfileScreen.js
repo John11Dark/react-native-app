@@ -19,11 +19,11 @@ import {
   EditFiled,
   Wrapper,
   Header,
-} from "../components";
-import { customProps, Styles } from "../config";
-import { useAuth, useApi } from "../hooks";
-import { userApi, authApi } from "../api";
-import Routes from "../Navigation/routes";
+} from "../../components";
+import { customProps, Styles } from "../../config";
+import { useAuth, useApi } from "../../hooks";
+import { userApi, authApi } from "../../api";
+import Routes from "../../Navigation/routes";
 
 export default function ProfileScreen({ navigation }) {
   // state and hooks

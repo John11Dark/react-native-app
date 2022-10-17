@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import { useApi, useAuth } from "../hooks";
-import listingsApi from "../api/listings";
-import Listings from "../components/Lists/Listings";
-import Routes from "../Navigation/routes";
+import { useApi, useAuth } from "../../hooks";
+import listingsApi from "../../api/listings";
+import Listings from "../../components/Lists/Listings";
+import Routes from "../../Navigation/routes";
 export default function FeedScreen({ route }) {
   const allListings = useApi(listingsApi.getListings);
   const userListings = useApi(listingsApi.getUserListings);
@@ -16,9 +16,10 @@ export default function FeedScreen({ route }) {
       allListings.request();
     }
   }, [route.params?.userListings, isFocused]);
+  console.log(userListings.data);
   return route.params?.userListings ? (
     <Listings
-      data={userListings.data}
+      data={[]}
       error={userListings.error}
       headerTitle={"For You"}
       itemNavigationRoute={Routes.USER_LISTING_DETAILS}

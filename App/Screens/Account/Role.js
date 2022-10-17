@@ -22,9 +22,9 @@ import {
   ListItem,
   PrimaryButton,
   Wrapper,
-} from "../components";
-import { customProps } from "../config";
-import { imagesApi, errorApi } from "../api";
+} from "../../components";
+import { customProps } from "../../config";
+import { imagesApi, errorApi } from "../../api";
 export default function Role({
   label = "image",
 

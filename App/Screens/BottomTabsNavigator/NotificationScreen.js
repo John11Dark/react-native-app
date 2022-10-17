@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { userApi } from "../api";
-import { useApi, useAuth } from "../hooks";
-import Routes from "../Navigation/routes";
+import { userApi } from "../../api";
+import { useApi, useAuth } from "../../hooks";
+import Routes from "../../Navigation/routes";
 import {
   Screen,
   DataLoadingError,
   ListItem,
   ItemSeparator,
   Header,
-} from "../components";
-import { customProps } from "../config";
+} from "../../components";
+import { customProps } from "../../config";
 
 const NotificationScreen = () => {
   // hooks and states
@@ -30,7 +30,7 @@ const NotificationScreen = () => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={require("../assets/Images/heroImages/NotificationsScreen.png")}
+          source={require("../../assets/Images/heroImages/NotificationsScreen.png")}
         />
         <Text style={styles.text}>There is Nothing To display</Text>
       </View>

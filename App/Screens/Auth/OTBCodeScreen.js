@@ -14,8 +14,8 @@ import {
   ErrorMessage,
   Screen,
   PrimaryButton,
-} from "../components";
-import customStyles from "../config/Styles/Styles";
+} from "../../components";
+import customStyles from "../../config/Styles/Styles";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().min(3).label("User Name"),
@@ -40,7 +40,7 @@ export default function OTBCodeScreen({ navigation }) {
           <Image
             resizeMode="contain"
             style={[customStyles.heroImage, { marginVertical: 15 }]}
-            source={require("../assets/Images/heroImages/OTBHeroImage.png")}
+            source={require("../../assets/Images/heroImages/OTBHeroImage.png")}
           />
 
           <Text style={customStyles.secondaryTextHeroSection}>

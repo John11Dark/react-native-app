@@ -4,10 +4,10 @@ import { Alert } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
 // custom libraries
-import { listingsApi, errorApi } from "../api";
-import { useApi } from "../hooks";
-import Listings from "../components/Lists/Listings";
-import routes from "../Navigation/routes";
+import { listingsApi, errorApi } from "../../api";
+import { useApi } from "../../hooks";
+import Listings from "../../components/Lists/Listings";
+import routes from "../../Navigation/routes";
 
 const ArchivedScreen = ({ route }) => {
   // hooks

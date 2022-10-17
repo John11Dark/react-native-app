@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { imagesApi } from "../api";
-import { Icon } from "../components";
-import { customProps } from "../config";
+import { imagesApi } from "../../api";
+import { Icon } from "../../components";
+import { customProps } from "../../config";
 
 export default function DescriptionContainer({ route, navigation }) {
   // ? * -->

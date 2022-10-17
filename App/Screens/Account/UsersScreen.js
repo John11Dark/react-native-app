@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 // ? * -->
-import { authApi, errorApi, userApi } from "../api";
-import { useApi, useAuth } from "../hooks";
-import routes from "../Navigation/routes";
+import { authApi, errorApi, userApi } from "../../api";
+import { useApi, useAuth } from "../../hooks";
+import routes from "../../Navigation/routes";
 import {
   Screen,
   DataLoadingError,
@@ -23,8 +23,8 @@ import {
   UploadIndicator,
   Header,
   SearchBar,
-} from "../components";
-import { customProps } from "../config";
+} from "../../components";
+import { customProps } from "../../config";
 
 // ? * --> Main Stack
 export default function UsersScreen() {
@@ -171,7 +171,7 @@ export default function UsersScreen() {
       <Image
         resizeMode="contain"
         style={styles.image}
-        source={require("../assets/Images/heroImages/authScreen.png")}
+        source={require("../../assets/Images/heroImages/authScreen.png")}
       />
 
       <Icon
