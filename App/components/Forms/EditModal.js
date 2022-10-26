@@ -137,7 +137,6 @@ export default function EditModal({
   };
   useEffect(() => {
     setEdit(reset);
-    console.log(edit);
   }, [reset]);
   return (
     <Modal visible={isVisible} animationType="slide">

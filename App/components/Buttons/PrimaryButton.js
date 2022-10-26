@@ -11,12 +11,13 @@ export default function PrimaryButton({
   height,
   visible = true,
   marginTop,
+  style,
 }) {
   return (
     <TouchableOpacity
       style={[
         styles.primaryButton,
-        { display: visible ? "flex" : "none", width, marginTop },
+        { display: visible ? "flex" : "none", width, marginTop, ...style },
       ]}
       onPress={handlePress}
     >

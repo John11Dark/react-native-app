@@ -16,10 +16,9 @@ export default function FeedScreen({ route }) {
       allListings.request();
     }
   }, [route.params?.userListings, isFocused]);
-  console.log(userListings.data);
   return route.params?.userListings ? (
     <Listings
-      data={[]}
+      data={userListings.data}
       error={userListings.error}
       headerTitle={"For You"}
       itemNavigationRoute={Routes.USER_LISTING_DETAILS}

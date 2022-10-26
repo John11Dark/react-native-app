@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthNavigator, TabNavigator, Theme } from "./App/Navigation";
 import { navigationRef } from "./App/Navigation/rootNavigation";
 import OfflineNotice from "./App/components/OfflineNotice";
+import { Notify } from "./App/components";
 import AuthContext from "./App/auth/context";
 import authStorage from "./App/auth/storage";
 
@@ -24,6 +25,7 @@ LogBox.ignoreLogs([
 
 export default App = () => {
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ export default App = () => {
   if (!isReady) return <AppLoading />;
   return (
     <AuthContext.Provider value={{ user, setUser }}>
+      <Notify message={message} setMessage={setMessage} />
       <StatusBar style={"auto"} />
       <NavigationContainer ref={navigationRef} theme={Theme}>
         {user ? <TabNavigator /> : <AuthNavigator />}

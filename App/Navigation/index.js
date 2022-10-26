@@ -1,4 +1,4 @@
-export { default as AccountNavigator } from "./AccountNavigator";
+export { default as MenuNavigator } from "./MenuNavigator";
 export { default as AuthNavigator } from "./AuthNavigator";
 export { default as Theme } from "./Theme";
 export { default as FeedNavigator } from "./FeedNavigator";

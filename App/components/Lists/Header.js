@@ -1,6 +1,5 @@
-import { Image, StyleSheet, View, Text, ImageBackground } from "react-native";
+import { Image, StyleSheet, View, Text } from "react-native";
 import React from "react";
-import SearchBar from "./SearchBar";
 import { customProps } from "../../config";
 import { useAuth } from "../../hooks";
 import functions from "../../config/Functions/functions";
@@ -10,9 +9,8 @@ export default function Header({
   title = "Today",
   subTitle = "",
   SearchBar = false,
-  uri,
-  goBack,
-  style,
+  goBack = false,
+  style = {},
   username = true,
 }) {
   const navigation = useNavigation();
@@ -42,23 +40,23 @@ export default function Header({
           style={{ width: 140, height: 110, left: -10, top: -5 }}
         />
       </View>
-      <Image source={{ uri: uri }} />
       {SearchBar}
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    zIndex: 1,
     width: "98%",
     minHeight: 140,
     alignSelf: "center",
-    paddingTop: 10,
-    backgroundColor: customProps.darkOpacity,
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
     borderBottomLeftRadius: 15,
     borderTopLeftRadius: 15,
-    borderBottomRightRadius: 100,
+    borderBottomRightRadius: 90,
     borderTopRightRadius: 10,
+    backgroundColor: customProps.darkOpacity,
     shadowColor: customProps.secondaryColor,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.6,
@@ -68,7 +66,7 @@ const styles = StyleSheet.create({
   },
   flexConcent: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     width: "100%",
     padding: 10,
     height: 110,
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
   goBack: {
     position: "absolute",
     top: -30,
-    left: -30,
+    left: -25,
     backgroundColor: customProps.secondaryColor,
     zIndex: -1,
     borderTopRightRadius: 10,

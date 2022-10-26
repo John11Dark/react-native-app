@@ -20,11 +20,6 @@ const Listings = ({
     <>
       <ActivityIndicator visible={loading} />
       <Screen style={styles.container}>
-        <DataLoadingError
-          visible={error}
-          onPress={onRefresh}
-          text="Could not retrieve Feeds from the Server."
-        />
         <FlatList
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -52,6 +47,9 @@ const Listings = ({
           ListHeaderComponent={
             <Header title={headerTitle} goBack={goBack} searchBar={false} />
           }
+          stickyHeaderHiddenOnScroll={true}
+          onEndReachedThreshold={0.01}
+          // onEndReached={(info) => console.log(info)}
         />
         <View style={styles.bottomContainer}>
           <Image
@@ -62,6 +60,12 @@ const Listings = ({
           <Text>you have seen all posts</Text>
         </View>
       </Screen>
+      <DataLoadingError
+        visible={error}
+        onPress={onRefresh}
+        imageViable
+        text="Could not retrieve Feeds from the Server."
+      />
     </>
   );
 };

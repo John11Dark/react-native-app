@@ -1,14 +1,8 @@
 // ? * -->
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  Image,
-  Keyboard,
-  StyleSheet,
-  View,
-  Alert,
-} from "react-native";
+import { FlatList, Image, Keyboard, StyleSheet, Alert } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
+
 // ? * -->
 import { authApi, errorApi, userApi } from "../../api";
 import { useApi, useAuth } from "../../hooks";
@@ -20,7 +14,6 @@ import {
   ItemSeparator,
   Icon,
   EditModal,
-  UploadIndicator,
   Header,
   SearchBar,
 } from "../../components";
@@ -134,7 +127,6 @@ export default function UsersScreen() {
 
   return (
     <Screen>
-      <Header goBack title="Users" SearchBar={<SearchBar visible={false} />} />
       <DataLoadingError
         visible={usersApi.error}
         imageViable={true}
@@ -152,7 +144,7 @@ export default function UsersScreen() {
             <ListItem
               users={true}
               title={item.name === user.name ? "You" : item.name}
-              imagePath={item.images[0].url}
+              imagePath={item.image[0].url}
               description={item.email}
               style={styles.listItem}
               onPress={() =>
@@ -166,13 +158,22 @@ export default function UsersScreen() {
         ItemSeparatorComponent={ItemSeparator}
         refreshing={usersApi.loading}
         onRefresh={() => usersApi.request()}
+        ListHeaderComponent={
+          <Header
+            goBack
+            title="Users"
+            SearchBar={<SearchBar visible={false} />}
+          />
+        }
       />
 
-      <Image
-        resizeMode="contain"
-        style={styles.image}
-        source={require("../../assets/Images/heroImages/authScreen.png")}
-      />
+      {!usersApi.data && (
+        <Image
+          resizeMode="contain"
+          style={styles.image}
+          source={require("../../assets/Images/heroImages/authScreen.png")}
+        />
+      )}
 
       <Icon
         name={"account-plus"}

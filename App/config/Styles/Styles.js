@@ -257,6 +257,7 @@ const Styles = StyleSheet.create({
     color: "#EDEEE4",
     width: "100%",
     padding: 10,
+    textTransform: "capitalize",
   },
   primaryButton: {},
   heroImageError: {

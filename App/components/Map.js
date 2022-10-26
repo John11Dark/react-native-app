@@ -7,7 +7,13 @@ import * as Location from "expo-location";
 import { customProps, envKeys, Styles } from "../config";
 import Icon from "./Icon";
 
-export default function Map({ title, location, view = false, projectPin }) {
+export default function Map({
+  title,
+  location,
+  view = false,
+  projectPin,
+  style,
+}) {
   const mapRef = useRef(null);
 
   // location state
@@ -45,7 +51,7 @@ export default function Map({ title, location, view = false, projectPin }) {
   }, []);
 
   return (
-    <View style={styles.mapViewBox}>
+    <View style={[styles.mapViewBox, style]}>
       {view && (
         <ScrollView
           horizontal

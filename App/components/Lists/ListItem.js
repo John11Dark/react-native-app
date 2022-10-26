@@ -23,6 +23,7 @@ export default function ListItem({
         disabled={disabled}
         underlayColor={customProps.primaryColorDarkOpacity}
         onPress={onPress}
+        style={style?.button}
       >
         <View style={[{ marginBottom }, styles.container, style.container]}>
           {IconComponent}

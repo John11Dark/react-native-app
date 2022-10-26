@@ -35,7 +35,11 @@ export default function PageIndicators({
 }) {
   return (
     <View style={styles.container}>
-      {title && <Text style={styles.title}>{title}</Text>}
+      {title && (
+        <Text numberOfLines={2} style={styles.title}>
+          {title}
+        </Text>
+      )}
       <View style={styles.indicatorsContainer}>
         <TouchableOpacity
           disabled={indicatorOne.canGoBack}
@@ -91,23 +95,26 @@ export default function PageIndicators({
 }
 const styles = StyleSheet.create({
   container: {
-    height: 120,
+    minHeight: 100,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
     backgroundColor: customProps.secondaryColor,
+    alignContent: "flex-start",
   },
   indicatorsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    alignItems: "center",
     width: "100%",
+    height: 20,
   },
   title: {
     ...customProps.font,
+    fontSize: 27,
+    fontWeight: "800",
     color: customProps.primaryColorLight,
     textAlign: "center",
     marginTop: 45,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   indicator: {
     width: 85,

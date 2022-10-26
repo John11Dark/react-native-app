@@ -8,7 +8,7 @@ export { default as OTBCodeScreen } from "./Auth/OTBCodeScreen";
 // ? * -->  Application Screens bottom Navigators
 export { default as FeedScreen } from "./BottomTabsNavigator/FeedScreen";
 export { default as NotificationScreen } from "./BottomTabsNavigator/NotificationScreen";
-export { default as AccountScreen } from "./BottomTabsNavigator/AccountScreen";
+export { default as MenuScreen } from "./BottomTabsNavigator/MenuScreen";
 export { default as SearchScreen } from "./BottomTabsNavigator/SearchScreen";
 export { default as ListingEditMainScreen } from "./Listing/Screens/ListingEditMainScreen";
 
@@ -16,15 +16,18 @@ export { default as ListingEditMainScreen } from "./Listing/Screens/ListingEditM
 export { default as ListingDetails } from "./Listing/Screens/ListingDetailsScreen";
 export { default as ViewImage } from "./Shared/ViewImage";
 
-// ? * -->  Account navigator screens
-export { default as ProfileScreen } from "./Account/ProfileScreen";
-export { default as MessagesScreen } from "./Account/MessagesScreen";
-export { default as ArchivedScreen } from "./Account/ArchivedScreen";
-export { default as UsersScreen } from "./Account/UsersScreen";
-export { default as RecycleBinScreen } from "./Account/RecycleBinScreen";
-export { default as Items } from "./Account/Items";
-export { default as GalleryScreen } from "./Account/GalleryScreen";
-export { default as Role } from "./Account/Role";
+// ? * -->  Menu navigator screens
+export { default as ProfileScreen } from "./Menu/ProfileScreen";
+export { default as MessagesScreen } from "./Menu/MessagesScreen";
+export { default as ArchivedScreen } from "./Menu/ArchivedScreen";
+export { default as UsersScreen } from "./Menu/UsersScreen";
+export { default as RecycleBinScreen } from "./Menu/RecycleBinScreen";
+export { default as Items } from "./Menu/Items";
+export { default as GalleryScreen } from "./Menu/GalleryScreen";
+export { default as Role } from "./Menu/Role";
+export { default as HelpScreen } from "./Menu/HelpScreen";
+export { default as AboutScreen } from "./Menu/AboutScreen";
+export { default as SettingsScreen } from "./Menu/SettingsScreen";
 
 // ? * -->  Edit navigator screens
 export { default as ListingEditScreen } from "./Listing/Screens/ListingsEditScreen";

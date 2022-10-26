@@ -60,8 +60,6 @@ export default function LoginScreen({ navigation }) {
             <View style={Styles.inputContinuer}>
               <ErrorMessage error={loginError} visible={loginError} />
               <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
                 icon="email"
                 keyBoardType="email-address"
                 name="email"
@@ -70,13 +68,12 @@ export default function LoginScreen({ navigation }) {
                 autoComplete="email"
               />
               <AppFormField
-                autoCapitalize="none"
-                autoCorrect={false}
                 icon="lock"
                 name="password"
                 secureTextEntry
                 textContentType="password"
                 placeholder="Password"
+                onEndEditing={() => handleLogin}
               />
             </View>
             <View>

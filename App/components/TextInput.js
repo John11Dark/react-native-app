@@ -41,6 +41,7 @@ const AppTextInput = ({
           value={value}
           keyboardAppearance={customProps.theme}
           autoCapitalize={"none"}
+          autoCorrect={false}
           {...otherProps}
         />
         {secondIcon && (

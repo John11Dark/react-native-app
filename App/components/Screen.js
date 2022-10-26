@@ -28,7 +28,7 @@ export default function Screen({ children, style, copyRight = false }) {
             color: customProps.primaryColorDarkGray,
           }}
         >
-          © Copyright© 2022–Today, John Muller . All rights reserved.
+          © Copyright© 2022–Today, Dark Engines . All rights reserved.
         </Text>
       }
     </SafeAreaView>

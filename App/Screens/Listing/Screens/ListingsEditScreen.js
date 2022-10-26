@@ -165,8 +165,8 @@ export default function ListingEditScreen({ route, navigation }) {
       <PageIndicators
         title={`${
           data.newPool
-            ? `New  ${data.poolType ? "skimmer" : "overflow"}`
-            : `Refurbishment   ${data.poolType ? "skimmer" : "overflow"}`
+            ? `New ${data.poolType ? "Skimmer" : "Overflow"}`
+            : `Refurbishment ${data.poolType ? "Skimmer" : "Overflow"}`
         } Pool Quotation 📜`}
         indicatorTwo={{ id: 2, active: true, current: true, error: error }}
       />
@@ -194,14 +194,14 @@ export default function ListingEditScreen({ route, navigation }) {
 
             {!data.newPool && (
               <>
-                <Text
+                {/* <Text
                   style={{
                     ...customProps.font,
                     color: customProps.primaryColorLight,
                   }}
                 >
                   Refurbishment pool Options
-                </Text>
+                </Text> */}
                 <CheckBox
                   choiceOne={"Yes"}
                   choiceTwo={"No"}

@@ -4,7 +4,7 @@ import { Alert, View } from "react-native";
 
 // ? * --> application dependencies
 import {
-  AccountScreen,
+  MenuScreen,
   ProfileScreen,
   MessagesScreen,
   ArchivedScreen,
@@ -14,6 +14,9 @@ import {
   RecycleBinScreen,
   Items,
   Role,
+  HelpScreen,
+  AboutScreen,
+  SettingsScreen,
 } from "../Screens";
 import routes from "./routes";
 import { Icon } from "../components";
@@ -21,10 +24,29 @@ import { customProps, File } from "../config";
 
 const Stack = createStackNavigator();
 
-export default function AccountNavigator() {
+export default function MenuNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} mode="card">
-      <Stack.Screen name={routes.ACCOUNT} component={AccountScreen} />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animationEnabled: true,
+        cardShadowEnabled: true,
+      }}
+      mode="card"
+    >
+      <Stack.Screen name={routes.MENU} component={MenuScreen} />
+      <Stack.Screen name={routes.HELP} component={HelpScreen} />
+      <Stack.Screen name={routes.SETTINGS} component={SettingsScreen} />
+      <Stack.Screen
+        name={routes.ABOUT}
+        component={AboutScreen}
+        options={{
+          headerShown: true,
+          headerBackTitleVisible: false,
+          headerTitle: "",
+          headerTransparent: true,
+        }}
+      />
       <Stack.Screen name={routes.MESSAGES} component={MessagesScreen} />
       <Stack.Screen name={routes.USERS} component={UsersScreen} />
       <Stack.Screen name={routes.USER_LISTINGS} component={FeedScreen} />
@@ -32,7 +54,10 @@ export default function AccountNavigator() {
       <Stack.Screen
         name={routes.PROFILE}
         component={ProfileScreen}
-        options={{ headerShown: true, headerTitle: "My Profile" }}
+        options={{
+          headerShown: true,
+          headerTitle: "My Profile",
+        }}
       />
       <Stack.Screen name={routes.ARCHIVED} component={ArchivedScreen} />
       <Stack.Screen name={routes.RECYCLE} component={RecycleBinScreen} />

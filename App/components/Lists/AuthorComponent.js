@@ -1,48 +1,40 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { customProps } from "../../config";
 
-export default function AuthorComponent({ title, subTitle, imagePath, style }) {
+export default function AuthorComponent({
+  title,
+  subTitle,
+  imagePath,
+  style,
+  onPress,
+}) {
   return (
-    // Images
-
-    <View style={[styles.container, style]}>
-      <View style={styles.imageContainer}>
-        <Image source={imagePath} style={styles.image} />
-      </View>
-
+    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+      <Image resizeMode="cover" source={imagePath} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
       {subTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
-    </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: "101%",
-    height: "101%",
+  container: {
+    borderRadius: 10,
+    width: "95%",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    marginBottom: 10,
+    backgroundColor: customProps.darkOpacity,
+    padding: 20,
   },
-  imageContainer: {
+  image: {
     width: 250,
     height: 250,
-    marginBottom: 15,
     borderRadius: 125,
-    borderColor: customProps.secondaryColor,
-    borderWidth: 2,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
+    marginBottom: 10,
   },
-  container: {
-    //borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    flex: 1,
-    transform: [{ translateY: 20 }],
-    marginVertical: 20,
-  },
-
   title: {
     ...customProps.font,
     fontSize: 35,

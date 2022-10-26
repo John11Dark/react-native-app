@@ -1,5 +1,8 @@
 const routes = Object.freeze({
-  ACCOUNT: "Account",
+  MENU: "Menu",
+  HELP: "Help",
+  SETTINGS: "settings",
+  ABOUT: "About",
   ARCHIVED: "Archived",
   ARCHIVED_LISTING_DETAILS: "archivedListingDetails",
   EDIT_USER_PROFILE: "EditUserProfile",

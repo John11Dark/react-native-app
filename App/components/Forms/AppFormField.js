@@ -16,11 +16,11 @@ export default function AppFormField({
 }) {
   const { errors, setFieldTouched, setFieldValue, touched, values } =
     useFormikContext();
-  if (errors[name]) {
-    if (setError) setError(true);
-  } else {
-    if (setError) setError(false);
-  }
+  // if (errors[name]) {
+  //   if (setError) setError(true);
+  // } else {
+  //   if (setError) setError(false);
+  // }
   return (
     <>
       <TextInput

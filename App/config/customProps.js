@@ -102,6 +102,20 @@ const darkOrLight = (theme) => {
           },
         }),
       },
+      fontLarge: {
+        ...Platform.select({
+          ios: {
+            fontSize: 22,
+            fontFamily: "Avenir",
+            fontWeight: "800",
+          },
+          android: {
+            fontSize: 20,
+            fontFamily: "Roboto",
+            fontWeight: "600",
+          },
+        }),
+      },
     };
   }
 };
