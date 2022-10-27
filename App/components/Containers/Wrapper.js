@@ -1,13 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-} from "react-native";
+import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import React, { useRef } from "react";
-import UploadIndicator from "../UploadIndicator";
-import Screen from "../Screen";
+import UploadIndicator from "../Interface/UploadIndicator";
+import Screen from "./Screen";
 const Wrapper = ({
   children,
   progress = 0,

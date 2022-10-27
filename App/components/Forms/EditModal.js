@@ -14,12 +14,12 @@ import * as Yup from "yup";
 
 // custom Libraries
 import { customProps, settings } from "../../config";
-import Screen from "../Screen";
+import Screen from "../Containers/Screen";
 import EditFiled from "./EditFiled";
 import AppForm from "./AppForm";
 import ModalSubmit from "./ModalSubmit";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CheckBox from "./CheckBox";
+import CheckBox from "../Buttons/CheckBox";
 
 export default function EditModal({
   data = true,

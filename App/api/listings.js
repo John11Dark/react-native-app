@@ -68,6 +68,7 @@ const addListing = (listing, onUploadProgress) => {
   data.append("balanceTankVolume", listing.balanceTankVolume);
 
   // ! *--> options if it is not Selected it will be set to undefined
+  data.append("extraOptions", listing.extraOptions);
   data.append("numberOfWallInlets", listing.numberOfWallInlets);
   data.append("numberOfSkimmers", listing.numberOfSkimmers);
   data.append("numberOfSumps", listing.numberOfSumps);

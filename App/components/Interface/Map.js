@@ -4,7 +4,7 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
 
-import { customProps, envKeys, Styles } from "../config";
+import { customProps, envKeys, Styles } from "../../config";
 import Icon from "./Icon";
 
 export default function Map({

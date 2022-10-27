@@ -18,5 +18,6 @@ env
 .env.local
 # macOS
 .DS_Store
+.gitignore
 
 

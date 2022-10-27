@@ -2,9 +2,9 @@ import { Modal, StyleSheet, View, Platform } from "react-native";
 import React, { useState } from "react";
 import DatePicker from "@react-native-community/datetimepicker";
 
-import Icon from "../Icon";
-import TextInput from "../TextInput";
-import ErrorMessage from "./ErrorMessage";
+import Icon from "../Interface/Icon";
+import TextInput from "../Interface/TextInput";
+import ErrorMessage from "../Forms/ErrorMessage";
 import { customProps } from "../../config";
 import { useFormikContext } from "formik";
 

@@ -1,9 +1,11 @@
+// ? * --> Third parties dependencies
 import { StyleSheet, View, Text } from "react-native";
 import React from "react";
+// ? * --> custom dependencies
 import { customProps } from "../../config";
-import Icon from "../Icon";
-import Map from "../Map";
-
+import Icon from "../Interface/Icon";
+import Map from "../Interface/Map";
+// ? * --> mainStack
 export default function Container({
   children,
   title,
@@ -34,21 +36,16 @@ export default function Container({
     </View>
   );
 }
+// ? * --> Styles
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: customProps.darkOpacity,
-    width: "90%",
-    alignSelf: "center",
-    borderRadius: 7.5,
-    marginVertical: 10,
-    overflow: "hidden",
+    width: "100%",
+    marginBottom: 30,
   },
   header: {
-    backgroundColor: customProps.secondaryColor,
+    backgroundColor: customProps.darkOpacity,
     width: "100%",
     padding: 10,
-    flex: 1,
     marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",

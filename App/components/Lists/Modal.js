@@ -10,7 +10,7 @@ import React from "react";
 
 // custom Libraries
 import customProps from "../../config/customProps";
-import Screen from "../Screen";
+import Screen from "../Containers/Screen";
 /**
  *
  * @summary

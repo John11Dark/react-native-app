@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { customProps, Styles } from "../config";
+import { customProps, Styles } from "../../config";
 import Icon from "./Icon";
 
 const DataLoadingError = ({ onPress, text, visible, imageViable = false }) =>
@@ -15,7 +15,7 @@ const DataLoadingError = ({ onPress, text, visible, imageViable = false }) =>
     >
       <Image
         resizeMode="contain"
-        source={require("../assets/Images/heroImages/Error.png")}
+        source={require("../../assets/Images/heroImages/Error.png")}
         style={{
           width: 275,
           height: 275,

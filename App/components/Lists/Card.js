@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 import ListItem from "./ListItem";
 import customProps from "../../config/customProps";
 import { listingsApi } from "../../api";

@@ -2,7 +2,7 @@ import React from "react";
 import { useFormikContext } from "formik";
 
 import ErrorMessage from "./ErrorMessage";
-import TextInput from "../TextInput";
+import TextInput from "../Interface/TextInput";
 
 export default function AppFormField({
   icon,

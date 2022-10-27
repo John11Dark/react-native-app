@@ -3,7 +3,7 @@ import { Alert, Image, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 import BottomActionSheet from "../Lists/BottomActionSheet";
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 import { Styles } from "../../config";
 import { imagesApi } from "../../api";
 

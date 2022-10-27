@@ -2,8 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
-import Icon from "../Icon";
 import { customProps } from "../../config";
+import Icon from "../Interface/Icon";
 
 export default function GradientButton({ icon, label, onPress, colors }) {
   return (

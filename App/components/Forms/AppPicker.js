@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Styles } from "../../config/";
 import AppModal from "../Lists/Modal";
 import PickerItem from "../Forms/PickerItem";
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 
 export default function AppPicker({
   data,

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import { Animated, Text, View } from "react-native";
 
 export default function Notify({ message, setMessage }) {

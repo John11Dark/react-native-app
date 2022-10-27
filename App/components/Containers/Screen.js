@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, Text } from "react-native";
 import Constants from "expo-constants";
-import customProps from "../config/customProps";
+import customProps from "../../config/customProps";
 export default function Screen({ children, style, copyRight = false }) {
   return (
     <SafeAreaView

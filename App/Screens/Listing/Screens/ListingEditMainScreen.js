@@ -48,7 +48,6 @@ export default function ListingEditMain({ navigation }) {
   async function next(values, { resetForm }) {
     const data = { location: location, ...values };
     navigation.navigate(routes.LISTING_EDIT, data);
-    console.log(data.location);
     resetForm();
   }
   const getLocation = async () => {

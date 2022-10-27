@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
 import LottieView from "lottie-react-native";
-import customProps from "../config/customProps";
+import customProps from "../../config/customProps";
 
 export default function OverlayUploadIndicator({
   width = 300,
@@ -25,7 +25,7 @@ export default function OverlayUploadIndicator({
         loop={false}
         speed={0.5}
         onAnimationFinish={onFinish}
-        source={require("../assets/animations/uploaded.json")}
+        source={require("../../assets/animations/uploaded.json")}
         style={{ width: width }}
       />
     </View>

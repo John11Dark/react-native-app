@@ -6,13 +6,11 @@ import { NavigationContainer } from "@react-navigation/native";
 // application libraries
 import { AuthNavigator, TabNavigator, Theme } from "./App/Navigation";
 import { navigationRef } from "./App/Navigation/rootNavigation";
-import OfflineNotice from "./App/components/OfflineNotice";
-import { Notify } from "./App/components";
+import OfflineNotice from "./App/components/Interface/OfflineNotice";
 import AuthContext from "./App/auth/context";
 import authStorage from "./App/auth/storage";
 
 import { LogBox } from "react-native";
-import { errorApi } from "./App/api";
 
 LogBox.ignoreLogs([
   "expo-app-loading is deprecated in favor of expo-splash-screen",
@@ -25,12 +23,8 @@ LogBox.ignoreLogs([
 
 export default App = () => {
   const [user, setUser] = useState(null);
-  const [message, setMessage] = useState(null);
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-    errorApi.sendLog();
-  }, [user]);
   useEffect(() => {
     const checkAuthStatus = async () => {
       const user = await authStorage.getUser();
@@ -45,7 +39,6 @@ export default App = () => {
   if (!isReady) return <AppLoading />;
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <Notify message={message} setMessage={setMessage} />
       <StatusBar style={"auto"} />
       <NavigationContainer ref={navigationRef} theme={Theme}>
         {user ? <TabNavigator /> : <AuthNavigator />}

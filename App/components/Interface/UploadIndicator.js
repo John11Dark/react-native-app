@@ -4,7 +4,7 @@ import { Modal, StyleSheet, View } from "react-native";
 
 import LottieView from "lottie-react-native";
 import React from "react";
-import customProps from "../config/customProps";
+import customProps from "../../config/customProps";
 
 const UploadIndicator = ({ progress = 0, visible, onFinish }) => (
   <Modal visible={visible}>
@@ -21,7 +21,7 @@ const UploadIndicator = ({ progress = 0, visible, onFinish }) => (
           loop={false}
           speed={0.8}
           onAnimationFinish={onFinish}
-          source={require("../assets/animations/uploaded.json")}
+          source={require("../../assets/animations/uploaded.json")}
           style={styles.animation}
         />
       )}

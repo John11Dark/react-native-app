@@ -15,12 +15,12 @@ import { useIsFocused } from "@react-navigation/native";
 // ? * --> App libraries
 import { errorApi, commentsApi } from "../../api";
 import { useNotifications, useApi } from "../../hooks";
-import AppForm from "./AppForm";
-import AppFormField from "./AppFormField";
-import SubmitButton from "./SubmitButton";
+import AppForm from "../Forms/AppForm";
+import AppFormField from "../Forms/AppFormField";
+import SubmitButton from "../Buttons/SubmitButton";
 import MessageView from "../Lists/MessageView";
-import DataLoadingError from "../DataLoadingError";
-import ErrorMessage from "./ErrorMessage";
+import DataLoadingError from "../Interface/DataLoadingError";
+import ErrorMessage from "../Forms/ErrorMessage";
 
 export default function MessagesContainer({ user, listId }) {
   // ? * -->  Functions

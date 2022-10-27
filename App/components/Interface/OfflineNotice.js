@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import Constants from "expo-constants";
 import React from "react";
-import customProps from "../config/customProps";
+import customProps from "../../config/customProps";
 import { useNetInfo } from "@react-native-community/netinfo";
 import Icon from "./Icon";
 

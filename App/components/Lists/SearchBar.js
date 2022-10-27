@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 import { customProps } from "../../config";
 
 export default function SearchBar({

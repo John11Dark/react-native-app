@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { customProps } from "../config/";
+import { customProps } from "../../config";
 
 export default function DeleteItemAction({ onPress }) {
   return (

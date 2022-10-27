@@ -3,7 +3,7 @@ import React from "react";
 import { customProps } from "../../config";
 import { useAuth } from "../../hooks";
 import functions from "../../config/Functions/functions";
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 import { useNavigation } from "@react-navigation/native";
 export default function Header({
   title = "Today",

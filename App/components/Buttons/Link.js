@@ -8,7 +8,7 @@ import {
   Text,
 } from "react-native";
 import { customProps } from "../../config";
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 import { copy } from "../../Functions";
 
 export default function Link({

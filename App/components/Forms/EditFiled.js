@@ -1,6 +1,6 @@
 import React from "react";
 import ErrorMessage from "./ErrorMessage";
-import Icon from "../Icon";
+import Icon from "../Interface/Icon";
 import { useFormikContext } from "formik";
 import { customProps } from "../../config";
 import { Text, View, StyleSheet, TextInput } from "react-native";

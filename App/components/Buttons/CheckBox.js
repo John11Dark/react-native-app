@@ -3,7 +3,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { customProps } from "../../config";
 import { useFormikContext } from "formik";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../Forms/ErrorMessage";
 
 const CheckBox = ({
   name,

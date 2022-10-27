@@ -1,4 +1,4 @@
-import PrimaryButton from "../Buttons/PrimaryButton";
+import PrimaryButton from "./PrimaryButton";
 import React from "react";
 import { useFormikContext } from "formik";
 

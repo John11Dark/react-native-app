@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import customProps from "../config/customProps";
+import customProps from "../../config/customProps";
 
 export default function Icon({
   name,
