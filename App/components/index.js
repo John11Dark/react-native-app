@@ -1,4 +1,4 @@
-// Forms
+// ? * -->  Forms
 export { default as ErrorMessage } from "./Forms/ErrorMessage";
 export { default as AppForm } from "./Forms/AppForm";
 export { default as AppFormField } from "./Forms/AppFormField";
@@ -13,7 +13,7 @@ export { default as Dialog } from "./Forms/Dialog";
 export { default as PackagePicker } from "./Forms/PackagePicker";
 export { default as PageIndicators } from "./Forms/PageIndicators";
 
-// Buttons
+// ? * -->  Buttons
 export { default as SubmitButton } from "./Buttons/SubmitButton";
 export { default as PrimaryButton } from "./Buttons/PrimaryButton";
 export { default as SecondaryButton } from "./Buttons/SecondaryButton";
@@ -22,9 +22,10 @@ export { default as Link } from "./Buttons/Link";
 export { default as ButtonsList } from "./Buttons/ButtonsList";
 export { default as DateTimePicker } from "./Buttons/DateTimePicker";
 export { default as TouchableImage } from "./Buttons/TouchableImage";
+export { default as PageNavigator } from "./Buttons/PageNavigator";
 export { default as CheckBox } from "./Buttons/CheckBox";
 
-// components
+// ? * -->  components
 export { default as Icon } from "./Interface/Icon";
 export { default as CustomText } from "./Interface/CustomText";
 export { default as TextInput } from "./Interface/TextInput";
@@ -33,9 +34,9 @@ export { default as DataLoadingError } from "./Interface/DataLoadingError";
 export { default as UploadIndicator } from "./Interface/UploadIndicator";
 export { default as DeleteItemAction } from "./Interface/DeleteItemAction";
 export { default as OverlayUploadIndicator } from "./Interface/OverlayUploadIndicator";
-export { default as Map } from "./Interface/Map";
+export { default as Notify } from "./Interface/Notify";
 
-// Containers
+// ? * -->  Containers
 export { default as Screen } from "./Containers/Screen";
 export { default as Wrapper } from "./Containers/Wrapper";
 export { default as MessagesContainer } from "./Containers/MessagesContainer";
@@ -44,7 +45,7 @@ export { default as DetailsContainer } from "./Containers/DetailsContainer";
 export { default as Container } from "./Containers/Container";
 export { default as GridContainer } from "./Containers/GridContainer";
 
-// List items
+// ? * -->  List items
 export { default as ItemSeparator } from "./Lists/ItemsSeparator";
 export { default as AuthorComponent } from "./Lists/AuthorComponent";
 export { default as Card } from "./Lists/Card";
@@ -59,6 +60,6 @@ export { default as DescriptionContainer } from "./Lists/DescriptionContainer";
 export { default as BottomActionSheet } from "./Lists/BottomActionSheet";
 export { default as Header } from "./Lists/Header";
 
-//
+// ? * -->
 export { default as Template } from "./Templates/Template";
-export { default as Notify } from "./Interface/Notify";
+export { default as Map } from "./Interface/Map";

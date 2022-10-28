@@ -115,7 +115,10 @@ export default function MenuScreen({ navigation }) {
     <Wrapper scrollBarVisible={false}>
       <AuthorComponent
         imagePath={{
-          uri: user.image[0].url,
+          uri:
+            user?.image[0].url != null
+              ? user.image[0].url
+              : "http://10.10.10.106:9000/assets/femaleAvatar_full.jpg",
         }}
         title={user.name}
         subTitle={user.role}

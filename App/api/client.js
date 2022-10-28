@@ -8,6 +8,7 @@ export const baseURL = settings.apiUrl;
 const client = create({ baseURL });
 
 client.addAsyncRequestTransform(async (request) => {
+  request.headers[envKeys.accessKey] = envKeys.accessValue;
   const token = await storage.getToken();
   if (!token) return;
   request.headers[envKeys.headersKey] = token;

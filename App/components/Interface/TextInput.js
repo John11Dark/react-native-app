@@ -1,23 +1,27 @@
+// ? * --> Third Parties dependencies
+import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+// ? * --> Custom dependencies
 import { customProps, Styles } from "../../config";
 import Icon from "./Icon";
 
-const AppTextInput = ({
+// ? * -->  Main Stack
+export default function AppTextInput({
   style,
   icon,
   iconStyle,
-  onChangeText,
   placeholder,
   value,
   width = "100%",
   title,
   secondIcon,
   secondIconEnabled,
+  onChangeText,
   onSecondIconPress,
+  onEndEditing,
   ...otherProps
-}) => {
+}) {
   return (
     <View style={style}>
       {title && <Text style={Styles.labelStyle}>{title}</Text>}
@@ -42,6 +46,7 @@ const AppTextInput = ({
           keyboardAppearance={customProps.theme}
           autoCapitalize={"none"}
           autoCorrect={false}
+          onEndEditing={onEndEditing}
           {...otherProps}
         />
         {secondIcon && (
@@ -56,8 +61,8 @@ const AppTextInput = ({
       </View>
     </View>
   );
-};
-
+}
+// ? * --> Styles
 const styles = StyleSheet.create({
   container: {
     ...Styles.formField,
@@ -76,5 +81,3 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
-
-export default AppTextInput;

@@ -109,7 +109,10 @@ export default function ListingEditMain({ navigation }) {
               name: user.name,
               id: user.userId,
               role: user.role,
-              image: user.image[0].url,
+              image:
+                user?.image[0].url != null
+                  ? user.image[0].url
+                  : "http://10.10.10.106:9000/assets/femaleAvatar_full.jpg",
             },
             status: false,
 

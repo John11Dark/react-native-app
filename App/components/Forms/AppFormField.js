@@ -1,9 +1,12 @@
-import React from "react";
+// ? * --> Third parties dependencies
+import React, { useEffect } from "react";
 import { useFormikContext } from "formik";
 
+// ? * --> custom dependencies
 import ErrorMessage from "./ErrorMessage";
 import TextInput from "../Interface/TextInput";
 
+// ? * -->  main Stack
 export default function AppFormField({
   icon,
   name,
@@ -12,15 +15,26 @@ export default function AppFormField({
   style,
   getValue,
   setError,
+  handleSubmitProp,
   ...otherProps
 }) {
-  const { errors, setFieldTouched, setFieldValue, touched, values } =
-    useFormikContext();
-  // if (errors[name]) {
-  //   if (setError) setError(true);
-  // } else {
-  //   if (setError) setError(false);
-  // }
+  const {
+    errors,
+    setFieldTouched,
+    setFieldValue,
+    touched,
+    values,
+    handleSubmit,
+  } = useFormikContext();
+
+  useEffect(() => {
+    if (errors[name]) {
+      if (setError) setError(true);
+    } else {
+      if (setError) setError(false);
+    }
+  }, [errors]);
+
   return (
     <>
       <TextInput
@@ -29,6 +43,7 @@ export default function AppFormField({
           setFieldValue(name, text);
           if (getValue) getValue(text);
         }}
+        onEndEditing={handleSubmitProp === true ? handleSubmit : undefined}
         icon={icon}
         placeholder={placeholder}
         value={values[name]}

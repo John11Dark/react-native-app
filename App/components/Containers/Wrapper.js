@@ -1,20 +1,28 @@
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+// ? * -->
 import React, { useRef } from "react";
+import { ScrollView, KeyboardAvoidingView } from "react-native";
+
+// ? * -->
 import UploadIndicator from "../Interface/UploadIndicator";
+import ActivityIndicator from "../Interface/ActivityIndicator";
 import Screen from "./Screen";
-const Wrapper = ({
+
+// ? * -->
+export default function Wrapper({
   children,
   progress = 0,
   uploadVisible = false,
   onFinish,
   animation = false,
   scrollEnabled = true,
-  scrollBarVisible = true,
+  scrollBarVisible = false,
   paddingTop = 0,
-}) => {
+  activateIndicator,
+}) {
   const scrollViewRef = useRef(null);
   return (
     <Screen>
+      {activateIndicator && <ActivityIndicator visible={activateIndicator} />}
       <KeyboardAvoidingView keyboardVerticalOffset={50} behavior={"padding"}>
         <ScrollView
           //onContentSizeChange={() => scrollViewRef?.current?.scrollToEnd()}
@@ -36,8 +44,4 @@ const Wrapper = ({
       </KeyboardAvoidingView>
     </Screen>
   );
-};
-
-export default Wrapper;
-
-const styles = StyleSheet.create({});
+}

@@ -104,7 +104,7 @@ export default function MessagesContainer({ user, listId }) {
             initialValues={{ message: "" }}
             onSubmit={handleCommentSubmit}
           >
-            <FlatList
+            {/* <FlatList
               style={styles.list}
               data={data}
               keyExtractor={(comment) => comment.id.toString()}
@@ -126,7 +126,7 @@ export default function MessagesContainer({ user, listId }) {
                   right={item.user.name === user.name}
                 />
               )}
-            />
+            /> */}
 
             <AppFormField name="message" placeholder="Leave a note 🙂" />
             <SubmitButton title="Post" iconName="post" width={250} />

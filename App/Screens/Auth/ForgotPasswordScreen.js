@@ -1,88 +1,98 @@
 import React, { useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import * as Yup from "yup";
+import { Image, Text, StyleSheet } from "react-native";
 
 import {
   AppForm,
   AppFormField,
   SubmitButton,
-  ActivityIndicator,
   ErrorMessage,
-  Screen,
+  Wrapper,
+  PageNavigator,
 } from "../../components";
-import { Styles } from "../../config";
+import { customProps, Styles } from "../../config";
 import authApi from "../../api/auth";
 import { useApi } from "../../hooks";
-
-const validationSchema = Yup.object().shape({
-  username: Yup.string().required().min(3).label("User Name"),
-});
+import routes from "../../Navigation/routes";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const forgotPasswordApi = useApi(authApi.forgotPassword);
   const [error, setError] = useState(null);
 
-  const handleRequest = async (username) => {
-    const response = await forgotPasswordApi.request(username);
+  const handleRequest = async (phoneNumber) => {
+    const response = await forgotPasswordApi.request(phoneNumber);
 
-    if (!response.ok)
-      return setError(response.data.error || "unexpected error occurred");
+    if (!response.ok) console.log(response.data);
+    // return setError(
+    //   response.data.error ||
+    //     response.data.message ||
+    //     "unexpected error occurred"
+    // );
 
     setError(null);
     navigation.navigate("OTBCodeScreen");
   };
 
   return (
-    <>
-      <ActivityIndicator visible={forgotPasswordApi.loading} />
-      <Screen>
-        <Image
-          resizeMode="contain"
-          style={[Styles.heroImage]}
-          source={require("../../assets/Images/heroImages/LoginHeroImage.png")}
+    <Wrapper activateIndicator={forgotPasswordApi.loading}>
+      <Image
+        resizeMode="contain"
+        style={[Styles.heroImage]}
+        source={require("../../assets/Images/heroImages/LoginHeroImage.png")}
+      />
+
+      <Text style={styles.title}>Forgot password ? 🤔</Text>
+      <Text style={styles.text} numberOfLines={5}>
+        No worries enter your phone number. Then you will receive SMS message to
+        change your password
+      </Text>
+      <AppForm
+        initialValues={{
+          phoneNumber: "",
+        }}
+        onSubmit={handleRequest}
+        schema="forgetPassword"
+      >
+        <ErrorMessage error={error} visible={error} />
+        <AppFormField
+          autoCapitalize="none"
+          icon="cellphone"
+          autoCorrect={false}
+          keyboardType="numeric"
+          textContentType="telephoneNumber"
+          name="phoneNumber"
+          placeholder="Mobile"
+          returnKeyLabel="done"
+          maxLength={8}
+          title="Phone Number"
+          handleSubmitProp
         />
 
-        <Text style={Styles.secondaryTextHeroSection}>Forgot password?</Text>
-        <Text style={Styles.secondaryTextGray} numberOfLines={5}>
-          Forgot your password no worries Enter your user name and you will
-          receive OTP code on your email and phone number
-        </Text>
-        <AppForm
-          initialValues={{
-            username: "",
-          }}
-          onSubmit={handleRequest}
-          validationSchema={validationSchema}
-        >
-          <View style={[Styles.inputContinuer, { marginVertical: 20 }]}>
-            <ErrorMessage error={error} visible={error} />
-            <AppFormField
-              autoCapitalize="none"
-              autoComplete="name"
-              autoCorrect={false}
-              icon="at"
-              name="username"
-              textContentType="username"
-              placeholder="User Name"
-            />
-          </View>
-
-          <SubmitButton title={"Send"} iconName={"send"} />
-        </AppForm>
-
-        <View style={Styles.containerFlexRowLinksAbsolute}>
-          <Text style={Styles.secondaryText}>Go back to login page </Text>
-          <TouchableOpacity>
-            <Text
-              style={Styles.linkText}
-              onPress={() => navigation.navigate("OTBCode")}
-            >
-              {" "}
-              Login
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </Screen>
-    </>
+        <SubmitButton marginTop={30} title={"Send"} iconName={"send"} />
+        <PageNavigator
+          label={"Go back to"}
+          linkLabel={"Login?"}
+          screen={routes.LOGIN}
+          style={{ alignSelf: "center", marginTop: 150 }}
+        />
+      </AppForm>
+    </Wrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    ...customProps.font,
+    color: customProps.primaryColorLight,
+    fontWeight: "900",
+    fontSize: 30,
+    paddingHorizontal: 10,
+  },
+
+  text: {
+    ...customProps.font,
+    fontSize: 20,
+    color: customProps.primaryColorLightGray,
+    fontWeight: "300",
+    padding: 10,
+  },
+});

@@ -128,7 +128,11 @@ export default function ProfileScreen({ navigation }) {
         initialValues={{
           email: user.email,
           id: user.userId,
-          image: [user.image[0].url],
+          image: [
+            user?.image[0].url != null
+              ? user.image[0].url
+              : "http://10.10.10.106:9000/assets/femaleAvatar_full.jpg",
+          ],
           name: user.name,
           username: user.username,
           phoneNumber: user.phoneNumber,

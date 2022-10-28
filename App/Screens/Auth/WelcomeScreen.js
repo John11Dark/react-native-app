@@ -6,7 +6,7 @@ import { Styles } from "../../config";
 
 function WelcomeScreen({ navigation }) {
   return (
-    <Screen style={Styles.container}>
+    <Screen style={Styles.container} copyRight>
       <Image
         resizeMode="contain"
         style={Styles.mainLogo}
