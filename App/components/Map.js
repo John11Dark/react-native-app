@@ -71,7 +71,7 @@ export default function Map({ title, location, view = false, projectPin }) {
                 longitude: details.geometry.location.lng,
                 latitudeDelta: 0.5,
                 longitudeDelta: 0.5,
-              });
+              }); 
             }}
             query={{
               key: envKeys.googleApiKey,
